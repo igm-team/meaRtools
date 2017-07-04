@@ -12,63 +12,36 @@ filter.nonactive.spikes <- function(MEA,spikes.per.minute.min=1) {
   return(MEA)
 }
 
-entropies.per.well <- function(MEA,diff=F,well.names=c()) {
-  # iterate through all electrodes, store entropy vals
-  # for each corresponding well
-  ents.list <- list()
-  for (elec in names(MEA$spikes)) {
-    ent <- .entropy.electrode(MEA,elec) 
-    if(is.na(ent)==T | is.nan(ent)==T) {
-      next
-    }
-    elec.data <- strsplit(elec,"_")[[1]]
-    well <- elec.data[1]
-    if (length(well.names)>0) {
-      if ((well %in% well.names) == F) {
-        next
-      }
-    }
-    if ((well %in% names(ents.list))==F) { 
-      ents.list[[well]] = c()
-    }
-    ents.list[[well]] <- c(ents.list[[well]],ent)
+calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1) {
+  data.dists <- list( "ENT"=list(), "MI"=list())
+  norm.MIs.per.well = list();
+  norm.ents.per.well <- .calculate.entropy.by.well(MEA,mult.factor)
+  for (treatment in treatments) {
+    ## get wells classified as treatment and  subset well data on well classification
+    treatment.wells <- names(MEA$treatment[MEA$treatment==treatment])
+    treatment.wells <- treatment.wells[treatment.wells %in% names(norm.ents.per.well)]
+    norm.ents.per.well.treatment <- .wells.subset(norm.ents.per.well,treatment.wells)
+    ## get mean entropy per well set for treatment
+    norm.ent.means.per.well <- lapply(norm.ents.per.well.treatment,function(x) {mean(x)})
+    ## calculate MI values
+    norm.MIs.per.well[[treatment]] <- .pairwise.dists.per.well(MEA,wellnames=treatment.wells,
+                                                              dist.metric="mutual.information",
+                                                              bin.size)
+    norm.MI.means.per.well <- lapply(norm.MIs.per.well[[treatment]],function(x) {mean(x)})
+    # store summary stats to list
+    data.dists[["ENT"]][[treatment]] <- .list.to.vals(norm.ent.means.per.well)
+    data.dists[["MI"]][[treatment]] <- .list.to.vals(norm.MI.means.per.well)
   }
-  return(ents.list)
+  return(list("data.dists"=data.dists, "norm.MIs.per.well"=norm.MIs.per.well ))
 }
 
-filter.list <- function(x.list,mult.factor=1.5) {
-  for (item in names(x.list)) {
-    item.vals <- x.list[[item]]
-    item.vals.range <- .IQR.range(item.vals,mult.factor)
-    item.vals <- item.vals[item.vals >= item.vals.range[1]
-                           & item.vals <= item.vals.range[2]]
-    x.list[[item]] <- item.vals
-  }
-  return(x.list)
+.calculate.entropy.by.well <- function(MEA, mult.factor=1.5) {
+  norm.ents.per.well <- .entropies.per.well(MEA,diff=diff)
+  norm.ents.per.well <- .filter.list(norm.ents.per.well,mult.factor=1.5)
+  return(norm.ents.per.well)
 }
 
-list.to.vals <- function(list.node,numeric=T) {
-  # extract and return all values stored in list node
-  vals <- c()
-  for (name in names(list.node)) {
-    if (numeric == T) {
-      vals <- c(vals, as.numeric(list.node[[name]]))
-    } else {
-      vals <- c(vals, listnode[[name]])
-    }
-  }
-  return(vals)
-}
-
-wells.subset <- function(wells.node,wells) {
-  wells.node.subset = list()
-  for (name in intersect(names(wells.node),wells)) {
-    wells.node.subset[[name]] <- wells.node[[name]]
-  }
-  return(wells.node.subset)
-}
-
-pairwise.dists.per.well<-function(MEA,wellnames=c(),bin.size=NA,dist.max=200,
+.pairwise.dists.per.well<-function(MEA,wellnames=c(),bin.size=NA,dist.max=200,
                                   dist.metric="mutual.information",normalize=T) {
   # iterate through all wells, get all pairwise mutual 
   # information scores for each well
@@ -99,6 +72,41 @@ pairwise.dists.per.well<-function(MEA,wellnames=c(),bin.size=NA,dist.max=200,
     })
   }
   return(dists.list)
+}
+
+.entropies.per.well <- function(MEA,diff=F,well.names=c()) {
+  # iterate through all electrodes, store entropy vals
+  # for each corresponding well
+  ents.list <- list()
+  for (elec in names(MEA$spikes)) {
+    ent <- .entropy.electrode(MEA,elec) 
+    if(is.na(ent)==T | is.nan(ent)==T) {
+      next
+    }
+    elec.data <- strsplit(elec,"_")[[1]]
+    well <- elec.data[1]
+    if (length(well.names)>0) {
+      if ((well %in% well.names) == F) {
+        next
+      }
+    }
+    if ((well %in% names(ents.list))==F) { 
+      ents.list[[well]] = c()
+    }
+    ents.list[[well]] <- c(ents.list[[well]],ent)
+  }
+  return(ents.list)
+}
+
+.filter.list <- function(x.list,mult.factor=1.5) {
+  for (item in names(x.list)) {
+    item.vals <- x.list[[item]]
+    item.vals.range <- .IQR.range(item.vals,mult.factor)
+    item.vals <- item.vals[item.vals >= item.vals.range[1]
+                           & item.vals <= item.vals.range[2]]
+    x.list[[item]] <- item.vals
+  }
+  return(x.list)
 }
 
 .MEA.vals.subset <- function(MEA,attr,wellname) {
@@ -362,3 +370,23 @@ pairwise.dists.per.well<-function(MEA,wellnames=c(),bin.size=NA,dist.max=200,
   return(ent)
 }
 
+.list.to.vals <- function(list.node,numeric=T) {
+  # extract and return all values stored in list node
+  vals <- c()
+  for (name in names(list.node)) {
+    if (numeric == T) {
+      vals <- c(vals, as.numeric(list.node[[name]]))
+    } else {
+      vals <- c(vals, listnode[[name]])
+    }
+  }
+  return(vals)
+}
+
+.wells.subset <- function(wells.node,wells) {
+  wells.node.subset = list()
+  for (name in intersect(names(wells.node),wells)) {
+    wells.node.subset[[name]] <- wells.node[[name]]
+  }
+  return(wells.node.subset)
+}
