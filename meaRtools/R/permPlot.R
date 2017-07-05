@@ -225,7 +225,7 @@ permute.features.and.plot <- function(s, wt, np, features.list, type, output.dir
   out.folder <- paste0(output.dir, "/", type)
   dir.create(out.folder, showWarnings = FALSE)
 
-  platename <- get.project.plate.name(s[[1]]$file)
+  platename <- get_project_plate_name(s[[1]]$file)
   fname <- paste(platename, "_", type, "_", "analysis", ".pdf", sep = "")
   fpath <- paste(out.folder, "/", fname, sep = "")
 

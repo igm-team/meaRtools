@@ -135,7 +135,7 @@
   divs.df = list()
   for (i in 1:length(s)) {
     div <- paste("DIV", .get.div(s[[i]]), sep = "")
-    basename <- get.file.basename(s[[i]]$file)
+    basename <- get_file_basename(s[[i]]$file)
 
     ########## data frame summarized over well
     # get number of object in masterSum[[1]] list
@@ -211,7 +211,7 @@ IGM.aggregate.features <- function(s, feat.type, parameters=list()) {
   # Returns:
   #   list of data frames (one df per feature)
 
-  platename <- get.project.plate.name(s[[1]]$file)
+  platename <- get_project_plate_name(s[[1]]$file)
 
   # write feature summaries (calls xxx.summary.by.well from meaRtools)
   if (feat.type == "spike") {
@@ -290,7 +290,7 @@ write.features.to.files <- function(s, features.list, output.dir, type) {
   #   one csv per feature
 
   # change to create subdir for each file type
-  platename <- get.project.plate.name(s[[1]]$file)
+  platename <- get_project_plate_name(s[[1]]$file)
   out.folder <- paste0(output.dir, "/", type)
   dir.create(out.folder, showWarnings = FALSE)
   invisible(sapply(names(features.list),

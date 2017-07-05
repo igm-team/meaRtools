@@ -1,6 +1,6 @@
 IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
   for (i in (1:length(s))) {
-    basename <- get.file.basename(s[[i]]$file)
+    basename <- get_file_basename(s[[i]]$file)
     burstPlotPath = paste(outputdir, "/", basename, "_burst_plot.pdf", sep = "")
     pdf(file = burstPlotPath)
     # layout
@@ -81,11 +81,11 @@ IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
 
 write.plate.summary.for.bursts <- function(s, outputdir) {
   masterSum <- .get.burst.info.averaged.over.well(s)
-  csvwell <- paste(outputdir, "/", get.project.plate.name(s[[1]]$file), "_well_bursts.csv", sep = "")
+  csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file), "_well_bursts.csv", sep = "")
 
   for (i in 1:length(s)) {
     div <- .get.div(s[[i]])
-    basename <- get.file.basename(s[[i]]$file)
+    basename <- get_file_basename(s[[i]]$file)
     csvfile <- paste(outputdir, "/", basename, "_bursts.csv", sep = "")
 
     ########## data frame summarized over well
