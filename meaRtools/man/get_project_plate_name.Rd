@@ -1,7 +1,7 @@
-\name{get.project.plate.name}
-\alias{get.project.plate.name}
+\name{get_project_plate_name}
+\alias{get_project_plate_name}
 \title{
-get.project.plate.name
+get_project_plate_name
 }
 \description{
 returns the first portion of file .RData spike object named according to convention of 
@@ -9,7 +9,7 @@ Project name, experiment date (MMDDYYYY format) and plate serial number separate
 
 }
 \usage{
-get.project.plate.name(file)
+get_project_plate_name(file)
 }
 \arguments{
   \item{file}{
@@ -23,7 +23,7 @@ Returns a character string of the project name, experiment date and plate serial
 
 \examples{
 data("S") # load data
-get.project.plate.name(S$file)
+get_project_plate_name(S$file)
 }
 \keyword{ utility }
 

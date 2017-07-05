@@ -1,14 +1,14 @@
-\name{get.file.basename}
-\alias{get.file.basename}
+\name{get_file_basename}
+\alias{get_file_basename}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-get.file.basename
+get_file_basename
 }
 \description{
 Retreives the first 4 character strings separated by '_' from from a file path to a .RData object.
 }
 \usage{
-get.file.basename(filename)
+get_file_basename(filename)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,7 +29,7 @@ Diana Hall
 \examples{
 
 data("S") # load data
-get.file.basename(S$file)
+get_file_basename(S$file)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

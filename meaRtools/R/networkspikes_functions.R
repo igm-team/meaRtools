@@ -186,7 +186,7 @@ IGM.plot.active.wells.network.spikes <- function(nspikes) {
 }
 
 write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
-  csvwell <- paste(outputdir, "/", get.project.plate.name(s$file), "_ns.csv", sep = "")
+  csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_ns.csv", sep = "")
   div <- .get.div(s)
   active.wells <- .active.wells.network.spikes(nspikes)$ns.all
   if (length(active.wells) > 0) {
@@ -229,7 +229,7 @@ write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
     nsdata <- cbind(s$well, nsdata)
     names(nsdata)[1] <- "well"
 
-    basename <- get.file.basename(s$file)
+    basename <- get_file_basename(s$file)
     csvfile = paste(outputdir, "/", basename, "_ns.csv", sep = "")
 
     write.table(paste("file= ", strsplit(basename(s$file), ".RData")[[1]][1], sep = ""),

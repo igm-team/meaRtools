@@ -26,8 +26,8 @@ calc.burst.distributions <- function(s, minVals=1, xlimit=25, binsInSec=5,
   outputdir <- paste0(outputdir , "/distributionFiles")
   suppressWarnings(dir.create(outputdir))
 
-  basename <- get.file.basename(s$file)
-  logFile <- paste(outputdir, "/", get.project.plate.name(s$file),
+  basename <- get_file_basename(s$file)
+  logFile <- paste(outputdir, "/", get_project_plate_name(s$file),
     "_distributions_log.txt", sep = "")
 
   stopifnot(feature != "non")
@@ -329,7 +329,7 @@ calc.burst.distributions <- function(s, minVals=1, xlimit=25, binsInSec=5,
         line <- line + 1}}}
   # write all distributions for a permutation test
   tablePath <- paste(outputdir, "/", basename, "_", feature, "_distributions.csv", sep = "")
-  csvwell <- paste(outputdir, "/", get.project.plate.name(s$file), "_", timeStamp, "_", feature, "_distributions.csv", sep = "")
+  csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_", timeStamp, "_", feature, "_distributions.csv", sep = "")
   #  write.table(  Alldistributions, file=tablePath, sep=",", append = F, col.names=F, row.names=F )
   write.table(Alldistributions, file = csvwell, sep = ",", append = T, col.names = F, row.names = F)
 }

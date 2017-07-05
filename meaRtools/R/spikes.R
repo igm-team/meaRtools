@@ -91,7 +91,7 @@ calculate.isis <- function(s) {
 }
 .spike.summary.by.electrode <- function(s) {
   s <- calculate.isis(s)
-  electrodes <- .get.all.electrodes(s)
+  electrodes <- .get_all_electrodes(s)
   sum <- matrix(data = NA, nrow = length(electrodes), ncol = 4)
   colnames(sum) <- c("nspikes", "meanfiringrate", "meanisis", "sdisis")
   rownames(sum) <- electrodes
@@ -256,7 +256,7 @@ IGM.plot.mean.firingrate.by.eletrode.by.div <- function(s) {
   if (length(wells) > 0) {
     for (active.well in wells) {
       df <- electrode.stats.all[which(electrode.stats.all$well == active.well), ]
-      layout.info <- .get.electrode.layout(s[[1]], active.well)
+      layout.info <- .get_electrode_layout(s[[1]], active.well)
       maxy <- max(df$meanfiringrate)
 
       p1 <- xyplot(meanfiringrate ~ div | factor(electrode, levels = layout.info$electrodes),
@@ -290,7 +290,7 @@ IGM.plot.mean.firingrate.by.well.by.div <- function(s) {
 
 IGM.plot.plate.summary.for.spikes <- function(s, outputdir) {
   for (i in 1:length(s)) {
-    basename <- get.file.basename(s[[i]]$file)
+    basename <- get_file_basename(s[[i]]$file)
     spikePlotPath = paste(outputdir, "/", basename, "_spike_plot.pdf", sep = "")
     pdf(file = spikePlotPath)
 
@@ -310,11 +310,11 @@ IGM.plot.plate.summary.for.spikes <- function(s, outputdir) {
 }
 
 write.plate.summary.for.spikes <- function(s, outputdir) {
-  csvwell <- paste(outputdir, "/", get.project.plate.name(s[[1]]$file), "_well_spikes.csv", sep = "")
+  csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file), "_well_spikes.csv", sep = "")
 
   for (i in 1:length(s)) {
     div <- .get.div(s[[i]])
-    basename <- get.file.basename(s[[i]]$file)
+    basename <- get_file_basename(s[[i]]$file)
     csvfile <- paste(outputdir, "/", basename, "_spikes.csv", sep = "")
     df <- .spike.summary.by.electrode(s[[i]])
     df2 <- .spike.summary.by.well(s[[i]])
