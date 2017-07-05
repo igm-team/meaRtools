@@ -63,4 +63,3 @@ IGM.write.UI.to.log<-function(files=NULL,parameterList, new.file=F ){
     
   }# end of if(!is.null(files))
 } #end of .IGM.write.UI.to.log
-    

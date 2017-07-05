@@ -1,163 +1,178 @@
-filter.nonactive.spikes <- function(MEA,spikes.per.minute.min=1) {
+filter_nonactive_spikes <- function(mea, spikes_per_minute_min=1) {
   # remove electrode data where spike.per.minute rate does not
-  # meet or exceed user-defined value 
+  # meet or exceed user-defined value
   # (default = 1 spike/min = 1 Hz)
-  timespan <- MEA$rec.time[2] - MEA$rec.time[1]
-  MEA$spikes <- sapply(names(MEA$spikes),function(y) {
-    if ((length(MEA$spikes[[y]]) / 60) >= spikes.per.minute.min) {
-      return(MEA$spikes[[y]])
+  mea$spikes <- sapply(names(mea$spikes), function(y) {
+    filter <- (length(mea$spikes[[y]]) / 60) >= spikes_per_minute_min
+    if (filter) {
+      return(mea$spikes[[y]])
     }
   })
-  MEA$spikes <- MEA$spikes[!sapply(MEA$spikes, is.null)]
-  return(MEA)
+  mea$spikes <- mea$spikes[!sapply(mea$spikes, is.null)]
+  return(mea)
 }
 
-calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1) {
-  data.dists <- list( "ENT"=list(), "MI"=list())
-  norm.MIs.per.well = list();
-  norm.ents.per.well <- .calculate.entropy.by.well(MEA,mult.factor)
+calculate_entropy_and_mi <- function(mea, treatments,
+                                     mult_factor=1.5,
+                                     bin_size=0.1) {
+  data_dists <- list("ENT" = list(), "MI" = list())
+  norm_mis_per_well <- list()
+  norm_ents_per_well <- .calculate_entropy_by_well(mea, mult_factor)
   for (treatment in treatments) {
-    ## get wells classified as treatment and  subset well data on well classification
-    treatment.wells <- names(MEA$treatment[MEA$treatment==treatment])
-    treatment.wells <- treatment.wells[treatment.wells %in% names(norm.ents.per.well)]
-    norm.ents.per.well.treatment <- .wells.subset(norm.ents.per.well,treatment.wells)
+    ## get wells classified as treatment and  subset well data on well
+    #classification
+    treatment_wells <- names(mea$treatment[mea$treatment == treatment])
+    treatment_wells <- treatment_wells[treatment_wells %in%
+                                         names(norm_ents_per_well)]
+    norm_ents_per_well_treatment <- .wells_subset(norm_ents_per_well,
+                                                  treatment_wells)
     ## get mean entropy per well set for treatment
-    norm.ent.means.per.well <- lapply(norm.ents.per.well.treatment,function(x) {mean(x)})
+    norm_ent_means_per_well <- lapply(norm_ents_per_well_treatment,
+                                      function(x) {
+                                        mean(x)
+                                      })
     ## calculate MI values
-    norm.MIs.per.well[[treatment]] <- .pairwise.dists.per.well(MEA,wellnames=treatment.wells,
-                                                              dist.metric="mutual.information",
-                                                              bin.size)
-    norm.MI.means.per.well <- lapply(norm.MIs.per.well[[treatment]],function(x) {mean(x)})
+    norm_mis_per_well[[treatment]] <- .pairwise_dists_per_well(mea,
+                                          wellnames = treatment_wells,
+                                          dist_metric = "mutual_information",
+                                          bin_size)
+    norm_mi_means_per_well <- lapply(norm_mis_per_well[[treatment]],
+                                     function(x) {
+                                       mean(x)
+                                     })
     # store summary stats to list
-    data.dists[["ENT"]][[treatment]] <- .list.to.vals(norm.ent.means.per.well)
-    data.dists[["MI"]][[treatment]] <- .list.to.vals(norm.MI.means.per.well)
+    data_dists[["ENT"]][[treatment]] <- .list.to.vals(norm_ent_means_per_well)
+    data_dists[["MI"]][[treatment]] <- .list.to.vals(norm_mi_means_per_well)
   }
-  return(list("data.dists"=data.dists, "norm.MIs.per.well"=norm.MIs.per.well ))
+  return(list("data_dists" = data_dists,
+              "norm_mis_per_well" = norm_mis_per_well))
 }
 
-.calculate.entropy.by.well <- function(MEA, mult.factor=1.5) {
-  norm.ents.per.well <- .entropies.per.well(MEA,diff=diff)
-  norm.ents.per.well <- .filter.list(norm.ents.per.well,mult.factor=1.5)
-  return(norm.ents.per.well)
-}
-
-.pairwise.dists.per.well<-function(MEA,wellnames=c(),bin.size=NA,dist.max=200,
-                                  dist.metric="mutual.information",normalize=T) {
-  # iterate through all wells, get all pairwise mutual 
+.pairwise_dists_per_well <- function(mea, wellnames = c(), bin_size = NA,
+                                     dist_max = 200,
+                                     dist_metric = "mutual_information",
+                                     normalize = T) {
+  # iterate through all wells, get all pairwise mutual
   # information scores for each well
-  dists.list <- list()
-  t.0 <- MEA$rec.time[1]
-  t.end <- MEA$rec.time[2]
-  if (length(wellnames)==0) {
-    wellnames <- MEA$well
+  dists_list <- list()
+  t_0 <- mea$rec.time[1]
+  t_end <- mea$rec.time[2]
+  if (length(wellnames) == 0) {
+    wellnames <- mea$well
   }
   for (wellname in wellnames) {
-    dists.list[[wellname]] <- c()
-    well.spikes <- .MEA.vals.subset(MEA,"spikes",wellname)
-    well.elec.names <- names(well.spikes)
-    elec.pairs <- .electrode.dist.pairs(MEA,elec.names=well.elec.names,
-                                       dist.max=dist.max)
-    if (length(elec.pairs) <= 1) {next}
-    dists.list[[wellname]] <- sapply(elec.pairs,function(x){
-      elec.pair <- strsplit(x,":")[[1]]
-      spikes.i <- well.spikes[[elec.pair[1]]]
-      spikes.j <- well.spikes[[elec.pair[2]]]
-      spikes.i.len <- length(spikes.i)
-      spikes.j.len <- length(spikes.j)
-      if (min(spikes.i.len,spikes.j.len) <= 1) {return(NA)}
-      dist <- .dist.electrode.pair(spikes.i, spikes.j, 
-                                  t.0, t.end,bin.size=bin.size,
-                                  dist.metric=dist.metric,normalize=normalize) 
+    dists_list[[wellname]] <- c()
+    well_spikes <- .mea_vals_subset(mea, "spikes", wellname)
+    well_elec_names <- names(well_spikes)
+    elec_pairs <- .electrode_dist_pairs(mea, elec.names = well_elec_names,
+                                       dist_max = dist_max)
+    if (length(elec_pairs) <= 1) {
+      next
+    }
+    dists_list[[wellname]] <- sapply(elec_pairs, function(x) {
+      elec_pairs <- strsplit(x, ":")[[1]]
+      spikes_i <- well_spikes[[elec_pairs[1]]]
+      spikes_j <- well_spikes[[elec_pairs[2]]]
+      spikes_i_len <- length(spikes_i)
+      spikes_j_len <- length(spikes_j)
+      if (min(spikes_i_len, spikes_j_len) <= 1) {
+        return(NA)
+      }
+      dist <- .dist_electrode_pair(spikes_i,
+                                  spikes_j,
+                                  t_0, t_end,
+                                  bin_size = bin_size,
+                                  dist_metric = dist_metric,
+                                  normalize = normalize)
       return(dist)
     })
   }
-  return(dists.list)
+  return(dists_list)
 }
 
-.entropies.per.well <- function(MEA,diff=F,well.names=c()) {
+.entropies_per_well <- function(mea, diff = F,
+                                well_names = c()) {
   # iterate through all electrodes, store entropy vals
   # for each corresponding well
-  ents.list <- list()
-  for (elec in names(MEA$spikes)) {
-    ent <- .entropy.electrode(MEA,elec) 
-    if(is.na(ent)==T | is.nan(ent)==T) {
+  ents_list <- list()
+  for (elec in names(mea$spikes)) {
+    ent <- .entropy_electrode(mea, elec)
+    if (is.na(ent) == T | is.nan(ent) == T) {
       next
     }
-    elec.data <- strsplit(elec,"_")[[1]]
-    well <- elec.data[1]
-    if (length(well.names)>0) {
-      if ((well %in% well.names) == F) {
+    elec_data <- strsplit(elec, "_")[[1]]
+    well <- elec_data[1]
+    if (length(well_names) > 0) {
+      if (F == (well %in% well_names)) {
         next
       }
     }
-    if ((well %in% names(ents.list))==F) { 
-      ents.list[[well]] = c()
+    if (F == (well %in% names(ents_list))) {
+      ents_list[[well]] <- c()
     }
-    ents.list[[well]] <- c(ents.list[[well]],ent)
+    ents_list[[well]] <- c(ents_list[[well]], ent)
   }
-  return(ents.list)
+  return(ents_list)
 }
 
-.filter.list <- function(x.list,mult.factor=1.5) {
-  for (item in names(x.list)) {
-    item.vals <- x.list[[item]]
-    item.vals.range <- .IQR.range(item.vals,mult.factor)
-    item.vals <- item.vals[item.vals >= item.vals.range[1]
-                           & item.vals <= item.vals.range[2]]
-    x.list[[item]] <- item.vals
+.filter_list <- function(x_list, mult_factor = 1.5) {
+  for (item in names(x_list)) {
+    item_vals <- x_list[[item]]
+    item_vals_range <- .IQR_range(item_vals, mult_factor)
+    item_vals <- item_vals[item_vals >= item_vals_range[1]
+                           & item_vals <= item_vals_range[2]]
+    x_list[[item]] <- item_vals
   }
-  return(x.list)
+  return(x_list)
 }
 
-.MEA.vals.subset <- function(MEA,attr,wellname) {
+.mea_vals_subset <- function(mea, attr, wellname) {
   # get set of attr vals for electrodes corresponding to specific inputted well
-  new.obj = list()
-  attr.node = MEA[[attr]]
-  for (electrode in names(MEA[[attr]])) {
-    if (grepl(wellname,electrode)==T) {
-      new.obj[[electrode]] = attr.node[[electrode]]
+  new_obj <- list()
+  attr_node <- mea[[attr]]
+  for (electrode in names(mea[[attr]])) {
+    if (grepl(wellname, electrode) == T) {
+      new_obj[[electrode]] <- attr_node[[electrode]]
     }
   }
-  return(new.obj)
+  return(new_obj)
 }
 
-.dist.electrode.pair <- function(spikes.a, spikes.b, t.0, t.end,
-                                 bin.size=NA,
-                                 normalize=F,
-                                 dist.metric="mutual.information",
-                                 corr.method="pearson") {
-  # use spike data and t.0+t.end to calculate mutual 
+.dist_electrode_pair <- function(spikes_a, spikes_b, t_0, t_end,
+                                 bin_size = NA,
+                                 normalize = F,
+                                 dist_metric = "mutual_information",
+                                 corr_method = "pearson") {
+  # use spike data and t_0+t_end to calculate mutual
   # information between spikes from electrodes a and b
-  if (is.na(bin.size)) {
-    a.n <- length(spikes.a)
-    b.n <- length(spikes.b)
-    bin.count <- min(a.n,b.n)
+  if (is.na(bin_size)) {
+    a_n <- length(spikes_a)
+    b_n <- length(spikes_b)
+    bin_count <- min(a_n, b_n)
   } else {
-    bin.count <- 1
+    bin_count <- 1
   }
-  bins <- .uniform.bins(t.0,t.end,bin.count,bin.size=bin.size)
-  spikes.a.bin <- .spikes.in.bins(spikes.a,bins) 
-  spikes.b.bin <- .spikes.in.bins(spikes.b,bins)
-  if (dist.metric=="mutual.information") {
-    dist <- .mutual.information(spikes.a.bin, spikes.b.bin,
-                               normalize=normalize)
-  #} else if (dist.metric=="maximal.information.coefficient") {
-  #  dist <- mine(spikes.a.bin, spikes.b.bin)$MIC
+  bins <- .uniform.bins(t_0, t_end, bin_count, bin_size = bin_size)
+  spikes_a_bin <- .spikes_in_bins(spikes_a, bins)
+  spikes_b_bin <- .spikes_in_bins(spikes_b, bins)
+  if (dist_metric == "mutual_information") {
+    dist <- .mutual_information(spikes_a_bin, spikes_b_bin,
+                               normalize = normalize)
   } else {
-    dist <- .correlation(spikes.a.bin, spikes.b.bin,
-                        corr.method=corr.method)
+    dist <- .correlation(spikes_a_bin, spikes_b_bin,
+                        corr_method = corr_method)
   }
   return(dist)
 }
 
-.electrode.dist.pairs <- function(MEA,elec.names,dist.max=200,
-                                  same.well.only=T) {
+.electrode_dist_pairs <- function(mea, elec.names, dist_max = 200,
+                                  same.well.only = T) {
   # makes all possible comparisons of electrode coordinates
   # on plate, returns list of electrode:electrode name
-  # combinations where dist. btwn electrodes is <= dist.max
+  # combinations where dist. btwn electrodes is <= dist_max
   elec.combos <- c()
   if (length(elec.names)<=1) {return(c())}
-  epos.subset <- MEA$layout$pos[elec.names,]
+  epos.subset <- mea$layout$pos[elec.names,]
   epos.elecs <- rownames(epos.subset)
   for (i in 1:(length(epos.elecs)-1)) {
     elec.i.name <- epos.elecs[i]
@@ -171,7 +186,7 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
       }
       elec.j.xy <- epos.subset[elec.j.name,]
       i.j.dist <- .euc.dist(elec.i.xy,elec.j.xy)
-      if (i.j.dist <= dist.max) {
+      if (i.j.dist <= dist_max) {
         elec.ij <- paste(elec.i.name,elec.j.name,sep=":")
         elec.combos <- c(elec.combos,elec.ij)
       }
@@ -187,20 +202,20 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   return(dist)
 }
 
-.uniform.bins <- function(t.0, t.end,n,bin.size=NA) {
-  # for a defined t.0, t.end and n.spikes, return n nonoverlapping
-  # bins that are all of equal size and span [t.0, t.end]
-  if (is.na(bin.size)) {
-    bin.size <- (t.end-t.0)/n
+.uniform.bins <- function(t_0, t_end,n,bin_size=NA) {
+  # for a defined t_0, t_end and n.spikes, return n nonoverlapping
+  # bins that are all of equal size and span [t_0, t_end]
+  if (is.na(bin_size)) {
+    bin_size <- (t_end-t_0)/n
   }
-  bins <- seq(from=t.0,to=t.end,by=bin.size)
-  if (bins[length(bins)]!=t.end) {
-    bins <- c(bins,t.end)
+  bins <- seq(from=t_0,to=t_end,by=bin_size)
+  if (bins[length(bins)]!=t_end) {
+    bins <- c(bins,t_end)
   }
   return(bins)
 }
 
-.correlation <- function(a,b,corr.method="pearson",normalize=F) {
+.correlation <- function(a,b,corr_method="pearson",normalize=F) {
   ## calculate the correlation btwn probability distributions a and b
   
   # make sure a and b have same number of bins (equal bin sizes assumed)
@@ -214,56 +229,53 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   p.b <- b / b.total
   
   if (normalize == T) {
-    return(cor(p.a,p.b,method=corr.method))
+    return(cor(p.a,p.b,method=corr_method))
   } else {
-    return(cor(a,b,method=corr.method))
+    return(cor(a,b,method=corr_method))
   }
 }
 
-.IQR.range <- function(x,mult.factor = 1) {
+.IQR_range <- function(x,mult_factor = 1) {
   x.median <- median(x)
   x.IQR <- IQR(x)
-  x.IQR.min <- x.median - (mult.factor * x.IQR)
-  x.IQR.max <- x.median + (mult.factor * x.IQR)
-  x.IQR.range <- c(x.IQR.min,x.IQR.max)
-  return(x.IQR.range)
+  x.IQR.min <- x.median - (mult_factor * x.IQR)
+  x.IQR.max <- x.median + (mult_factor * x.IQR)
+  x.IQR_range <- c(x.IQR.min,x.IQR.max)
+  return(x.IQR_range)
 }
 
-.spikes.in.bins <- function(spikes,bins) {
+.spikes_in_bins <- function(spikes,bins) {
   # count number of spikes in each bin
   hist.data <- hist(spikes,breaks=bins,plot=FALSE)
   spike.counts <- hist.data$counts
   return(spike.counts)
 }
 
-.p.bins <- function(bin.sizes) {
+.p.bins <- function(bin_sizes) {
   # return prob of each bin assuming prob is linear
   # with bin size
-  bins.totalsize <- sum(bin.sizes)
-  p.bin <- bin.sizes / bins.totalsize
+  bins.totalsize <- sum(bin_sizes)
+  p.bin <- bin_sizes / bins.totalsize
   return(p.bin)
 }
 
-.pdist.electrode.spikes <- function(spikes,t.0,t.end,
-                                    bin.starts=c(),bin.ends=c(),
-                                    bin.size=NA,
-                                    probs=T) {
+.pdist.electrode.spikes <- function(spikes, t_0,t_end, bin.starts=c(), bin.ends=c(), bin_size=NA, probs=T) {
   # count number of spikes in each bin (uniform or user-defined), 
   # if user indicates,form prob.distribution based on the spike 
   # counts per bin, otherwise return spike counts per bin
   if (length(bin.starts) > 0 & length(bin.ends) > 0) {
-    bin.edges <- unique(sort(c(t.0,bin.starts,bin.ends,t.end)))
-  } else if (is.na(bin.size)==F) {
-    bin.edges <- uniform.bins(t.0,t.end,1,bin.size=bin.size)
+    bin.edges <- unique(sort(c(t_0,bin.starts,bin.ends,t_end)))
+  } else if (is.na(bin_size)==F) {
+    bin.edges <- uniform.bins(t_0,t_end,1,bin_size=bin_size)
   } else {  
-    bin.size <- (t.end-t.0) / length(spikes)
-    bin.edges <- seq(t.0,t.end,by = bin.size)
+    bin_size <- (t_end-t_0) / length(spikes)
+    bin.edges <- seq(t_0,t_end,by = bin_size)
     bin.starts.i <- seq(1,(length(bin.edges)-1),by=1)
     bin.ends.i <- seq(2,length(bin.edges),by=1)
     bin.starts <- bin.edges[bin.starts.i]
     bin.ends <- bin.edges[bin.ends.i]
   }
-  spike.counts <- .spikes.in.bins(spikes, bin.edges)
+  spike.counts <- .spikes_in_bins(spikes, bin.edges)
   if (probs==T) {
     p.counts.bins <- .p.bins(spike.counts)
     return(p.counts.bins)
@@ -299,7 +311,7 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   return(KL.div)
 }
 
-.mutual.information <- function(a,b,normalize=F) {
+.mutual_information <- function(a,b,normalize=F) {
   # make sure a and b have same number of bins (equal bin sizes assumed)
   stopifnot(length(a) == length(b))
   # get sum of counts across bins for a, b, a+b
@@ -337,15 +349,15 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   return(MI)
 }
 
-.get.bin.fullset <- function(bin.starts,bin.ends,t.0,t.end) {
-  # take bin.starts vector, bin.ends vector, t.0 and t.end,
+.get.bin.fullset <- function(bin.starts,bin.ends,t_0,t_end) {
+  # take bin.starts vector, bin.ends vector, t_0 and t_end,
   # and return one vector of bin edges
-  bin.fullset <- c(t.0,bin.starts,bin.ends,t.end)
+  bin.fullset <- c(t_0,bin.starts,bin.ends,t_end)
   bin.fullset <- unique(sort(bin.fullset))
   return(bin.fullset)
 }
 
-.get.bin.sizes <- function(bin.set,pairs.only=F) {
+.get.bin_sizes <- function(bin.set,pairs.only=F) {
   # take vector of bin edges and return bin sizes
   by.iter = 1
   if (pairs.only==T) {
@@ -359,13 +371,13 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   return(bin.ends-bin.starts)
 }
 
-.entropy.electrode<-function(MEA,elec.name,bin.size=NA) {
+.entropy_electrode<-function(mea,elec.name,bin_size=NA) {
   # return calculated entropy value for inputted elctrode name
-  spikes <- MEA$spikes[[elec.name]]
-  t.0 <- MEA$rec.time[1]
-  t.end <- MEA$rec.time[2]
-  spikes.pdist <- .pdist.electrode.spikes(spikes,t.0,t.end,
-                                          bin.size=bin.size)
+  spikes <- mea$spikes[[elec.name]]
+  t_0 <- mea$rec.time[1]
+  t_end <- mea$rec.time[2]
+  spikes.pdist <- .pdist.electrode.spikes(spikes,t_0,t_end,
+                                          bin_size=bin_size)
   ent <- .entropy(spikes.pdist,normalized.uniform=T)    
   return(ent)
 }
@@ -383,10 +395,16 @@ calculate.entropy.and.MI <- function(MEA,treatments,mult.factor=1.5,bin.size=0.1
   return(vals)
 }
 
-.wells.subset <- function(wells.node,wells) {
+.wells_subset <- function(wells.node,wells) {
   wells.node.subset = list()
   for (name in intersect(names(wells.node),wells)) {
     wells.node.subset[[name]] <- wells.node[[name]]
   }
   return(wells.node.subset)
+}
+
+.calculate_entropy_by_well <- function(mea, mult_factor = 1.5) {
+  norm_ents_per_well <- .entropies_per_well(mea, diff = diff)
+  norm_ents_per_well <- .filter_list(norm_ents_per_well, mult_factor = 1.5)
+  return(norm_ents_per_well)
 }
