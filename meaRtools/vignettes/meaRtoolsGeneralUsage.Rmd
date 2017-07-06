@@ -125,8 +125,8 @@ s<-calculate.burst.features(s)
 # Iterate through all the recordings to calculate inter-spike intervals and well level mean firing rate and add that to the 'spike.list' object
 
 for (i in 1:length(s)) {
-  s[[i]] <- calculate.isis(s[[i]])
-  s[[i]]$well.stats <- IGM.compute.mean.firingrate.by.well(s[[i]])
+  s[[i]] <- calculate_isis(s[[i]])
+  s[[i]]$well.stats <- compute_mean_firingrate_by_well(s[[i]])
 }
 
 ```
@@ -143,7 +143,7 @@ To view burst information for bursts calculated for electrode E7_42 of the 2nd r
 ```{r}
 s[[2]]$allb$E7_42
 ```
-beg and end stand for the sequential spike  that begins and ends the burst. IBI is the inter burst interval from the previous burst. len is the number of spikes in the burst. durn is the burst duration in seconds. mean.isis is the average inter spike intervals within this burst and SI is the surprise index, only relevant when running the poisson surprise algorithm.
+beg and end stand for the sequential spike  that begins and ends the burst. IBI is the inter burst interval from the previous burst. len is the number of spikes in the burst. durn is the burst duration in seconds. mean_isis is the average inter spike intervals within this burst and SI is the surprise index, only relevant when running the poisson surprise algorithm.
 
 #### Extracting network spike data 
 

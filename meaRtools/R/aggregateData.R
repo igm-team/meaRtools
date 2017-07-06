@@ -20,9 +20,9 @@
 
   # loop through DIVs in s object and create 1 df per DIV. Each df gets stored in divs.df
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get.div(s[[i]]), sep = "")
+    div <- paste("DIV", .get_div(s[[i]]), sep = "")
 
-    df <- .spike.summary.by.well(s[[i]])
+    df <- .spike_summary_by_well(s[[i]])
     df = cbind(rownames(df), df)
     df = as.data.frame(unclass(df)) # convert strings to factors
 
@@ -94,7 +94,7 @@
 
   # calculate network spikes
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get.div(s[[i]]), sep = "")
+    div <- paste("DIV", .get_div(s[[i]]), sep = "")
 
     nspikes.old <- calculate.network.spikes(s[[i]], parameters$sur, parameters$ns.N, parameters$ns.T)
     nspikes <- summarize.network.spikes(s[[i]], nspikes.old, ns.E = 1, parameters$sur)
@@ -134,7 +134,7 @@
 
   divs.df = list()
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get.div(s[[i]]), sep = "")
+    div <- paste("DIV", .get_div(s[[i]]), sep = "")
     basename <- get_file_basename(s[[i]]$file)
 
     ########## data frame summarized over well

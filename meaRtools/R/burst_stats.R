@@ -33,8 +33,8 @@ calc.burst.summary <- function(s, bursty.threshold=1) {
   ## per.spikes.in.burst - % of spikes in a burst
   ## per.spikes.out.burst- % of spikes not in a burst
   ## mean.si - mean Surprise Index (only for poisson .surprise measure)
-  ## mean.isis - mean ISI within a burst (old name: mean2.isis)
-  ## sd.mean.isis - sd
+  ## mean_isis - mean ISI within a burst (old name: mean2.isis)
+  ## sd.mean_isis - sd
   ## mean.IBIs - mean IBI
   ## sd.IBIs - sd
   ## cv.IBIs - Coefficient of variation of IBI (= mean.IBI/sd.IBI)
@@ -46,7 +46,7 @@ calc.burst.summary <- function(s, bursty.threshold=1) {
   channels <- s$channels
   spikes <- as.vector(s$nspikes)
 
-  duration <- s$rec.time[2] - s$rec.time[1]
+  duration <- s$rec_time[2] - s$rec_time[1]
 
   mean.freq <- round(spikes / duration, 3)
 
@@ -63,7 +63,7 @@ calc.burst.summary <- function(s, bursty.threshold=1) {
   sd.dur <- round(sapply(durations, sd), 3)
 
   ISIs = .calc.all.isi(s, allb)
-  mean.ISIs = sapply(ISIs, mean)
+  mean_isis = sapply(ISIs, mean)
   sd.ISIs = unlist(sapply(ISIs, sd, na.rm = TRUE))
 
 
@@ -96,8 +96,8 @@ calc.burst.summary <- function(s, bursty.threshold=1) {
     per.spikes.in.burst = per.spikes.in.burst,
     per.spikes.out.burst = round(100.0 - per.spikes.in.burst, 3),
     mean.si = mean.si,
-    mean.isis = mean.ISIs,
-    sd.mean.isis = sd.ISIs,
+    mean_isis = mean_isis,
+    sd.mean_isis = sd.ISIs,
     mean.IBIs = mean.IBIs,
     sd.IBIs = sd.IBIs,
     cv.IBIs = cv.IBIs

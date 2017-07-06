@@ -4,7 +4,7 @@
 
 ###################################################################### 
 
-.burst.info <- c("beg", "len", "SI", "durn", "mean.isis")
+.burst.info <- c("beg", "len", "SI", "durn", "mean_isis")
 .burst.info.len = length(.burst.info)
 
 ##' Burst detection of MEA spike trains.
@@ -25,7 +25,7 @@
 ##' \tabular{ll}{ beg \tab index of the first spike in the burst \cr len \tab
 ##' number of spikes in this burst \cr SI \tab .surprise index (calculated only
 ##' for the .surprise method)\cr durn \tab duration (in s) of the burst\cr
-##' mean.isis \tab mean of all interspike intervals.\cr }
+##' mean_isis \tab mean of all interspike intervals.\cr }
 ##' 
 ##' If no bursts could be found within a spike train, the value NA is used
 ##' rather than an empty matrix.
@@ -113,8 +113,8 @@ si.find.bursts <- function(spikes, s.min, burst.isi.max = NULL) {
   }
   # res2 <- matrix(nrow = length(end), ncol = 7)
   res2 <- cbind(res[, "beg"], end, IBI,
-    res[, "len"], res[, "durn"], res[, "mean.isis"], res[, "SI"])
-  colnames(res2) <- c("beg", "end", "IBI", "len", "durn", "mean.isis", "SI")
+    res[, "len"], res[, "durn"], res[, "mean_isis"], res[, "SI"])
+  colnames(res2) <- c("beg", "end", "IBI", "len", "durn", "mean_isis", "SI")
 
   res2
 }
@@ -221,10 +221,10 @@ si.find.bursts <- function(spikes, s.min, burst.isi.max = NULL) {
     ## Fencepost issue: I is the number of spikes in the burst, so if
     ## the first spike is N, the last spike is at N+I-1, not N+I.
     isis = diff(spikes[n + (0:(i - 1))])
-    mean.isis = mean(isis)
+    mean_isis = mean(isis)
 
     durn = spikes[n + i - 1] - spikes[n]
-    res <- c(n = n, i = i, s = s, durn = durn, mean.isis = mean.isis)
+    res <- c(n = n, i = i, s = s, durn = durn, mean_isis = mean_isis)
 
     if (debug) 
     print(res)

@@ -13,7 +13,7 @@ get.burst.info(allb, index)
 The bursting features matrix of a channel (located in recording object - S object in example: S$allb[[channel number]]
 }
   \item{index}{
-Name of the requested burting feature. Can be "beg","end", "IBI","len", "durn", "mean.isis" or "SI"".}
+Name of the requested burting feature. Can be "beg","end", "IBI","len", "durn", "mean_isis" or "SI"".}
 }
 \value{
 List of values of the requested feature (index) for the desired channel.

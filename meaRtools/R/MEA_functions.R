@@ -26,13 +26,13 @@ remove.spikes <- function(s, ids) {
   ## Remove spikes listed in IDS from S data structure, and return
   ## new structure.
 
-  beg <- s$rec.time[1]
-  end <- s$rec.time[2]
-  corr.breaks <- 0 # TODO: hardcoded for axion!
+  beg <- s$rec_time[1]
+  end <- s$rec_time[2]
+  corr_breaks <- 0 # TODO: hardcoded for axion!
   layout <- s$layout
   filename <- s$file # paste0(s$file, ".edited")
-  s2 <- .construct.s(s$spikes, ids, s$rates$time.interval, beg, end,
-    corr.breaks, layout, filename)
+  s2 <- .construct_s(s$spikes, ids, s$rates$time_interval, beg, end,
+    corr_breaks, layout, filename)
   s2
 }
 
@@ -175,7 +175,7 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
         sum$nspikes[j] <- sum(tempsum$spikes[icurrentwell], na.rm = TRUE)
         sum$nAB[j] <- length(which(nbursts[incurrentwell] > 0))
         # Total recorded time on current well= recording time * nAE
-        sum$duration[j] <- length(incurrentwell) * (s[[i]]$rec.time[2] - s[[i]]$rec.time[1])
+        sum$duration[j] <- length(incurrentwell) * (s[[i]]$rec_time[2] - s[[i]]$rec_time[1])
 
         # mean duration
         sum$mean.dur[j] <- mean(tempsum$mean.dur[incurrentwell], na.rm = TRUE)
@@ -278,8 +278,8 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
     masterSum[[i]]$well <- s[[i]]$well[goodwellindex]
     masterSum[[i]]$nAE <- s[[i]]$nAE[goodwellindex]
     masterSum[[i]]$timepoint = rep(s[[i]]$timepoint[1], length(s[[i]]$goodwells))
-    masterSum[[i]]$start.rec.time <- rep(s[[i]]$rec.time[1], length(s[[i]]$goodwells))
-    masterSum[[i]]$end.rec.time <- rep(s[[i]]$rec.time[2], length(s[[i]]$goodwells))
+    masterSum[[i]]$start.rec_time <- rep(s[[i]]$rec_time[1], length(s[[i]]$goodwells))
+    masterSum[[i]]$end.rec_time <- rep(s[[i]]$rec_time[2], length(s[[i]]$goodwells))
     masterSum[[i]]$goodwells <- s[[i]]$goodwells
 
   }

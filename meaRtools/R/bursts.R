@@ -68,7 +68,7 @@ IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
     # mean Inter Burst Interval
     p <- .channel.plot.by.well(s[[i]], resp = "bs$mean.IBIs", resp.label = "Mean IBIs (ms)")
     # mean ISI within bursts
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean.isis", resp.label = "Mean ISI w/i Bursts (s)")
+    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean_isis", resp.label = "Mean ISI w/i Bursts (s)")
     # mean burst per minute
     p <- .channel.plot.by.well(s[[i]], resp = "bs$bursts.per.min", resp.label = "Mean Burst per Minute")
     # mean spikes in a burst
@@ -84,7 +84,7 @@ write.plate.summary.for.bursts <- function(s, outputdir) {
   csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file), "_well_bursts.csv", sep = "")
 
   for (i in 1:length(s)) {
-    div <- .get.div(s[[i]])
+    div <- .get_div(s[[i]])
     basename <- get_file_basename(s[[i]]$file)
     csvfile <- paste(outputdir, "/", basename, "_bursts.csv", sep = "")
 
@@ -131,7 +131,7 @@ write.plate.summary.for.bursts <- function(s, outputdir) {
       csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
     write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
     # recording time
-    write.table(paste("recording time (s): [", paste(s[[i]]$rec.time[1], round(s[[i]]$rec.time[2]), sep = " ,"),
+    write.table(paste("recording time (s): [", paste(s[[i]]$rec_time[1], round(s[[i]]$rec_time[2]), sep = " ,"),
       "]", sep = ""), csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
 
     write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)

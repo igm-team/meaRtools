@@ -146,7 +146,7 @@ mi.find.bursts <- function(spikes, mi.par) {
     ## Compute mean ISIS
     len = bursts[, "end"] - bursts[, "beg"] + 1
     durn = spikes[bursts[, "end"]] - spikes[bursts[, "beg"]]
-    mean.isis = durn / (len - 1)
+    mean_isis = durn / (len - 1)
 
     ## Recompute IBI (only needed if phase 3 deleted some cells).
     if (nrow(bursts) > 1) {
@@ -156,8 +156,8 @@ mi.find.bursts <- function(spikes, mi.par) {
     }
     bursts[, "IBI"] = ibi2
 
-    SI = rep(1, length(mean.isis))
-    bursts = cbind(bursts, mean.isis, SI)
+    SI = rep(1, length(mean_isis))
+    bursts = cbind(bursts, mean_isis, SI)
   }
 
   ## End -- return burst structure.

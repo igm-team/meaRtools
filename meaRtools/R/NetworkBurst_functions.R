@@ -249,7 +249,7 @@
   for (well.index in 1: length(wells)) {
     well <- wells[well.index]
 
-    offset <- S$rec.time[1]
+    offset <- S$rec_time[1]
     temp.return <- .NB.select.and.bin(df.spikes, well, sbegin, send, bin)
     offset2 <- temp.return[[2]]
     well.data <- temp.return[[1]]

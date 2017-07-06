@@ -32,8 +32,8 @@ A data frame with the following columns:
 \item{per.spikes.in.burst}{\% of spikes in a burst}
 \item{per.spikes.out.burst}{\% of spikes not in a burst}
 \item{mean.si}{mean Surprise Index (only for poisson .surprise measure)}
-\item{mean.isis}{mean ISI within a burst}
-\item{sd.mean.isis}{sd}  
+\item{mean_isis}{mean ISI within a burst}
+\item{sd.mean_isis}{sd}  
 \item{mean.IBIs}{mean IBI}
 \item{sd.IBIs}{sd}
 \item{cv.IBIs}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}

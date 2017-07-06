@@ -6,9 +6,9 @@ load.spikelist <- function(spkDataFile) {
 # remake this function so that it can read .RData objects
 .Robject.read.spikes <- function(spkDataFile,
   ids = NULL,
-  time.interval = 1,
+  time_interval = 1,
   beg = NULL,
-  end = NULL, corr.breaks) {
+  end = NULL, corr_breaks) {
 
   temp <- load(spkDataFile) # temp contains objects in loaded workspace
   data <- get(temp)
@@ -16,10 +16,10 @@ load.spikelist <- function(spkDataFile) {
 
   arrayinfo <- .get.array.info(data)
   layout <- arrayinfo$layout
-  if (missing(corr.breaks)) {
-    corr.breaks <- arrayinfo$corr.breaks
+  if (missing(corr_breaks)) {
+    corr_breaks <- arrayinfo$corr_breaks
   }
-  s <- .construct.s(spikes, ids, time.interval, beg, end, corr.breaks,
+  s <- .construct_s(spikes, ids, time_interval, beg, end, corr_breaks,
     layout, filename = spkDataFile)
   s$dose <- data$dose
   s$treatment <- data$treatment
