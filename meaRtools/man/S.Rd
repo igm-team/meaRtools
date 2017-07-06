@@ -34,7 +34,7 @@ An example 'S' list object containing multiple fields describing 1 minute record
     \item{isis}{list of inter-spike interval (isi) (s) by channel}
     \item{mean_isis}{list of average isi by channel}
     \item{sd_isis}{list of standard deviation of isi by channel}
-    \item{well.stats}{data frame containing well level firing rate information}
+    \item{well_stats}{data frame containing well level firing rate information}
 
     }
 }
