@@ -17,8 +17,8 @@ An example 'S' list object containing multiple fields describing 1 minute record
     \item{meanfiringrate}{mean firing rate by channel}
     \item{file}{full path of file}
     \item{layout}{electrodes grid positions for all electrodes on plate}
-    \item{rates}{list with average count and firing per time.interval (s) as well as plate average}
-    \item{rec.time}{2 element vector of first and last spike time of recording}
+    \item{rates}{list with average count and firing per time_interval (s) as well as plate average}
+    \item{rec_time}{2 element vector of first and last spike time of recording}
     \item{goodwells}{well names for all wells meeting minimum firing criteria}
     \item{treatment}{treatments for each well}
     \item{size}{chemical compound size for each treatment}
@@ -32,8 +32,8 @@ An example 'S' list object containing multiple fields describing 1 minute record
     \item{bs}{burst summary, a data frame containing burst endpoints by electrode}
     \item{ns.all}{for each well, a list of network spike information}
     \item{isis}{list of inter-spike interval (isi) (s) by channel}
-    \item{mean.isis}{list of average isi by channel}
-    \item{sd.isis}{list of standard deviation of isi by channel}
+    \item{mean_isis}{list of average isi by channel}
+    \item{sd_isis}{list of standard deviation of isi by channel}
     \item{well.stats}{data frame containing well level firing rate information}
 
     }

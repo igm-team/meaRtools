@@ -187,7 +187,7 @@ IGM.plot.active.wells.network.spikes <- function(nspikes) {
 
 write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
   csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_ns.csv", sep = "")
-  div <- .get.div(s)
+  div <- .get_div(s)
   active.wells <- .active.wells.network.spikes(nspikes)$ns.all
   if (length(active.wells) > 0) {
     # sahar 10292014 - add genotype column and change newcol from 2 to 3
@@ -236,7 +236,7 @@ write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
       csvfile, sep = ",", append = FALSE, row.names = FALSE, col.names = FALSE)
     write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
     # recording time
-    write.table(paste("recording time (s): [", paste(s$rec.time[1], round(s$rec.time[2]), sep = " ,"),
+    write.table(paste("recording time (s): [", paste(s$rec_time[1], round(s$rec_time[2]), sep = " ,"),
       "]", sep = ""), csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
 
     write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)

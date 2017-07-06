@@ -132,8 +132,8 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
   # ++++++++++++++++++++++++++interval check
   if (is.null(interval.for.raster) || length(interval.for.raster) < 2) {
-    if (is.element("rec.time", names(s[[1]]))){
-      interval.for.raster <- c(s[[1]]$rec.time[1], s[[1]]$rec.time[2])
+    if (is.element("rec_time", names(s[[1]]))){
+      interval.for.raster <- c(s[[1]]$rec_time[1], s[[1]]$rec_time[2])
     } else {
       interval.for.raster <- c(min(unlist(lapply(s[[1]]$spikes, min))),
         max(unlist(lapply(s[[1]]$spikes, max))))
@@ -143,31 +143,31 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
   if (any(is.na(interval.for.raster))) {
     if (is.na(interval.for.raster[1])) {
-      interval.for.raster[1] <- s[[1]]$rec.time[1]
+      interval.for.raster[1] <- s[[1]]$rec_time[1]
     }
     if (is.na(interval.for.raster[2])) {
-      interval.for.raster[2] <- s[[1]]$rec.time[2]
+      interval.for.raster[2] <- s[[1]]$rec_time[2]
     }
   }
   # error check on times chosen
   if (0 > interval.for.raster[1]) {
-    interval.for.raster[1] <- s[[1]]$rec.time[1]
+    interval.for.raster[1] <- s[[1]]$rec_time[1]
     print(paste("Beginning of raster interval preceeds recording start",
       "resetting start of raster interval to start of recording",
       sep = "\n"))
 
   }
 
-  if (ceiling(s[[1]]$rec.time[2]) < interval.for.raster[2]) {
-    interval.for.raster[2] <- s[[1]]$rec.time[2]
+  if (ceiling(s[[1]]$rec_time[2]) < interval.for.raster[2]) {
+    interval.for.raster[2] <- s[[1]]$rec_time[2]
 
     print(paste("End of raster interval exceeds recording end",
       "resetting end of raster interval to end of recoding",
       sep = "\n"))
 
   }
-  if (ceiling(s[[1]]$rec.time[2]) < interval.for.raster[1]) {
-    interval.for.raster[1] <- s[[1]]$rec.time[1]
+  if (ceiling(s[[1]]$rec_time[2]) < interval.for.raster[1]) {
+    interval.for.raster[1] <- s[[1]]$rec_time[1]
 
     print(paste("Start of raster interval exceeds recording end",
       "resetting end of raster interval to end of recoding",
@@ -176,7 +176,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
   }
 
   if (interval.for.raster[2] < interval.for.raster[1]) {
-    interval.for.raster <- c(ceiling(s[[1]]$rec.time[1]), floor(s[[1]]$rec.time[2]))
+    interval.for.raster <- c(ceiling(s[[1]]$rec_time[1]), floor(s[[1]]$rec_time[2]))
 
   }
 

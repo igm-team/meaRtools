@@ -52,7 +52,7 @@
     ns <- list()
     ns$brief <- c(n = NA, peak.m = NA, peak.sd = NA, durn.m = NA, durn.sd = NA)
   } else {
-    counts <- .spikes.to.count2(s$spikes[indexes], time.interval = ns.T)
+    counts <- .spikes.to.count2(s$spikes[indexes], time_interval = ns.T)
     p <- .find.peaks(counts, ns.N)
     ns <- list(counts = counts, ns.N = ns.N, ns.T = ns.T)
     class(ns) <- "ns"
@@ -75,14 +75,14 @@
 }
 
 .spikes.to.count2 <- function(spikes,
-  time.interval=1, # time bin of 1sec.
+  time_interval=1, # time bin of 1sec.
   beg=floor(min(unlist(spikes))),
   end=ceiling(max(unlist(spikes)))
   ) 
 {
   ## Convert the spikes for each cell into a firing rate (in Hz)
   ## We count the number of spikes within time bins of duration
-  ## time.interval (measured in seconds).
+  ## time_interval (measured in seconds).
   ## 
   ## Currently cannot specify BEG or END as less than the
   ## range of spike times else you get an error from hist().  The
@@ -94,8 +94,8 @@
   ## Each bin is of the form [t, t+dt) I believe, as shown by:
   ## .spikes.to.count2(list( c(0, 6.9), c( 2, 4)))
 
-  ## time.breaks <- seq(from=beg, to=end, by=time.interval)
-  nbins <- ceiling((end - beg) / time.interval)
+  ## time.breaks <- seq(from=beg, to=end, by=time_interval)
+  nbins <- ceiling((end - beg) / time_interval)
 
   nspikes <- sapply(spikes, length) # already computed elsewhere!
 
@@ -103,11 +103,11 @@
     as.double(unlist(spikes)),
     as.integer(nspikes),
     as.integer(length(nspikes)),
-    as.double(beg), as.double(end), as.double(time.interval),
+    as.double(beg), as.double(end), as.double(time_interval),
     as.integer(nbins),
     counts = integer(nbins))
   ## Return counts as a time series.
-  res <- ts(data = z$counts, start = beg, deltat = time.interval)
+  res <- ts(data = z$counts, start = beg, deltat = time_interval)
 
   res
 }

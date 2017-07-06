@@ -1,5 +1,5 @@
-\name{IGM.compute.mean.firingrate.by.well}
-\alias{IGM.compute.mean.firingrate.by.well}
+\name{compute_mean_firingrate_by_well}
+\alias{compute_mean_firingrate_by_well}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 mean.firingrate.by.well
@@ -8,7 +8,7 @@ mean.firingrate.by.well
 Creates a data frame with columns for well firing rate, mean electrode firing rate, well name and DIV.  See details for computations.
 }
 \usage{
-IGM.compute.mean.firingrate.by.well(s)
+compute_mean_firingrate_by_well(s)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,7 +23,7 @@ Electrode level firing rate= average across all electrodes in a well( total spik
 \examples{
 data("S") 
 
-res<-IGM.compute.mean.firingrate.by.well(S)
+res<-compute_mean_firingrate_by_well(S)
 res[1:4,]
 
 }

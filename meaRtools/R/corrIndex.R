@@ -238,7 +238,7 @@
     as.integer(n),
     as.integer(nspikes),
     as.integer(first.spike),
-    as.double(s$rec.time),
+    as.double(s$rec_time),
     as.double(dt),
     res = double(n * n))
 

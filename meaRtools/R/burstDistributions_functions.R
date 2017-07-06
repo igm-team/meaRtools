@@ -32,7 +32,7 @@ calc.burst.distributions <- function(s, minVals=1, xlimit=25, binsInSec=5,
 
   stopifnot(feature != "non")
   ma5 <- c(rep(1, 5)) / 5
-  duration <- s$rec.time[2] - s$rec.time[1]
+  duration <- s$rec_time[2] - s$rec_time[1]
 
   write(paste("->->-> Analysing ", s$file, sep = ""), file = logFile, append = TRUE)
 

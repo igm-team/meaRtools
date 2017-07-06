@@ -146,14 +146,14 @@
     xlim <- c(0, 8000)
     ylim <- c(0, 6000)
     spacing <- 200
-    corr.breaks <- 0 # TODO; by default, do no breaks!
+    corr_breaks <- 0 # TODO; by default, do no breaks!
   }
 
   array <- as.character(array)
   layout <- list(xlim = xlim, ylim = ylim, spacing = spacing,
     pos = pos, array = array)
   class(layout) <- "mealayout"
-  list(layout = layout, corr.breaks = corr.breaks)
+  list(layout = layout, corr_breaks = corr_breaks)
 }
 
 .filter.channel.names <- function(spikes, ids) {

@@ -55,8 +55,8 @@ calculate_entropy_and_mi <- function(mea, treatments,
   # iterate through all wells, get all pairwise mutual
   # information scores for each well
   dists_list <- list()
-  t_0 <- mea$rec.time[1]
-  t_end <- mea$rec.time[2]
+  t_0 <- mea$rec_time[1]
+  t_end <- mea$rec_time[2]
   if (length(wellnames) == 0) {
     wellnames <- mea$well
   }
@@ -374,8 +374,8 @@ calculate_entropy_and_mi <- function(mea, treatments,
 .entropy_electrode <- function(mea, elec_name, bin_size=NA) {
   # return calculated entropy value for inputted elctrode name
   spikes <- mea$spikes[[elec_name]]
-  t_0 <- mea$rec.time[1]
-  t_end <- mea$rec.time[2]
+  t_0 <- mea$rec_time[1]
+  t_end <- mea$rec_time[2]
   spikes_pdist <- .pdist_electrode_spikes(spikes, t_0, t_end,
     bin_size = bin_size)
   ent <- .entropy(spikes_pdist, normalized_uniform = T)
