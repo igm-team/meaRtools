@@ -1,14 +1,14 @@
-\name{write.plate.summary.for.spikes}
-\alias{write.plate.summary.for.spikes}
+\name{write_plate_summary_for_spikes}
+\alias{write_plate_summary_for_spikes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-write.plate.summary.for.spikes
+write_plate_summary_for_spikes
 }
 \description{
 Produces csv output related to firing rate by DIV to directory of user specified output directory
 }
 \usage{
-write.plate.summary.for.spikes(s, outputdir)
+write_plate_summary_for_spikes(s, outputdir)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,6 +31,6 @@ data("S")
 s<-list()
 s[[1]]<-S
 ## path<-system.file()
-## write.plate.summary.for.spikes(s , path)
+## write_plate_summary_for_spikes(s , path)
 }
 \keyword{ spikes }

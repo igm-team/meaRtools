@@ -394,7 +394,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
 .plot.spike.list <- function(s, whichcells = NULL, beg = min(unlist(s$spikes), na.rm = TRUE),
   end = max(unlist(s$spikes), na.rm = TRUE), label.cells = FALSE,
   show.burst.number=F ,
-  use.names = TRUE, show.bursts = FALSE, main = NULL, ylab = "Unit",
+  use_names = TRUE, show.bursts = FALSE, main = NULL, ylab = "Unit",
   xlab = "Time (s)", for.figure = FALSE, show.episodes, episode.y = - 0.01,
   ...) {
   if (length(whichcells) > 0 && is.numeric(whichcells[1])) {
@@ -455,7 +455,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
   }
   if (label.cells) {
     allys <- seq(from = yminadd / 2, by = yminadd, length = N)
-    if (use.names) {
+    if (use_names) {
       labels <- names(spikes)[whichcells]
     }
     else {

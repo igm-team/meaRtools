@@ -1,5 +1,5 @@
-\name{IGM.plot.plate.summary.for.spikes}
-\alias{IGM.plot.plate.summary.for.spikes}
+\name{plot_plate_summary_for_spikes}
+\alias{plot_plate_summary_for_spikes}
 \title{
 plot.plate.summary.for.spikes
 }
@@ -7,7 +7,7 @@ plot.plate.summary.for.spikes
 Diana needs to add document here.
 }
 \usage{
-IGM.plot.plate.summary.for.spikes(s, outputdir)
+plot_plate_summary_for_spikes(s, outputdir)
 }
 \arguments{
   \item{s}{

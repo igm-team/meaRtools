@@ -1,5 +1,5 @@
-\name{IGM.plot.mean.firingrate.by.well.by.div}
-\alias{IGM.plot.mean.firingrate.by.well.by.div}
+\name{plot_mean_firingrate_by_well_by_div}
+\alias{plot_mean_firingrate_by_well_by_div}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 plot.mean.firingrate.by.well.by.div
@@ -8,7 +8,7 @@ plot.mean.firingrate.by.well.by.div
 Displays average firing rate by well for each DIV available.  First plot well rate in average Hz/electrode and second plot is Hz/total spikes well.
 }
 \usage{
-IGM.plot.mean.firingrate.by.well.by.div(s)
+plot_mean_firingrate_by_well_by_div(s)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

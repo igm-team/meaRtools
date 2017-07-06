@@ -1,5 +1,5 @@
-\name{IGM.plot.mean.firingrate.by.eletrode.by.div}
-\alias{IGM.plot.mean.firingrate.by.eletrode.by.div}
+\name{plot_mean_firingrate_by_eletrode_by_div}
+\alias{plot_mean_firingrate_by_eletrode_by_div}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 plot.mean.firingrate.by.eletrode.by.div
@@ -8,7 +8,7 @@ plot.mean.firingrate.by.eletrode.by.div
 Displays average firing rate by well and by electrode for each DIV available.   
 }
 \usage{
-IGM.plot.mean.firingrate.by.eletrode.by.div(s)
+plot_mean_firingrate_by_eletrode_by_div(s)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -217,10 +217,10 @@ At this point you might wonder how to produce burst feature distributions that m
 ```{r}
 
 # print spikes graphs (pdf format) for each recording
-IGM.plot.plate.summary.for.spikes(s,analysis$output.perDIV.dir)
+plot_plate_summary_for_spikes(s,analysis$output.perDIV.dir)
 
 # write spike feature tables for each recording
-suppressWarnings(write.plate.summary.for.spikes(s,analysis$output.perDIV.dir))
+suppressWarnings(write_plate_summary_for_spikes(s,analysis$output.perDIV.dir))
 ```
 
 ### printing burst data

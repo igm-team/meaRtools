@@ -4,7 +4,7 @@ IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
     burstPlotPath = paste(outputdir, "/", basename, "_burst_plot.pdf", sep = "")
     pdf(file = burstPlotPath)
     # layout
-    p <- .plot.mealayout(s[[i]]$layout, use.names = T, cex = 0.25)
+    p <- .plot_mealayout(s[[i]]$layout, use_names = T, cex = 0.25)
     title(main = paste(paste("Electrode Layout"),
       paste("file= ", strsplit(basename(s[[i]]$file), ".RData")[[1]][1], sep = ""),
       sep = "\n"))
@@ -57,8 +57,8 @@ IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
         min.electrodes = parameters$well.min.rate, parameters$timeStamp)}
 
     # MFR
-    p <- .plot.meanfiringrate(s[[i]], main = "Mean Firing Rate by Plate (Hz)")
-    # p<- plot(s[[i]], main = "", label.cells = FALSE, use.names = FALSE)
+    p <- .plot_meanfiringrate(s[[i]], main = "Mean Firing Rate by Plate (Hz)")
+    # p<- plot(s[[i]], main = "", label.cells = FALSE, use_names = FALSE)
 
     p <- .channel.plot.by.well(s[[i]], resp = "meanfiringrate", resp.label = "Mean Firing Rate (Hz)")
     # Mean Duration
