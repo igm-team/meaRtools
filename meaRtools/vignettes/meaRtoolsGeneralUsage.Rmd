@@ -37,12 +37,12 @@ Before we can perform the analysis we need to locate the recording spikeList.csv
 ```{r}
 
 # set path to "_spike_list.csv" files from the file path in 'filesPath'
-spkListFiles<-c(system.file("extdata","exampleRecording_1012016_plate1_DIV1_spike_list.csv.gz",package = "meaRtools"),
+spk_list_files<-c(system.file("extdata","exampleRecording_1012016_plate1_DIV1_spike_list.csv.gz",package = "meaRtools"),
                 system.file("extdata","exampleRecording_1012016_plate1_DIV3_spike_list.csv.gz",package = "meaRtools"),
                 system.file("extdata","exampleRecording_1012016_plate1_DIV4_spike_list.csv.gz",package = "meaRtools"))
 
 # set the recording layout file "_expLog.csv"
-ExperimentalLogFile <- system.file("extdata","exampleRecording_1012016_plate1_expLog.csv.gz",package = "meaRtools")
+experimental_log_file <- system.file("extdata","exampleRecording_1012016_plate1_expLog.csv.gz",package = "meaRtools")
 ```
 
 
@@ -52,26 +52,26 @@ Before starting the actual loading of the data, lets also set  input and output 
 
 ```{r}
 # The next command will get the directory of the csv files
-data.dir<-dirname(spkListFiles[1])
+data_dir<-dirname(spk_list_files[1])
 
-# create the output directory as /Analysis under the data.dir
-output.dir<-paste0( data.dir , "/Analysis" ) 
-suppressWarnings(  dir.create(output.dir) )
+# create the output directory as /Analysis under the data_dir
+output_dir<-paste0( data_dir , "/Analysis" ) 
+suppressWarnings(  dir.create(output_dir) )
 
 # create the output directory for single recording analysis 
-output.perDIV.dir<-paste0( data.dir , "/Analysis/outputPerDIV" ) 
-suppressWarnings(  dir.create(output.perDIV.dir) )
+output_perDIV_dir<-paste0( data_dir , "/Analysis/outputPerDIV" ) 
+suppressWarnings(  dir.create(output_perDIV_dir) )
 
 # create the output directory for R objects of analyzed recordings 
-r_object_dir<-paste0( data.dir , "/Analysis/R_Objects" )
+r_object_dir<-paste0( data_dir , "/Analysis/R_Objects" )
 suppressWarnings(  dir.create(r_object_dir) )
 
 # create the output directory for log files
-log.dir<-paste0( output.dir , "/LogFiles" ) 
+log.dir<-paste0( output_dir , "/LogFiles" ) 
 suppressWarnings(  dir.create(log.dir) )
 
 # For organization sake, set a list object to hold all output directories 
-analysis<-list(spikeFiles = spkListFiles, output.dir = output.dir, Routput.dir = r_object_dir, output.perDIV.dir = output.perDIV.dir)
+analysis<-list(spikeFiles = spk_list_files, output_dir = output_dir, Routput_dir = r_object_dir, output_perDIV_dir = output_perDIV_dir)
 
 ```
 
@@ -79,14 +79,14 @@ Now let's load the recordings and create the 'spike.list' class R object
 
 ```{r}
 # A loop to go over all three recording files
-for (i in 1:length(spkListFiles)){
+for (i in 1:length(spk_list_files)){
   #save title for output file name
-  title<-strsplit(basename(spkListFiles[i]), ".csv")[[1]][1]
+  title<-strsplit(basename(spk_list_files[i]), ".csv")[[1]][1]
   #load plate design info for each file in the list
-  plate_chem_info<-get.experimental.log.file(spkListFiles[i], ExperimentalLogFile)
+  plate_chem_info<-get.experimental.log.file(spk_list_files[i], experimental_log_file)
   
     # convert the spike list data to a 'spike.list' class Robject
-  analysis$Robject[i]<-read_spikelist(key=title, spk_list_file=spkListFiles[i],          chem_info=plate_chem_info,r_object_dir=r_object_dir) 
+  analysis$Robject[i]<-read_spikelist(key=title, spk_list_file=spk_list_files[i],          chem_info=plate_chem_info,r_object_dir=r_object_dir) 
 }
 ```
 
@@ -126,7 +126,7 @@ s<-calculate_burst_features(s)
 
 for (i in 1:length(s)) {
   s[[i]] <- calculate_isis(s[[i]])
-  s[[i]]$well.stats <- compute_mean_firingrate_by_well(s[[i]])
+  s[[i]]$well_stats <- compute_mean_firingrate_by_well(s[[i]])
 }
 
 ```
@@ -165,10 +165,10 @@ For extracting the features into the 'spike.list' object, we use IGM.summary.net
 for (i in 1:length(s)) {
 
   #Calculate Network Spikes
-  nspikes.old <- calculate.network.spikes(s[[i]],parameters$sur, parameters$ns.N, parameters$ns.T)
+  nspikes_old <- calculate.network.spikes(s[[i]],parameters$sur, parameters$ns.N, parameters$ns.T)
   
   # Extract network spike features that will be printed later
-  nspikes <- summarize.network.spikes(s[[i]],nspikes.old,ns.E = 1, parameters$sur)
+  nspikes <- summarize.network.spikes(s[[i]],nspikes_old,ns.E = 1, parameters$sur)
   
   # Add network spike data to the 'spike.list' object
   s[[i]]$ns.all<-nspikes$ns.all
@@ -217,36 +217,36 @@ At this point you might wonder how to produce burst feature distributions that m
 ```{r}
 
 # print spikes graphs (pdf format) for each recording
-plot_plate_summary_for_spikes(s,analysis$output.perDIV.dir)
+plot_plate_summary_for_spikes(s,analysis$output_perDIV_dir)
 
 # write spike feature tables for each recording
-suppressWarnings(write_plate_summary_for_spikes(s,analysis$output.perDIV.dir))
+suppressWarnings(write_plate_summary_for_spikes(s,analysis$output_perDIV_dir))
 ```
 
 ### printing burst data
 
-As promised, the burst feature distributions are already calculated by the burst printing functions, since they are extracted from calculated burst features. The distribution features are calculated for five burst features : burst duration, IBI, nspikes (number of spikes in a burst), spikeFreq (Hz) and ISI within bursts. When running IGM.plot.plate.summary.for.bursts, the function calls calc.burst.distributions to calculate and plot those distributions for each loaded recording. The default parameters object loaded earlier, holds five objects with 7 arguments for the five distribution features: 
+As promised, the burst feature distributions are already calculated by the burst printing functions, since they are extracted from calculated burst features. The distribution features are calculated for five burst features : burst duration, IBI, nspikes (number of spikes in a burst), spikeFreq (Hz) and ISI within bursts. When running plot_plate_summary_for_bursts, the function calls calc.burst.distributions to calculate and plot those distributions for each loaded recording. The default parameters object loaded earlier, holds five objects with 7 arguments for the five distribution features: 
 
-min.cases - the minimum number of bursts for performing the analysis
+min_cases - the minimum number of bursts for performing the analysis
 
-x.lim - the maximum value of that feature. In this example, we perform distribution analysis for IBI. The xlimit is 20, which means that the longest IBI taken into account here would be 20s long. 
+x_axis_lim - the maximum value of that feature. In this example, we perform distribution analysis for IBI. The xlimit is 20, which means that the longest IBI taken into account here would be 20s long. 
 
-bins.in.seg - the bins in each second of IBI. Here bins.in.seg is set to 5, meaning that the IBI distribution will  be cut into 0.2s bins in a maximum of 20s. Thus, the final distribution will be made of 100 bins of 0.2s.
+bins_in_sec - the bins in each second of IBI. Here bins_in_sec is set to 5, meaning that the IBI distribution will  be cut into 0.2s bins in a maximum of 20s. Thus, the final distribution will be made of 100 bins of 0.2s.
 
-filter.by.min - a binary, to decide whether bursts should be filtered by a minimum value (default is 0) 
+filter_by_min - a binary, to decide whether bursts should be filtered by a minimum value (default is 0) 
 
-min.values - the actual minimum IBI to filter by. 
+min_values - the actual minimum IBI to filter by. 
 
-per.well - a binary argument, 1: the algorithm will group electrodes by well, and then group wells by treatment and 0 (default): electrodes will be grouped directly by treatment. 
+per_well - a binary argument, 1: the algorithm will group electrodes by well, and then group wells by treatment and 0 (default): electrodes will be grouped directly by treatment. 
 
 perform - a binary argument meant to decide whether this distribution analysis should be performed at all. While   the default is to perform all five distributions, in this example we perform only the IBI distribution analysis    for all three recordings.
 
 ```{r}
 # plot burst pdfs for each recording
-suppressWarnings(IGM.plot.plate.summary.for.bursts(s,analysis$output.perDIV.dir,parameters))
+suppressWarnings(plot_plate_summary_for_bursts(s,analysis$output_perDIV_dir,parameters))
 
 # write burst feature tables for each recording
-write.plate.summary.for.bursts(s,analysis$output.perDIV.dir)
+write_plate_summary_for_bursts(s,analysis$output_perDIV_dir)
 ```
 
 ### printing network spikes data
@@ -260,15 +260,15 @@ basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
 
 #Use the next commands for plotting all the ns graphs. Try opening a pdf file so that all will be printed to the same file (which is automatically done for burst features):
 
-pdf(file=paste0(analysis$output.perDIV.dir,"/ns_plot.pdf"))
+pdf(file=paste0(analysis$output_perDIV_dir,"/ns_plot.pdf"))
 IGM.xyplot.network.spikes(nspikes)	
-IGM.plot.active.wells.network.spikes(nspikes)
+plot_active_wells_network_spikes(nspikes)
 dev.off()
 
 # write network spike data to output file
-write.network.spikes.to.csv(s[[i]],nspikes,analysis$output.perDIV.dir)
+write.network.spikes.to.csv(s[[i]],nspikes,analysis$output_perDIV_dir)
 
-# Check the graphs and csvs printed under the analysis$output.perDIV.dir path
+# Check the graphs and csvs printed under the analysis$output_perDIV_dir path
 ```
 
 ## Aggregating recordings
@@ -276,9 +276,9 @@ write.network.spikes.to.csv(s[[i]],nspikes,analysis$output.perDIV.dir)
 One of the strong advantages of meaRtools is it's ability to combine the information from all the loaded recordings and use all of it when comparing between treatments. The following commands aggregate the data for spikes, bursts and network spikes. Network burst features were already aggregated automatically when we ran NB.matrix.to.feature.dfs.
 
 ```{r}
-spike.features = IGM.aggregate.features(s, "spike",parameters)
-ns.features = IGM.aggregate.features(s, "ns",parameters)
-burst.features = IGM.aggregate.features(s, "burst",parameters)
+spike.features = aggregate_features(s, "spike",parameters)
+ns.features = aggregate_features(s, "ns",parameters)
+burst.features = aggregate_features(s, "burst",parameters)
 
 # printing spike features nAE
 spike.features$nAE
@@ -296,10 +296,10 @@ nae <- spike.features$nAE
 nae[is.na(nae)] <- 0
 
 # filter spike wells
-spike.features = lapply(spike.features, function(x) filter.wells( x, nae, parameters$well_min_rate, parameters$well.filter.maximum.DIV.inactive.ratio))
+spike.features = lapply(spike.features, function(x) filter_wells( x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio))
 
 # filter network burst wells
-nb.features <- lapply(nb.features, function(x) filter.wells(x, nae, parameters$well_min_rate, parameters$well.filter.maximum.DIV.inactive.ratio ))
+nb.features <- lapply(nb.features, function(x) filter_wells(x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio ))
 # re-order features by well name
 nb.features <- lapply(nb.features, function(x) x[order(x[,'well']),])
 
@@ -316,10 +316,10 @@ We can now easily print all the aggregated tables of all the extracted features 
 
 ```{r}
 #write csvs 
-write.features.to.files(s, spike.features, analysis$output.dir, "spikes")
-write.features.to.files(s, burst.features, analysis$output.dir, "bursts")
-write.features.to.files(s, ns.features, analysis$output.dir, "ns")
-write.features.to.files(s, nb.features, analysis$output.dir, "nb")
+write_features_to_files(s, spike.features, analysis$output_dir, "spikes")
+write_features_to_files(s, burst.features, analysis$output_dir, "bursts")
+write_features_to_files(s, ns.features, analysis$output_dir, "ns")
+write_features_to_files(s, nb.features, analysis$output_dir, "nb")
 ```
 
 ## Testing for differences between treatments
@@ -328,22 +328,22 @@ The example recordings have three treatments (groups): treatX, treatY and untrea
 
 ```{r}
 
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, spike.features, "spikes", analysis$output.dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, burst.features, "bursts", analysis$output.dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, ns.features, "ns", analysis$output.dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, nb.features, "nb", analysis$output.dir))
+suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, spike.features, "spikes", analysis$output_dir))
+suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, burst.features, "bursts", analysis$output_dir))
+suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, ns.features, "ns", analysis$output_dir))
+suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, nb.features, "nb", analysis$output_dir))
 
 ```
 
-At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of all three recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist.perm. The function requires a distribution file for each burst feature, which are automatically printed by calc.burst.distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist.perm also required the number of permutations to perform and the two treatments to be compared. Dist.perm returns an objects with the following information: 
+At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of all three recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist_perm. The function requires a distribution file for each burst feature, which are automatically printed by calc.burst.distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist_perm also required the number of permutations to perform and the two treatments to be compared. dist_perm returns an objects with the following information: 
 - two  distributions of the feature, one per each treatment, combined for all the recordings, the 
 - two comulative distributions, as as the above
 - p-values for the distribution differences (Earth Mover's Distance) and comulative distribution differences (Maximum Distance, please see meaRtools manuscript for full details)
 - permutation p-values for each distribution
 - original maximum distance and EMD value
-The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist.perm returned object and plotted as follows:
+The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist_perm returned object and plotted as follows:
 ```{r}
-result <- suppressWarnings(dist.perm(paste0(dirname(spkListFiles[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
+result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
 
 plot(result$data.wt.Original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
 points(result$data.ko.Original,col="green",type="l",lwd=3)
@@ -355,7 +355,7 @@ mtext(side = 1, at = 0, line = 4,
 And the cumulative distribution with it's corrsponding MD p-value can be extracted as follows:
     
 ```{r}
-suppressWarnings(result <- dist.perm(paste0(dirname(spkListFiles[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
+suppressWarnings(result <- dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
 
 plot(result$data.wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
 points(result$data.ko,col="green",type="l",lwd=3)

@@ -303,28 +303,28 @@
   }
 
 
-  feature.names <- character()
+  feature_names <- character()
   for (i in 1:length(Sigma)) {
-    feature.names <- c(feature.names, paste(rownames(current$data[[1]]$stat1), Sigma[i], sep = "_"))
+    feature_names <- c(feature_names, paste(rownames(current$data[[1]]$stat1), Sigma[i], sep = "_"))
   }
-  feature.names <- c(feature.names, colnames(current$data[[1]]$stat0))
+  feature_names <- c(feature_names, colnames(current$data[[1]]$stat0))
 
   df = data.frame(DIVs, Wells, Phenotypes, Data)
-  names(df)[4:dim(df)[2]] <- feature.names
+  names(df)[4:dim(df)[2]] <- feature_names
 
   divs <- sapply(df["DIVs"], as.character)
   df <- df[mixedorder(divs), ]
 
   result <- list() # return the result as matrix and un-altered feature names
   result$df <- df
-  result$feature.names <- feature.names
+  result$feature_names <- feature_names
 
   result
 }
 
 NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
   data <- Matrix_and_feature_names$df
-  feature.names <- Matrix_and_feature_names$feature.names
+  feature_names <- Matrix_and_feature_names$feature_names
   data <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   n.features <- dim(data)[2] - 3 # escape the first columns
   dfs <- list()
@@ -343,11 +343,11 @@ NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
     for (i in 1:n) {
       data.matrix[data[i, "Wells"], data[i, "DIVs"]] <- data[i, index + 3]
     }
-    dfs[[index]] <- .sort.df(cbind(Wells, data.matrix))
+    dfs[[index]] <- .sort_df(cbind(Wells, data.matrix))
     dfs[[index]][] <- lapply(dfs[[index]], as.character) # [] keep it as a data.frame
   }
   # names(dfs) <- colnames(data)[4:(n.features+3)]
-  names(dfs) <- feature.names
+  names(dfs) <- feature_names
   dfs
 }
 

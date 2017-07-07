@@ -208,41 +208,41 @@ get.wt <- function(s) {
   return(table.and.plot)
 }
 
-permute.features.and.plot <- function(s, wt, np, features.list, type, output.dir) {
+permute.features.and.plot <- function(s, wt, np, features_list, type, output_dir) {
   # Calls .apply.perm.and.plot() and writes PDF--each page contains a plot and
   #       table of p-values
   # 
   # Args:
   #   s object
   #   wt
-  #   features.list = list of dataframes containing feature data
+  #   features_list = list of dataframes containing feature data
   #   type = spikes, ns, or bursts
   # 
   # 
   # Returns:
   #   Writes a PDF
 
-  out.folder <- paste0(output.dir, "/", type)
-  dir.create(out.folder, showWarnings = FALSE)
+  out_folder <- paste0(output_dir, "/", type)
+  dir.create(out_folder, showWarnings = FALSE)
 
   platename <- get_project_plate_name(s[[1]]$file)
   fname <- paste(platename, "_", type, "_", "analysis", ".pdf", sep = "")
-  fpath <- paste(out.folder, "/", fname, sep = "")
+  fpath <- paste(out_folder, "/", fname, sep = "")
 
-  if ((nrow(features.list[[1]]) == 0)) 
+  if ((nrow(features_list[[1]]) == 0)) 
   {
     # empty wells
     return(NULL)
   }
-  if (length(unique(na.omit(features.list[[1]]$treatment))) == 0) {
+  if (length(unique(na.omit(features_list[[1]]$treatment))) == 0) {
     # No treatments
     return(NULL)
   }
 
   x = list()
-  for (i in 1:length(features.list)) {
-    feature = names(features.list[i])
-    perm.and.plot = .apply.perm.and.plot(wt, features.list[[i]], np, feature, platename)
+  for (i in 1:length(features_list)) {
+    feature = names(features_list[i])
+    perm.and.plot = .apply.perm.and.plot(wt, features_list[[i]], np, feature, platename)
     x[[feature]] = perm.and.plot
   }
 

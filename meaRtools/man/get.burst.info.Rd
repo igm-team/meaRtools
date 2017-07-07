@@ -1,11 +1,11 @@
-\name{get.burst.info}
-\alias{get.burst.info}
+\name{get_burst_info}
+\alias{get_burst_info}
 \title{
 get burst feature information }
 \description{
 The function returns a list of values of a burst feature for a desired channel}
 \usage{
-get.burst.info(allb, index)
+get_burst_info(allb, index)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

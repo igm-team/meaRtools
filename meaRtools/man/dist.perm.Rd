@@ -1,5 +1,5 @@
-\name{dist.perm}
-\alias{dist.perm}
+\name{dist_perm}
+\alias{dist_perm}
 \title{
 Burst distribution permutations
 }
@@ -7,7 +7,7 @@ Burst distribution permutations
 Perform two statistical tests to quantify difference between two burst probability distributions using burst probability distribution data. Performed test are the Maximum Distance between cumulative distributions and Earth Movers Distance between the original probability distributions.
 }
 \usage{
-dist.perm(datafile,np,type,kotype)
+dist_perm(datafile,np,type,kotype)
 }
 \arguments{
   \item{datafile}{ A _distributions.csv input file. Format as the output of calc.burst.distributions
@@ -34,7 +34,7 @@ A list containing results of two statistical tests for the input probability dis
 See https://redmine.igm.cumc.columbia.edu/projects/mea/wiki for further details
 }
 \examples{
-#    result <- dist.perm(distributionFilePath,10000,"WT","KO")
+#    result <- dist_perm(distributionFilePath,10000,"WT","KO")
 }
 \keyword{ distribution }
 \keyword{ permutation }

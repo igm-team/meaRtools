@@ -1,13 +1,13 @@
-\name{IGM.plot.active.wells.network.spikes}
-\alias{IGM.plot.active.wells.network.spikes}
+\name{plot_active_wells_network_spikes}
+\alias{plot_active_wells_network_spikes}
 \title{
-plot.active.wells.network.spikes
+plot_active_wells_network_spikes
 }
 \description{
 Plots related to network spike for each well with network spikes in format of users choosing.
 }
 \usage{
-IGM.plot.active.wells.network.spikes(nspikes)
+plot_active_wells_network_spikes(nspikes)
 }
 \arguments{
   \item{nspikes}{
@@ -30,7 +30,7 @@ data('parameters')
 nspikes <- calculate.network.spikes( S, parameters$sur ,parameters$ns.N, parameters$ns.T )
 ## pdf(file=NSPlotPath)
 ## xyplot.network.spikes(nspikes)	
-## plot.active.wells.network.spikes(nspikes)
+## plot_active_wells_network_spikes(nspikes)
 ## dev.off()
 
 }

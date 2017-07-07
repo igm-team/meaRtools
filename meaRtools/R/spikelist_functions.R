@@ -14,7 +14,7 @@ load_spikelist <- function(spk_data_file) {
   data <- get(temp)
   spikes <- data$spikes
 
-  arrayinfo <- .get.array.info(data)
+  arrayinfo <- .get_array_info(data)
   layout <- arrayinfo$layout
   if (missing(corr_breaks)) {
     corr_breaks <- arrayinfo$corr_breaks
@@ -59,12 +59,12 @@ calculate_burst_features <- function(s) {
       if (current$parameters$burst_type == "ps"){
         current$allb <- lapply(current$spikes, si_find_bursts,
                                s_min = current$parameters$s_min)
-        current$bs <- calc.burst.summary(current)
+        current$bs <- calc_burst_summary(current)
         current$bs$burst_type <- "ps"
       } else {
         current$allb <-
           lapply(current$spikes, mi.find.bursts, current$parameters$mi.par)
-        current$bs <- calc.burst.summary(current)
+        current$bs <- calc_burst_summary(current)
         current$bs$burst_type <- "mi"
       }
       s[[i]] <- current
@@ -162,10 +162,10 @@ calculate_burst_features <- function(s) {
   size <- chem_info$size
   dose <- chem_info$dose
   units <- chem_info$units
-  wells <- .axion.guess.well.number(channels)
+  wells <- .axion_guess_well_number(channels)
   array <- sprintf("Axion %d well", wells)
   plateinfo <- .plateinfo(array)
-  epos <- .axion.elec.name.to.xy(channels, plateinfo)
+  epos <- .axion_elec_name_to_xy(channels, plateinfo)
 
   s <- list()
   s$spikes <- spikes
@@ -199,9 +199,9 @@ read_spikelist <- function(key, spk_list_file, chem_info, r_object_dir) {
   spikes_sep <- lapply(f, .spk_list_2_list)
   short_filenames <- gsub("_spike_list.csv", "", basename(f))
 
-  summary.table <- t(sapply(spikes_sep, .axion.spikesum2))
+  summary.table <- t(sapply(spikes_sep, .axion_spike_sum))
   rownames(summary.table) <- short_filenames
-  ma <- do.call("rbind", lapply(spikes_sep, .axion.spikestodf))
+  ma <- do.call("rbind", lapply(spikes_sep, .axion_spikes_to_df))
   # s2 is a list with all the channels and spikes under each channel
   s2 <- split(ma$time, ma$elec)
   numelec <- length(s2)

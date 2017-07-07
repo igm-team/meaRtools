@@ -45,7 +45,7 @@
 .compute.ns <- function(s, ns.T, ns.N, sur=100, whichcells=NULL,
   plot=FALSE) {
 
-  indexes = .names.to.indexes(names(s$spikes), whichcells, allow.na = TRUE)
+  indexes = .names_to_indexes(names(s$spikes), whichcells, allow_na = TRUE)
   if (length(indexes) == 0) {
     ## No electrodes were found matching "whichcells"
     ## so just return brief information summarising no network activity.

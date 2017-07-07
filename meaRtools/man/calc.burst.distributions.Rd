@@ -6,7 +6,7 @@ The function calculates normalized distributions of selected bursting features a
 \usage{
 calc.burst.distributions(s, minVals = 1, xlimit = 25, binsInSec = 5, 
 feature = "non", filterValuesByMin = 0, minValues = 0, perWell = 0, outputdir = getwd(),
-min.electrodes=4, timeStamp="DATE_TIME")
+min_electrodes=4, timeStamp="DATE_TIME")
 }
 \arguments{
   \item{s}{
@@ -29,7 +29,7 @@ disregards values with lower then filterValuesByMin , only if filterValuesByMin 
 should distribution analysis be performed by testing treatment differences on well level means (1) or electrode level means(0) }
   \item{outputdir}{
 output directory}
-  \item{min.electrodes}{
+  \item{min_electrodes}{
 minimum electrodes for an active well}
   \item{timeStamp}{
 time stamp for the output files}

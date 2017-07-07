@@ -1,12 +1,12 @@
-\name{IGM.plot.plate.summary.for.bursts}
-\alias{IGM.plot.plate.summary.for.bursts}
+\name{plot_plate_summary_for_bursts}
+\alias{plot_plate_summary_for_bursts}
 \title{
 Plot burst features}
 \description{
 Plots all bursting features in a _burst_plot.pdf under the output directory.
 }
 \usage{
-IGM.plot.plate.summary.for.bursts(s, outputdir,parameters)
+plot_plate_summary_for_bursts(s, outputdir,parameters)
 }
 \arguments{
   \item{s}{
@@ -26,7 +26,7 @@ A _burst_plot.pdf is printed under the output directory
 }
 \examples{
 data("S")  
-#IGM.plot.plate.summary.for.bursts(S,"/Analysis")
+#plot_plate_summary_for_bursts(S,"/Analysis")
 }
 \keyword{ distribution }
 \keyword{ burst }

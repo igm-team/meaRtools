@@ -32,8 +32,8 @@ generate.raster.plot <- function(RobjectFile=NULL,
         s = list(); s[[1]] <- get(t)
         have.data = T
         analysis <- list()
-        analysis$output.dir <- dirname(RobjectFile)
-        analysis$Routput.dir <- dirname(RobjectFile)
+        analysis$output_dir <- dirname(RobjectFile)
+        analysis$Routput_dir <- dirname(RobjectFile)
       }
       if (counter == 4) {
         stop()
@@ -41,15 +41,15 @@ generate.raster.plot <- function(RobjectFile=NULL,
     }
   } else {
     analysis <- list()
-    analysis$output.dir <- dirname(RobjectFile)
-    analysis$Routput.dir <- dirname(RobjectFile)
+    analysis$output_dir <- dirname(RobjectFile)
+    analysis$Routput_dir <- dirname(RobjectFile)
     t = load(RobjectFile, verbose = T)
     s = list(); s[[1]] <- get(t)
     have.data = T
   }
 
   if (is.null(outputdir)){
-    outputdir = analysis$output.dir
+    outputdir = analysis$output_dir
   } else {
     dir.create(outputdir, showWarnings = FALSE)
   }
@@ -289,7 +289,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
 
   #### plot interesting responses for all files
-  RasterPlotPathTemp1 = paste0(analysis$output.dir, "/rasterPlot_",
+  RasterPlotPathTemp1 = paste0(analysis$output_dir, "/rasterPlot_",
     interval.for.raster[1], "_", interval.for.raster[2], "_",
     well.for.raster)
   if (show.bursts) {
@@ -400,7 +400,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
   if (length(whichcells) > 0 && is.numeric(whichcells[1])) {
     }
   else {
-    whichcells = .names.to.indexes(names(s$spikes), whichcells, allow.na = TRUE)
+    whichcells = .names_to_indexes(names(s$spikes), whichcells, allow_na = TRUE)
   }
   if (is.null(main)) {
     main <- basename(s$file)
