@@ -4,8 +4,8 @@
 
 ######################################################################
 
-.burst.info <- c("beg", "len", "SI", "durn", "mean_isis")
-.burst.info.len = length(.burst.info)
+.burst_info <- c("beg", "len", "SI", "durn", "mean_isis")
+.burst_info_len <- length(.burst_info)
 
 ##' Burst detection of MEA spike trains.
 ##'
@@ -30,7 +30,7 @@
 ##' If no bursts could be found within a spike train, the value NA is used
 ##' rather than an empty matrix.
 ##' @keywords Burst analysis, MEA analysis
-.spikes.to.bursts <- function(s, method="si") {
+.spikes_to_bursts <- function(s, method="si") {
   ## Entry function for burst analysis.
   ## Possible methods:
   ## "mi" - maxinterval
@@ -40,18 +40,17 @@
   ncells <- s$NCells
 
   if (method == "logisi") {
-    isi.low <- .logisi.compute(s)$Locmin
-    logisi.par$isi.low <- isi.low
+    isi_low <- .logisi.compute(s)$Locmin
+    logisi_par$isi_low <- isi_low
   }
 
   allb <- list()
   for (train in 1:ncells) {
-    ## cat(sprintf("** analyse train %d\n", train))
     spikes <- s$spikes[[train]]
 
-    bursts = switch(method,
+    bursts <- switch(method,
       "mi" = mi.find.bursts(spikes, s$parameters$mi.par),
-      "si" = si.find.bursts(spikes, s$parameters$s_min),
+      "si" = si_find_bursts(spikes, s$parameters$s_min),
       "logisi" = .logisi.find.burst(spikes),
       stop(method, " : no such method for burst analysis")
     )
@@ -62,29 +61,29 @@
   allb
 }
 
-si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
-  debug = FALSE
-  no.bursts = matrix(nrow = 0, ncol = 1)
-  nspikes = length(spikes)
-  mean_isi = mean(diff(spikes))
-  threshold = mean_isi / 2
-  n = 1
-  max.bursts <- floor(nspikes / 3)
-  bursts <- matrix(NA, nrow = max.bursts, ncol = .burst.info.len)
+si_find_bursts <- function(spikes, s_min, burst_isi_max = NULL) {
+  debug <- FALSE
+  no_bursts <- matrix(nrow = 0, ncol = 1)
+  nspikes <- length(spikes)
+  mean_isi <- mean(diff(spikes))
+  threshold <- mean_isi / 2
+  n <- 1
+  max_bursts <- floor(nspikes / 3)
+  bursts <- matrix(NA, nrow = max_bursts, ncol = .burst_info_len)
   burst <- 0
   while (n < nspikes - 2) {
-    if (debug) 
-    print(n)
-    if (((spikes[n + 1] - spikes[n]) < threshold) &&
-      ((spikes[n + 2] - spikes[n + 1]) < threshold)) {
-        res <- .si.find.burst2(n, spikes, nspikes, mean_isi,
-          burst.isi.max, debug, s_min)
+    if (debug)
+       print(n)
+    if ((threshold > (spikes[n + 1] - spikes[n])) &&
+      (threshold > (spikes[n + 2] - spikes[n + 1]))) {
+        res <- .si_find_burst2(n, spikes, nspikes, mean_isi,
+          burst_isi_max, debug, s_min)
         if (is.na(res[1])) {
           n <- n + 1
         }
         else {
           burst <- burst + 1
-          if (burst > max.bursts) {
+          if (burst > max_bursts) {
             print("too many bursts")
             browser()
           }
@@ -94,33 +93,32 @@ si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
         }
       }
       else {
-      n = n + 1
+      n <- n + 1
     }
   }
   if (burst > 0) {
     res <- bursts[1:burst, , drop = FALSE]
-    colnames(res) <- .burst.info
+    colnames(res) <- .burst_info
   } else {
-    res <- no.bursts # NA
+    res <- no_bursts # NA
     return(res) # return if there's no bursts
   }
   # res
-  # get IBI
+  # get ibi
   end <- res[, "len"] + res[, "beg"] - 1
-  IBI <- NA
+  ibi <- NA
   for (cur.b in 2:length(end)) {
-    IBI <- c(IBI, spikes[end[cur.b]] - spikes[end[cur.b - 1] ])
+    ibi <- c(ibi, spikes[end[cur.b]] - spikes[end[cur.b - 1]])
   }
-  # res2 <- matrix(nrow = length(end), ncol = 7)
-  res2 <- cbind(res[, "beg"], end, IBI,
+  res2 <- cbind(res[, "beg"], end, ibi,
     res[, "len"], res[, "durn"], res[, "mean_isis"], res[, "SI"])
-  colnames(res2) <- c("beg", "end", "IBI", "len", "durn", "mean_isis", "SI")
+  colnames(res2) <- c("beg", "end", "ibi", "len", "durn", "mean_isis", "SI")
 
   res2
 }
 
 
-.si.find.burst2 <- function(n, spikes, nspikes, mean_isi, threshold=NULL,
+.si_find_burst2 <- function(n, spikes, nspikes, mean_isi, threshold=NULL,
   debug=FALSE, s_min=5) {
   ## Find a burst starting at spike N.
   ## Include a better phase 1.
@@ -144,7 +142,7 @@ si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
   ## in Phase1, check that we still have spikes to add to the train.
   while (phase1) {
 
-    i.cur <- i
+    i_cur <- i
 
     ## CHECK controls how many spikes we can look ahead until SI is maximised.
     ## This is normally 10, but will be less at the end of the train.
@@ -171,7 +169,7 @@ si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
         looking <- FALSE
       } else {
         ## See if we should keep adding spikes?
-        if ((spikes[i] - spikes[i - 1]) > isi_thresh) {
+        if (isi_thresh < (spikes[i] - spikes[i - 1])) {
           looking <- FALSE
         }
 
@@ -188,7 +186,7 @@ si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
     } else {
       ## Could not add more spikes onto the end of the train.
       phase1 <- FALSE
-      i <- i.cur
+      i <- i_cur
     }
   }
 
@@ -235,7 +233,7 @@ si.find.bursts <- function(spikes, s_min, burst.isi.max = NULL) {
 
   } else {
     ## burst did not have high enough SI.
-    res <- rep(NA, .burst.info.len)
+    res <- rep(NA, .burst_info_len)
   }
   res
 

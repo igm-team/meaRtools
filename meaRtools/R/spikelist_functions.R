@@ -57,7 +57,7 @@ calculate_burst_features <- function(s) {
     current <- s[[i]]
     if (length(current$nspikes) > 0) {
       if (current$parameters$burst_type == "ps"){
-        current$allb <- lapply(current$spikes, si.find.bursts,
+        current$allb <- lapply(current$spikes, si_find_bursts,
                                s_min = current$parameters$s_min)
         current$bs <- calc.burst.summary(current)
         current$bs$burst_type <- "ps"
