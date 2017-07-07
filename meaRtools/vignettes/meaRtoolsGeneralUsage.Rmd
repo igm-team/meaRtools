@@ -63,15 +63,15 @@ output.perDIV.dir<-paste0( data.dir , "/Analysis/outputPerDIV" )
 suppressWarnings(  dir.create(output.perDIV.dir) )
 
 # create the output directory for R objects of analyzed recordings 
-Robject.dir<-paste0( data.dir , "/Analysis/R_Objects" )
-suppressWarnings(  dir.create(Robject.dir) )
+r_object_dir<-paste0( data.dir , "/Analysis/R_Objects" )
+suppressWarnings(  dir.create(r_object_dir) )
 
 # create the output directory for log files
 log.dir<-paste0( output.dir , "/LogFiles" ) 
 suppressWarnings(  dir.create(log.dir) )
 
 # For organization sake, set a list object to hold all output directories 
-analysis<-list(spikeFiles = spkListFiles, output.dir = output.dir, Routput.dir = Robject.dir, output.perDIV.dir = output.perDIV.dir)
+analysis<-list(spikeFiles = spkListFiles, output.dir = output.dir, Routput.dir = r_object_dir, output.perDIV.dir = output.perDIV.dir)
 
 ```
 
@@ -83,10 +83,10 @@ for (i in 1:length(spkListFiles)){
   #save title for output file name
   title<-strsplit(basename(spkListFiles[i]), ".csv")[[1]][1]
   #load plate design info for each file in the list
-  plate.chem.info<-get.experimental.log.file(spkListFiles[i], ExperimentalLogFile)
+  plate_chem_info<-get.experimental.log.file(spkListFiles[i], ExperimentalLogFile)
   
     # convert the spike list data to a 'spike.list' class Robject
-  analysis$Robject[i]<-read.spikelist(key=title, spkListFile=spkListFiles[i],    chem.info=plate.chem.info,Robject.dir=Robject.dir) 
+  analysis$Robject[i]<-read_spikelist(key=title, spk_list_file=spkListFiles[i],          chem_info=plate_chem_info,r_object_dir=r_object_dir) 
 }
 ```
 
@@ -296,10 +296,10 @@ nae <- spike.features$nAE
 nae[is.na(nae)] <- 0
 
 # filter spike wells
-spike.features = lapply(spike.features, function(x) filter.wells( x, nae, parameters$well.min.rate, parameters$well.filter.maximum.DIV.inactive.ratio))
+spike.features = lapply(spike.features, function(x) filter.wells( x, nae, parameters$well_min_rate, parameters$well.filter.maximum.DIV.inactive.ratio))
 
 # filter network burst wells
-nb.features <- lapply(nb.features, function(x) filter.wells(x, nae, parameters$well.min.rate, parameters$well.filter.maximum.DIV.inactive.ratio ))
+nb.features <- lapply(nb.features, function(x) filter.wells(x, nae, parameters$well_min_rate, parameters$well.filter.maximum.DIV.inactive.ratio ))
 # re-order features by well name
 nb.features <- lapply(nb.features, function(x) x[order(x[,'well']),])
 

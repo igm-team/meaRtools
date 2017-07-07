@@ -8,11 +8,11 @@ Filter spikes and bursts in recording objects
 Apply user defined filters on the spikes that were recorded and calculate spike features.
 }
 \usage{
-calculate.spike.features(RobjectFiles,  parameters)
+calculate.spike.features(r_object_files,  parameters)
 }
 
 \arguments{
-  \item{RobjectFiles}{ A list of recording Robject files}
+  \item{r_object_files}{ A list of recording Robject files}
   \item{parameters}{ A list of parameters, see data("parameters") }
 }
 

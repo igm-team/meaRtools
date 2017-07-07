@@ -19,9 +19,9 @@ List of 20
  $ s.min                       : num 5
  $ ns.csv                      : logi TRUE
  $ ns.plot                     : logi TRUE
- $ elec.min.rate               : num 0.0167
- $ elec.max.rate               : num 1000
- $ well.min.rate               : num 0
+ $ elec_min_rate               : num 0.0167
+ $ elec_max_rate               : num 1000
+ $ well_min_rate               : num 0
  $ mi.par                      :List of 5
   ..$ beg.isi   : num 0.1
   ..$ end.isi   : num 0.25

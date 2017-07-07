@@ -30,17 +30,18 @@ load.spikelist <- function(spkDataFile) {
   s
 }
 
-calculate.spike.features <- function(RobjectFiles, parameters) {
-  RobjectFiles <- sort(RobjectFiles)
-  s = list()
+calculate.spike.features <- function(r_object_files, parameters) {
+  r_object_files <- sort(r_object_files)
+  s <- list()
   count <- 0
-  for (i in 1:length(RobjectFiles)) {
-    timepoint <- substring(basename(RobjectFiles[i]), nchar(basename(RobjectFiles[i])) -
-      8, nchar(basename(RobjectFiles[i])) - 7)
-    current <- .filter.spikes.Robject(RobjectFiles[i],
-      elec.min.rate = parameters$elec.min.rate,
-      elec.max.rate = parameters$elec.max.rate,
-      well.min.rate = parameters$well.min.rate)
+  for (i in 1:length(r_object_files)) {
+    timepoint <- substring(basename(r_object_files[i]),
+                           nchar(basename(r_object_files[i])) - 8,
+                           nchar(basename(r_object_files[i])) - 7)
+    current <- .filter.spikes.Robject(r_object_files[i],
+      elec_min_rate = parameters$elec_min_rate,
+      elec_max_rate = parameters$elec_max_rate,
+      well_min_rate = parameters$well_min_rate)
     current$parameters <- parameters
     current$timepoint <- timepoint
     if (length(current$nspikes) > 0) {
@@ -56,13 +57,15 @@ calculate.burst.features <- function(s) {
     current <- s[[i]]
     if (length(current$nspikes) > 0) {
       if (current$parameters$burst.type == "ps"){
-        current$allb <- lapply(current$spikes, si.find.bursts, s.min = current$parameters$s.min)
+        current$allb <- lapply(current$spikes, si.find.bursts,
+                               s.min = current$parameters$s.min)
         current$bs <- calc.burst.summary(current)
-        current$bs$burst.type = "ps"
+        current$bs$burst.type <- "ps"
       } else {
-        current$allb <- lapply(current$spikes, mi.find.bursts, current$parameters$mi.par)
+        current$allb <-
+          lapply(current$spikes, mi.find.bursts, current$parameters$mi.par)
         current$bs <- calc.burst.summary(current)
-        current$bs$burst.type = "mi"
+        current$bs$burst.type <- "mi"
       }
       s[[i]] <- current
     }
@@ -70,36 +73,41 @@ calculate.burst.features <- function(s) {
   s
 }
 
-.filter.spikes.Robject <- function(RobjectFiles, elec.min.rate = (1 / 60), elec.max.rate = 25,
-  well.min.rate = 4) {
-  for (i in 1:length(RobjectFiles)) {
+.filter.spikes.Robject <- function(r_object_files,
+                                   elec_min_rate = (1 / 60),
+                                   elec_max_rate = 25,
+                                   well_min_rate = 4) {
+  for (i in 1:length(r_object_files)) {
     if (!(i == 1)) {
       rm(s1, s2)
     }
-    s1 <- load.spikelist(RobjectFiles[i])
+    s1 <- load.spikelist(r_object_files[i])
     if (class(s1) != "spike.list") {
-      s1 <- .Robject.read.spikes(RobjectFiles[i])
+      s1 <- .Robject.read.spikes(r_object_files[i])
     }
-    low <- which(s1$meanfiringrate < elec.min.rate)
-    high <- which(s1$meanfiringrate > elec.max.rate)
+    low <- which(s1$meanfiringrate < elec_min_rate)
+    high <- which(s1$meanfiringrate > elec_max_rate)
     extremes <- c(low, high)
-    bad.ids <- names(extremes)
-    bad.ids <- c("-", bad.ids)
-    s2 <- remove.spikes(s1, bad.ids)
+    bad_ids <- names(extremes)
+    bad_ids <- c("-", bad_ids)
+    s2 <- remove_spikes(s1, bad_ids)
     s2$treatment <- s1$treatment
     s2$size <- s1$size
     s2$units <- s1$units
     s2$dose <- s1$dose
     s2$well <- s1$well
     s2 <- get.num.AE(s2)
-    low <- which(s2$nAE < well.min.rate)
-    bad.wells <- names(low)
-    bad.wells <- c("-", bad.wells)
-    s <- remove.spikes(s2, bad.wells)
+    low <- which(s2$nAE < well_min_rate)
+    bad_wells <- names(low)
+    bad_wells <- c("-", bad_wells)
+    s <- remove_spikes(s2, bad_wells)
     s$treatment <- s1$treatment
     names(s$treatment) <- s1$well
-    # remove from good wells analysis any wells without treatment and below min required nAE
-    s$goodwells <- names(which(s2$nAE >= well.min.rate))[names(which(s2$nAE >= well.min.rate)) %in% names(s$treatment[!is.na(s$treatment) & (s$treatment != "")])]
+    # remove from good wells analysis any wells without
+    #treatment and below min required nAE
+    s$goodwells <-
+    names(which(s2$nAE >= well_min_rate))[names(which(s2$nAE >= well_min_rate))
+    %in% names(s$treatment[!is.na(s$treatment) & (s$treatment != "")])]
     s$size <- s1$size
     names(s$size) <- s1$well
     s$units <- s1$units
@@ -112,30 +120,30 @@ calculate.burst.features <- function(s) {
   s
 }
 
-.spkList2list <- function(file) {
-  data.raw <- read.csv(file, header = T, colClasses = c("NULL", "NULL", NA, NA, NA))
+.spk_list_2_list <- function(file) {
+  data_raw <- read.csv(file, header = T,
+                       colClasses = c("NULL", "NULL", NA, NA, NA))
 
   # remove rows beyond end of spike data
-  lastIndex = which(data.raw[, 1] == "", arr.ind = TRUE)[1]
-  if (!is.na(lastIndex)) 
-  {
-    data.raw = data.raw[1:lastIndex - 1, ]
+  last_index <- which(data_raw[, 1] == "", arr.ind = TRUE)[1]
+  if (!is.na(last_index)) {
+    data_raw <- data_raw[1:last_index - 1, ]
   }
 
-  data.raw$Electrode <- factor(data.raw$Electrode)
-  data.raw$Time..s. <- as.numeric(as.character(data.raw$Time..s.))
+  data_raw$Electrode <- factor(data_raw$Electrode)
+  data_raw$Time..s. <- as.numeric(as.character(data_raw$Time..s.))
 
   # remove NA
-  ind.want <- which(!is.na(data.raw[, 1]))
+  ind_want <- which(!is.na(data_raw[, 1]))
 
-  if (length(ind.want) > 0){
-    data.raw2 <- data.frame(
-      elect <- data.raw[ ind.want , "Electrode"],
-      timestamps <- data.raw[ ind.want , "Time..s."]
+  if (length(ind_want) > 0){
+    data_raw2 <- data.frame(
+      elect <- data_raw[ind_want, "Electrode"],
+      timestamps <- data_raw[ind_want, "Time..s."]
     )
 
-    data.raw2 <- data.raw2[order(data.raw2$elect), ]
-    spikes <- split(data.raw2$timestamps, data.raw2$elect, drop = T)
+    data_raw2 <- data_raw2[order(data_raw2$elect), ]
+    spikes <- split(data_raw2$timestamps, data_raw2$elect, drop = T)
   } else {
     spikes <- NULL
   }
@@ -143,79 +151,73 @@ calculate.burst.features <- function(s) {
   spikes
 }
 
-.spkList.to.Robject <- function(spikes, chem.info, RobjectFile) {
-  RobjectFile <- path.expand(RobjectFile)
-  if (file.exists(RobjectFile)) 
-  unlink(RobjectFile)
+.spk_list_to_r_object <- function(spikes, chem_info, r_object_file) {
+  r_object_file <- path.expand(r_object_file)
+  if (file.exists(r_object_file))
+  unlink(r_object_file)
   nspikes <- sapply(spikes, length)
   channels <- names(spikes)
-  well <- chem.info$well
-  treatment <- chem.info$treatment
-  size <- chem.info$size
-  dose <- chem.info$dose
-  units <- chem.info$units
+  well <- chem_info$well
+  treatment <- chem_info$treatment
+  size <- chem_info$size
+  dose <- chem_info$dose
+  units <- chem_info$units
   wells <- .axion.guess.well.number(channels)
   array <- sprintf("Axion %d well", wells)
   plateinfo <- .plateinfo(array)
   epos <- .axion.elec.name.to.xy(channels, plateinfo)
 
-  S <- list()
-
-  sum.spikes <- sum(nspikes)
-
-  S$spikes <- spikes
-
-  S$sCount <- nspikes
-
-  S$epos <- epos
-
-  S$names <- channels
-
-  S$array <- array
-  S$treatment <- as.array(treatment)
-  S$dose <- as.array(dose)
-  S$size <- as.array(size)
-  S$well <- as.array(well)
-  S$units <- as.array(units)
-  print(names(S))
-  S
+  s <- list()
+  s$spikes <- spikes
+  s$sCount <- nspikes
+  s$epos <- epos
+  s$names <- channels
+  s$array <- array
+  s$treatment <- as.array(treatment)
+  s$dose <- as.array(dose)
+  s$size <- as.array(size)
+  s$well <- as.array(well)
+  s$units <- as.array(units)
+  print(names(s))
+  s
 }
 
-read.spikelist <- function(key, spkListFile, chem.info, Robject.dir) {
+read_spikelist <- function(key, spk_list_file, chem_info, r_object_dir) {
   # function to convert spike list Robject
   # remove _spike_list
   key <- unlist(strsplit(key, split = "_spike_list"))
 
-  RobjectFile <- gsub("\\(|\\)", "_", sprintf("%s/%s", Robject.dir, key))
-  RobjectFile <- paste0(
-    paste(strsplit(basename(RobjectFile), split = "_")[[1]][1:4], collapse = "_"), ".RData")
+  r_object_file <- gsub("\\(|\\)", "_", sprintf("%s/%s", r_object_dir, key))
+  r_object_file <- paste0(
+    paste(strsplit(basename(r_object_file),
+    split = "_")[[1]][1:4], collapse = "_"), ".RData")
 
   # f is a list of all files
-  f <- spkListFile
+  f <- spk_list_file
 
   # get spikes
-  spikes.sep <- lapply(f, .spkList2list)
-  short.filenames <- gsub("_spike_list.csv", "", basename(f))
+  spikes_sep <- lapply(f, .spk_list_2_list)
+  short_filenames <- gsub("_spike_list.csv", "", basename(f))
 
-  summary.table <- t(sapply(spikes.sep, .axion.spikesum2))
-  rownames(summary.table) <- short.filenames
-  ma <- do.call("rbind", lapply(spikes.sep, .axion.spikestodf))
+  summary.table <- t(sapply(spikes_sep, .axion.spikesum2))
+  rownames(summary.table) <- short_filenames
+  ma <- do.call("rbind", lapply(spikes_sep, .axion.spikestodf))
   # s2 is a list with all the channels and spikes under each channel
   s2 <- split(ma$time, ma$elec)
   numelec <- length(s2)
-  total.spikes <- sum(sapply(s2, length))
-  time.ranges <- sapply(s2, range)
-  time.min <- min(time.ranges[1, ])
-  time.max <- max(time.ranges[2, ])
+  total_spikes <- sum(sapply(s2, length))
+  time_ranges <- sapply(s2, range)
+  time_min <- min(time_ranges[1, ])
+  time_max <- max(time_ranges[2, ])
   # printf formats the text and variables to output ready formats
   # cat contatenates files and then prints them
-  cat(sprintf("Total number of spikes: %d\n", total.spikes))
+  cat(sprintf("Total number of spikes: %d\n", total_spikes))
   cat(sprintf("Unique number of electrodes: %d\n", numelec))
-  cat(sprintf("Time range [%.3f %.3f] (seconds)\n", time.min,
-    time.max))
+  cat(sprintf("Time range [%.3f %.3f] (seconds)\n", time_min,
+    time_max))
   print(summary.table)
-  S <- .spkList.to.Robject(s2, chem.info, RobjectFile)
-  save.file <- paste0(Robject.dir, "/", RobjectFile)
-  save(S, file = save.file)
-  save.file
+  S <- .spk_list_to_r_object(s2, chem_info, r_object_file)
+  save_file <- paste0(r_object_dir, "/", r_object_file)
+  save(S, file = save_file)
+  save_file
 }

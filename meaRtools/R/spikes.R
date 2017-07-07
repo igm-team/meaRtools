@@ -549,7 +549,7 @@ isi <- function(train) {
   bad_ids <- names(extremes)
   bad_ids <- c("-", bad_ids) # "-" needed to remove these ids!
 
-  s2 <- remove.spikes(temp_s, bad_ids)
+  s2 <- remove_spikes(temp_s, bad_ids)
 
   s2$treatment <- s1$treatment
   s2$size <- s1$size
@@ -567,7 +567,7 @@ isi <- function(train) {
   bad_wells <- names(low)
   bad_wells <- c("-", bad_wells) # "-" needed to remove these well!
   # just these three for example
-  s <- remove.spikes(s2, bad_wells)
+  s <- remove_spikes(s2, bad_wells)
 
   s$goodwells <- names(which(s2$nAE >= well_min_rate))
 
