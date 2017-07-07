@@ -1,7 +1,7 @@
 parameters <- list(
 
-burst.type = "mi",
-s.min=5,
+burst_type = "mi",
+s_min=5,
   
 perm.n = 1000, ##Might want to specify in parameters or give user option?
 

@@ -1,5 +1,5 @@
-\name{load.spikelist}
-\alias{load.spikelist}
+\name{load_spikelist}
+\alias{load_spikelist}
 
 \title{
   %%  ~~function to do ... ~~
@@ -10,15 +10,15 @@
     Loads a previously saved Rdata file of a recording.
 }
 \usage{
-load.spikelist(spkDataFile)
+load_spikelist(spk_data_file)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{spkDataFile}{MEA recording Rdata file}
+  \item{spk_data_file}{MEA recording Rdata file}
 }
 \value{loaded R object}
 \examples{
-#    s1 <- load.spikelist(dir to saved Rdata file)
+#    s1 <- load_spikelist(dir to saved Rdata file)
 }
 \keyword{Rdata}
 \keyword{s}% __ONLY ONE__ keyword per line

@@ -15,8 +15,8 @@ List of 20
  $ spike.plot                  : logi TRUE
  $ burst.csv                   : logi TRUE
  $ burst.plot                  : logi TRUE
- $ burst.type                  : chr "mi"
- $ s.min                       : num 5
+ $ burst_type                  : chr "mi"
+ $ s_min                       : num 5
  $ ns.csv                      : logi TRUE
  $ ns.plot                     : logi TRUE
  $ elec_min_rate               : num 0.0167
