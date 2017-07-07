@@ -1,5 +1,5 @@
-\name{calculate.spike.features}
-\alias{calculate.spike.features}
+\name{calculate_burst_features}
+\alias{calculate_burst_features}
 
 \title{
 Filter spikes and bursts in recording objects
@@ -8,12 +8,11 @@ Filter spikes and bursts in recording objects
 Apply user defined filters on the spikes that were recorded and calculate spike features.
 }
 \usage{
-calculate.spike.features(r_object_files,  parameters)
+calculate_burst_features(s)
 }
 
 \arguments{
-  \item{r_object_files}{ A list of recording Robject files}
-  \item{parameters}{ A list of parameters, see data("parameters") }
+  \item{s}{ A spikelist object returned from calling calculate_spike_features.}
 }
 
 \value{

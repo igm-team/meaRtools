@@ -1,16 +1,16 @@
-load.spikelist <- function(spkDataFile) {
-  temp <- load(spkDataFile) # temp contains objects in loaded workspace
+load_spikelist <- function(spk_data_file) {
+  temp <- load(spk_data_file) # temp contains objects in loaded workspace
   data <- get(temp)
 }
 
 # remake this function so that it can read .RData objects
-.Robject.read.spikes <- function(spkDataFile,
+.r_object_read_spikes <- function(spk_data_file,
   ids = NULL,
   time_interval = 1,
   beg = NULL,
   end = NULL, corr_breaks) {
 
-  temp <- load(spkDataFile) # temp contains objects in loaded workspace
+  temp <- load(spk_data_file) # temp contains objects in loaded workspace
   data <- get(temp)
   spikes <- data$spikes
 
@@ -20,7 +20,7 @@ load.spikelist <- function(spkDataFile) {
     corr_breaks <- arrayinfo$corr_breaks
   }
   s <- .construct_s(spikes, ids, time_interval, beg, end, corr_breaks,
-    layout, filename = spkDataFile)
+    layout, filename = spk_data_file)
   s$dose <- data$dose
   s$treatment <- data$treatment
   s$size <- data$size
@@ -30,7 +30,7 @@ load.spikelist <- function(spkDataFile) {
   s
 }
 
-calculate.spike.features <- function(r_object_files, parameters) {
+calculate_spike_features <- function(r_object_files, parameters) {
   r_object_files <- sort(r_object_files)
   s <- list()
   count <- 0
@@ -38,7 +38,7 @@ calculate.spike.features <- function(r_object_files, parameters) {
     timepoint <- substring(basename(r_object_files[i]),
                            nchar(basename(r_object_files[i])) - 8,
                            nchar(basename(r_object_files[i])) - 7)
-    current <- .filter.spikes.Robject(r_object_files[i],
+    current <- .filter_spikes_r_object(r_object_files[i],
       elec_min_rate = parameters$elec_min_rate,
       elec_max_rate = parameters$elec_max_rate,
       well_min_rate = parameters$well_min_rate)
@@ -52,20 +52,20 @@ calculate.spike.features <- function(r_object_files, parameters) {
   s
 }
 
-calculate.burst.features <- function(s) {
+calculate_burst_features <- function(s) {
   for (i in 1:length(s)) {
     current <- s[[i]]
     if (length(current$nspikes) > 0) {
-      if (current$parameters$burst.type == "ps"){
-        current$allb <- lapply(current$spikes, si.find.bursts,
-                               s.min = current$parameters$s.min)
+      if (current$parameters$burst_type == "ps"){
+        current$allb <- lapply(current$spikes, si_find_bursts,
+                               s_min = current$parameters$s_min)
         current$bs <- calc.burst.summary(current)
-        current$bs$burst.type <- "ps"
+        current$bs$burst_type <- "ps"
       } else {
         current$allb <-
           lapply(current$spikes, mi.find.bursts, current$parameters$mi.par)
         current$bs <- calc.burst.summary(current)
-        current$bs$burst.type <- "mi"
+        current$bs$burst_type <- "mi"
       }
       s[[i]] <- current
     }
@@ -73,7 +73,7 @@ calculate.burst.features <- function(s) {
   s
 }
 
-.filter.spikes.Robject <- function(r_object_files,
+.filter_spikes_r_object <- function(r_object_files,
                                    elec_min_rate = (1 / 60),
                                    elec_max_rate = 25,
                                    well_min_rate = 4) {
@@ -81,9 +81,9 @@ calculate.burst.features <- function(s) {
     if (!(i == 1)) {
       rm(s1, s2)
     }
-    s1 <- load.spikelist(r_object_files[i])
+    s1 <- load_spikelist(r_object_files[i])
     if (class(s1) != "spike.list") {
-      s1 <- .Robject.read.spikes(r_object_files[i])
+      s1 <- .r_object_read_spikes(r_object_files[i])
     }
     low <- which(s1$meanfiringrate < elec_min_rate)
     high <- which(s1$meanfiringrate > elec_max_rate)
@@ -169,7 +169,7 @@ calculate.burst.features <- function(s) {
 
   s <- list()
   s$spikes <- spikes
-  s$sCount <- nspikes
+  s$scount <- nspikes
   s$epos <- epos
   s$names <- channels
   s$array <- array

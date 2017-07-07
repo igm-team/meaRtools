@@ -1,18 +1,16 @@
-\name{si.find.bursts}
-\alias{si.find.bursts}
+\name{si_find_bursts}
+\alias{si_find_bursts}
 \title{
 Find bursts}
 \description{
 For one spike train, find the bursts using the Poisson surprise method.}
 \usage{
-si.find.bursts(spikes,s.min,burst.isi.max)
+si_find_bursts(spikes,s_min,burst.isi.max)
 }
 \arguments{
   \item{spikes}{
 A spike train of one channel, located in MEA data structure (example S$spikes[[1]]). }
-  \item{s.min}{ A minimum value for the surprise index}
-  \item{burst.isi.max}{ ISI threshold used by the the surprise index algorithm.}
-  
+  \item{s_min}{ A minimum value for the surprise index}
 }
 \value{
 Returns a matrix of burst information for a specific channel.
@@ -30,7 +28,7 @@ Eytan and Marom (2006) J Neuroscience.
 \author{ Stephen Eglen }
 \examples{
 data("S")  
-allb <- lapply(S$spikes, si.find.bursts, S$parameters$s.min )
+allb <- lapply(S$spikes, si_find_bursts, S$parameters$s.min )
 }
 \keyword{poisson surprise}
 \keyword{burst}
