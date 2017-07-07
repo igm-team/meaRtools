@@ -21,7 +21,7 @@ get.num.AE <- function(s2) {
 }
 
 # this function removes bad channels
-remove.spikes <- function(s, ids) {
+remove_spikes <- function(s, ids) {
   ## ids=vector of indicies eg c(1,2,4,5)
   ## Remove spikes listed in IDS from S data structure, and return
   ## new structure.
@@ -58,17 +58,17 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
     strsplit(basename(file), "_")[[1]][2],
     strsplit(basename(file), "_")[[1]][3], sep = "_")
 
-  plate.chem.info <- list()
+  plate_chem_info <- list()
   count = 1;
   matchedFileName = 0;
   for (i in which(shortFileName == masterCD$filename)) {
     matchedFileName = 1;
     # get all info from chem list
-    plate.chem.info$well[count] <- paste(masterCD$Well[i])
-    plate.chem.info$treatment[count] <- paste(masterCD$Treatment[i])
-    plate.chem.info$size[count] <- paste(masterCD$Size[i])
-    plate.chem.info$dose[count] <- paste(masterCD$Dose[i])
-    plate.chem.info$units[count] <- paste(masterCD$Units[i])
+    plate_chem_info$well[count] <- paste(masterCD$Well[i])
+    plate_chem_info$treatment[count] <- paste(masterCD$Treatment[i])
+    plate_chem_info$size[count] <- paste(masterCD$Size[i])
+    plate_chem_info$dose[count] <- paste(masterCD$Dose[i])
+    plate_chem_info$units[count] <- paste(masterCD$Units[i])
     count = count + 1
 
   } # end of for loop through masterCD$file
@@ -76,11 +76,11 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
     print(paste("File ", shortFileName, " was not found in the possible file names
                   constructed from exp log file:", unique(masterCD$filename), sep = ""))
   }
-  if (!is.element(length(plate.chem.info$well), c(12, 48))) {
-    print(paste("Info exists for ", length(plate.chem.info$well),
+  if (!is.element(length(plate_chem_info$well), c(12, 48))) {
+    print(paste("Info exists for ", length(plate_chem_info$well),
       " wells; Some wells have no data.", sep = ""))
   }
-  plate.chem.info
+  plate_chem_info
 }
 
 # purpose: given a list containing spikes and s$bs containing burst info,

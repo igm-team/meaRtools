@@ -5,10 +5,10 @@ s.min=5,
   
 perm.n = 1000, ##Might want to specify in parameters or give user option?
 
-elec.min.rate = (1/60),
-elec.max.rate = 1000,
+elec_min_rate = (1/60),
+elec_max_rate = 1000,
 # minimum nAE
-well.min.rate=4,
+well_min_rate=4,
 # The maximum DIV inactive/active ratio (below which a well will be considered active
 # for a set of DIVs)
 well.filter.maximum.DIV.inactive.ratio=0.5,
