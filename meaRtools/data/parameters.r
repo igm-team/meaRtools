@@ -90,7 +90,7 @@ burst_distribution_spikeFreq = list(
   min_electrodes= 4 ,
   Sigma= c(10,20,50) , # a list of window size to be considered 
 
-  timeStamp="DATE_TIME" # system time 
+  time_stamp="DATE_TIME" # system time 
 
 ) # end of parameters list
 

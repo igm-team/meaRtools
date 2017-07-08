@@ -18,7 +18,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
       params = parameters$burst_distribution_IBI
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
         filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
-        min_electrodes = parameters$well_min_rate, parameters$timeStamp)}
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform ISI distribution analysis
     if (parameters$burst_distribution_ISI$perform) {
@@ -27,7 +27,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
       params = parameters$burst_distribution_ISI
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
         filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
-        min_electrodes = parameters$well_min_rate, parameters$timeStamp)}
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform nSpikes distribution analysis
     if (parameters$burst_distribution_nSpikes$perform) {
@@ -36,7 +36,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
       params = parameters$burst_distribution_nSpikes
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
         filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
-        min_electrodes = parameters$well_min_rate, parameters$timeStamp)}
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform duration of bursts distribution analysis
     if (parameters$burst_distribution_durn$perform) {
@@ -45,7 +45,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
       params = parameters$burst_distribution_durn
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
         filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
-        min_electrodes = parameters$well_min_rate, parameters$timeStamp)}
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform duration of bursts distribution analysis
     if (parameters$burst_distribution_spikeFreq$perform) {
@@ -54,7 +54,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
       params = parameters$burst_distribution_spikeFreq
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
         filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
-        min_electrodes = parameters$well_min_rate, parameters$timeStamp)}
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # MFR
     p <- .plot_meanfiringrate(s[[i]], main = "Mean Firing Rate by Plate (Hz)")
