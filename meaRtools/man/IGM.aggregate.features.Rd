@@ -22,9 +22,9 @@ aggregate_features(s, feat_type, parameters)
 	data("parameters")
 	s<-list()
 	s[[1]]<-S
-	spike.features = suppressWarnings( aggregate_features(s, "spike", parameters))
-	ns.features = suppressWarnings( aggregate_features(s, "ns", parameters) )
-	burst.features = suppressWarnings( aggregate_features(s, "burst", parameters) )
+	spike_features = suppressWarnings( aggregate_features(s, "spike", parameters))
+	ns_features = suppressWarnings( aggregate_features(s, "ns", parameters) )
+	burst_features = suppressWarnings( aggregate_features(s, "burst", parameters) )
 }
 \keyword{MEA}
 \keyword{Aggregate}% __ONLY ONE__ keyword per line

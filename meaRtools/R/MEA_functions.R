@@ -199,27 +199,27 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
         sum$sd_dur[j] <- sd(unlist(get_burst_info(allb[icurrentwell], "durn")))
 
         # mean frequency within a burst
-        sum$mean_freq.in.burst[j] <-
+        sum$mean_freq_in_burst[j] <-
         mean(unlist(get_burst_info(allb[incurrentwell], "len")) /
           unlist(get_burst_info(allb[incurrentwell], "durn")), na.rm = TRUE)
 
         # sd frequency within a burst
-        sum$sd.freq.in.burst[j] <- sd(unlist(get_burst_info(allb[incurrentwell], "len")) /
+        sum$sd_freq_in_burst[j] <- sd(unlist(get_burst_info(allb[incurrentwell], "len")) /
           unlist(get_burst_info(allb[incurrentwell], "durn")), na.rm = TRUE)
 
         # mean of ISI across all channels in current well
-        sum$mean.ISIs[j] = mean(unlist(ISIs[incurrentwell]), na.rm = TRUE)
+        sum$mean_ISIs[j] = mean(unlist(ISIs[incurrentwell]), na.rm = TRUE)
 
         # finds sd of ISI across all channels in current well
         sum$sd_ISIs[j] = sd(unlist(ISIs[incurrentwell]), na.rm = TRUE)
 
         # len=#spikes in burst (length of burst in bursts)
-        # mean.spikes.in.burst
+        # mean_spikes_in_burst
         ns <- unlist(get_burst_info(allb[icurrentwell], "len"))
-        sum$mean.spikes.in.burst[j] <- round(mean(ns, na.rm = TRUE), 3)
+        sum$mean_spikes_in_burst[j] <- round(mean(ns, na.rm = TRUE), 3)
 
         # sd of spikes in burst
-        sum$sd.spikes.in.burst[j] <- round(sd(ns, na.rm = TRUE), 3)
+        sum$sd_spikes_in_burst[j] <- round(sd(ns, na.rm = TRUE), 3)
 
         # total number of spikes arcross all bursts
         sum$total_spikes_in_burst[j] <- sum(ns, na.rm = TRUE)
@@ -246,12 +246,12 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
         sum$bursts_per_min[j] <- NA
         sum$mean_dur[j] <- NA
         sum$sd_dur[j] <- NA
-        sum$mean.freq.in.burst[j] <- NA
-        sum$sd.freq.in.burst[j] <- NA
-        sum$mean.ISIs[j] = NA
+        sum$mean_freq_in_burst[j] <- NA
+        sum$sd_freq_in_burst[j] <- NA
+        sum$mean_ISIs[j] = NA
         sum$sd_ISIs[j] = NA
-        sum$mean.spikes.in.burst[j] <- NA
-        sum$sd.spikes.in.burst[j] <- NA
+        sum$mean_spikes_in_burst[j] <- NA
+        sum$sd_spikes_in_burst[j] <- NA
         sum$total_spikes_in_burst[j] <- NA
         sum$per_spikes_in_burst[j] <- NA
         sum$mean_IBIs[j] <- NA

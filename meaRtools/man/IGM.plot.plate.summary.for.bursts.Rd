@@ -19,7 +19,7 @@ meaRtools basic parameter list}
 }
 \details{
 The plot function will plot all the features calculated for the bursts in the recording. Those include: Mean Firing Rate by Plate (Hz), Mean firing rate, Mean Duration, Number of bursts by channel and well, Mean Inter Burst Interval, Mean ISI within bursts, Mean burst per minute, Mean spikes in a burst and \% spikes in a burst.
-The function also calls calc.burst.distributions to calculate and plot burst feature distributions.
+The function also calls calc_burst_distributions to calculate and plot burst feature distributions.
 }
 \value{
 A _burst_plot.pdf is printed under the output directory

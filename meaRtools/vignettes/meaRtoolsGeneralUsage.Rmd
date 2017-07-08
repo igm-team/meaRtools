@@ -225,7 +225,7 @@ suppressWarnings(write_plate_summary_for_spikes(s,analysis$output_perDIV_dir))
 
 ### printing burst data
 
-As promised, the burst feature distributions are already calculated by the burst printing functions, since they are extracted from calculated burst features. The distribution features are calculated for five burst features : burst duration, IBI, nspikes (number of spikes in a burst), spikeFreq (Hz) and ISI within bursts. When running plot_plate_summary_for_bursts, the function calls calc.burst.distributions to calculate and plot those distributions for each loaded recording. The default parameters object loaded earlier, holds five objects with 7 arguments for the five distribution features: 
+As promised, the burst feature distributions are already calculated by the burst printing functions, since they are extracted from calculated burst features. The distribution features are calculated for five burst features : burst duration, IBI, nspikes (number of spikes in a burst), spikeFreq (Hz) and ISI within bursts. When running plot_plate_summary_for_bursts, the function calls calc_burst_distributions to calculate and plot those distributions for each loaded recording. The default parameters object loaded earlier, holds five objects with 7 arguments for the five distribution features: 
 
 min_cases - the minimum number of bursts for performing the analysis
 
@@ -335,7 +335,7 @@ suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, nb
 
 ```
 
-At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of all three recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist_perm. The function requires a distribution file for each burst feature, which are automatically printed by calc.burst.distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist_perm also required the number of permutations to perform and the two treatments to be compared. dist_perm returns an objects with the following information: 
+At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of all three recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist_perm. The function requires a distribution file for each burst feature, which are automatically printed by calc_burst_distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist_perm also required the number of permutations to perform and the two treatments to be compared. dist_perm returns an objects with the following information: 
 - two  distributions of the feature, one per each treatment, combined for all the recordings, the 
 - two comulative distributions, as as the above
 - p-values for the distribution differences (Earth Mover's Distance) and comulative distribution differences (Maximum Distance, please see meaRtools manuscript for full details)
@@ -345,11 +345,11 @@ The normalized distribution and it's corrsponding EMD p-value can be extracted f
 ```{r}
 result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
 
-plot(result$data.wt.Original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
-points(result$data.ko.Original,col="green",type="l",lwd=3)
+plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
+points(result$data_ko_original,col="green",type="l",lwd=3)
 par(mfrow=c(1,1))  
 mtext(side = 1, at = 0, line = 4,
-          text = paste("P.value EMD after 1000 permutations: ",format((1-result$perm.EMD), digits = 2),sep=""),col = "black",cex= 0.9,adj=0)    
+          text = paste("P.value EMD after 1000 permutations: ",format((1-result$perm_EMD), digits = 2),sep=""),col = "black",cex= 0.9,adj=0)    
 ``` 
 
 And the cumulative distribution with it's corrsponding MD p-value can be extracted as follows:
@@ -357,11 +357,11 @@ And the cumulative distribution with it's corrsponding MD p-value can be extract
 ```{r}
 suppressWarnings(result <- dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
 
-plot(result$data.wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
-points(result$data.ko,col="green",type="l",lwd=3)
+plot(result$data_wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
+points(result$data_ko,col="green",type="l",lwd=3)
 par(mfrow=c(1,1))  
 mtext(side = 1, at = 0, line = 4,
-      text = paste("P.value Max distance after 1000 permutations: ",format((1-result$perm.p), digits = 3),sep=""),col = "black",cex= 0.9,adj=0)    
+      text = paste("P.value Max distance after 1000 permutations: ",format((1-result$perm_p), digits = 3),sep=""),col = "black",cex= 0.9,adj=0)    
 ```    
 
 This document provides the steps to use meaRtools's functions as a pipeline for an MEA experiment analysis lasting 3 DIVs. In the /Analysis output folder are now the full results for extracting all the features and comparing them between the treatments that we decided to test. Even with only three recordings the output files are numerous require a deep dive for better understanding the full picture of the difference between treatments. We hope you will enjoy all the capabilities that meaRtools has to offer and use it to deeply and fully understand your MEA recordings. Please read the meaRtools manuscript for detailed information about the methods and do not hesitate to contact us for any explanation that might be lacking in this document.

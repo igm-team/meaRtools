@@ -10,7 +10,7 @@ Perform two statistical tests to quantify difference between two burst probabili
 dist_perm(datafile,np,type,kotype)
 }
 \arguments{
-  \item{datafile}{ A _distributions.csv input file. Format as the output of calc.burst.distributions
+  \item{datafile}{ A _distributions.csv input file. Format as the output of calc_burst_distributions
 }
   \item{np}{ Number of permutations to perform}
   \item{type}{ Name of first genotype}

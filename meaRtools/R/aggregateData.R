@@ -38,7 +38,7 @@
   # Calculates network spikes
   # Called from .write_network_spike_summary
 
-  active_wells <- active_wells_network_spikes(nspikes)$ns.all
+  active_wells <- .active_wells_network_spikes(nspikes)$ns.all
   if (length(active_wells) > 0) {
     newcol <- 3
     # 2 to peak.min and peak.max
