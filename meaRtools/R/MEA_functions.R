@@ -87,9 +87,9 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 # plots the resp=response variable, by channel, in a lattice grid grouped by well
 # output=a plot handle, p
 # input: spikes and respsonse variable
-# EXAMPLE:    p<-.channel.plot.by.well(s,resp="meanfiringrate")
-# EXAMPE: list nested in list: p<-.channel.plot.by.well(s,resp="bs$mean.dur")
-.channel.plot.by.well <- function(s , resp, resp.label) {
+# EXAMPLE:    p<-.channel_plot_by_well(s,resp="meanfiringrate")
+# EXAMPE: list nested in list: p<-.channel_plot_by_well(s,resp="bs$mean_dur")
+.channel_plot_by_well <- function(s , resp, resp_label) {
   par(mfrow = c(1, 1))
   if (length(s$well) <= 12){
     well.layout = c(4, 3)
@@ -114,7 +114,7 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 
   }
 
-  s$active.wells <- .axion.elec2well(s$channels)
+  s$active_wells <- .axion.elec_to_well(s$channels)
 
 
   if (length(strsplit(resp, "$", fixed = TRUE)[[1]]) > 1){
@@ -124,11 +124,11 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
   }
 
   p <- xyplot(response ~ factor(channels) |
-    factor(active.wells, labels = names(well.names), levels = well.names),
+    factor(active_wells, labels = names(well.names), levels = well.names),
     data = s, drop.unused.levels = FALSE, layout = well.layout,
     xlab = "Channels within well",
-    ylab = paste(resp.label, sep = ""), pch = 20 ,
-    main = paste(paste(resp.label, " by Channels within Wells", sep = ""),
+    ylab = paste(resp_label, sep = ""), pch = 20 ,
+    main = paste(paste(resp_label, " by Channels within Wells", sep = ""),
       paste("file= ", strsplit(basename(s$file), ".RData")[[1]][1], sep = ""),
       sep = "\n") ,
     scales = list(x = list(relation = "free",
@@ -146,20 +146,20 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 ## the list returned, (masterSum[[1]],masterSum[[2]]..etc for each spike list s[[i]])
 ## has meta data and has been filtered according to weather it's 48 or 12 well
 # necessary: the timepoint "00" is needed to set which wells are active etc
-.get.burst.info.averaged.over.well <- function(s) {
+.get_burst_info_averaged_over_well <- function(s) {
   masterSum <- list() # summary over all files
   for (i in 1:length(s)) {
     sum = list() # summary for each timepoint
     # calculate bursting variables for current data File
     nbursts <- sapply(s[[i]]$allb, nrow)
     allb <- s[[i]]$allb
-    tempsum <- calc.burst.summary(s[[i]])
+    tempsum <- calc_burst_summary(s[[i]])
 
     # ISIs: gets the ISI for each channel of s[[i]]
-    ISIs = .calc.all.isi(s[[i]], allb)
+    ISIs = .calc_all_isi(s[[i]], allb)
 
     # IBIs get IBI's across all inter burst intervals across all data
-    tempIBIs <- .calc.all.ibi(s[[i]], allb)
+    tempIBIs <- .calc_all_ibi(s[[i]], allb)
 
     # loop through goodwells
     for (j in 1:length(s[[i]]$goodwells)) {
@@ -178,85 +178,85 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
         sum$duration[j] <- length(incurrentwell) * (s[[i]]$rec_time[2] - s[[i]]$rec_time[1])
 
         # mean duration
-        sum$mean.dur[j] <- mean(tempsum$mean.dur[incurrentwell], na.rm = TRUE)
+        sum$mean_dur[j] <- mean(tempsum$mean_dur[incurrentwell], na.rm = TRUE)
 
         # mean spikes per second
-        sum$mean.freq[j] <- mean(tempsum$mean.freq[incurrentwell], na.rm = TRUE)
+        sum$mean_freq[j] <- mean(tempsum$mean_freq[incurrentwell], na.rm = TRUE)
         # total number of bursts
         sum$nbursts[j] <- sum(tempsum$nbursts[icurrentwell], na.rm = TRUE)
         # mean burst per second
-        sum$bursts.per.sec[j] <- mean(tempsum$bursts.per.sec[incurrentwell])
+        sum$bursts_per_sec[j] <- mean(tempsum$bursts_per_sec[incurrentwell])
         # mean burst per minute
-        sum$bursts.per.min[j] <- sum$bursts.per.sec[j] * 60
+        sum$bursts_per_min[j] <- sum$bursts_per_sec[j] * 60
 
         # finds the mean of duration for a particular well (across all channels)
-        # get.burst.info(allb[icurrentwell],"durn") takes out the column "durn" of all
+        # get_burst_info(allb[icurrentwell],"durn") takes out the column "durn" of all
         # matricies allb among the indicator set icurrentwell
         # get duration data across all channels of current well
-        sum$mean.dur[j] <- mean(unlist(get.burst.info(allb[icurrentwell], "durn")), na.rm = TRUE)
+        sum$mean_dur[j] <- mean(unlist(get_burst_info(allb[icurrentwell], "durn")), na.rm = TRUE)
 
         # sd of current well burst durations
-        sum$sd.dur[j] <- sd(unlist(get.burst.info(allb[icurrentwell], "durn")))
+        sum$sd_dur[j] <- sd(unlist(get_burst_info(allb[icurrentwell], "durn")))
 
         # mean frequency within a burst
-        sum$mean.freq.in.burst[j] <-
-        mean(unlist(get.burst.info(allb[incurrentwell], "len")) /
-          unlist(get.burst.info(allb[incurrentwell], "durn")), na.rm = TRUE)
+        sum$mean_freq_in_burst[j] <-
+        mean(unlist(get_burst_info(allb[incurrentwell], "len")) /
+          unlist(get_burst_info(allb[incurrentwell], "durn")), na.rm = TRUE)
 
         # sd frequency within a burst
-        sum$sd.freq.in.burst[j] <- sd(unlist(get.burst.info(allb[incurrentwell], "len")) /
-          unlist(get.burst.info(allb[incurrentwell], "durn")), na.rm = TRUE)
+        sum$sd_freq_in_burst[j] <- sd(unlist(get_burst_info(allb[incurrentwell], "len")) /
+          unlist(get_burst_info(allb[incurrentwell], "durn")), na.rm = TRUE)
 
         # mean of ISI across all channels in current well
-        sum$mean.ISIs[j] = mean(unlist(ISIs[incurrentwell]), na.rm = TRUE)
+        sum$mean_ISIs[j] = mean(unlist(ISIs[incurrentwell]), na.rm = TRUE)
 
         # finds sd of ISI across all channels in current well
-        sum$sd.ISIs[j] = sd(unlist(ISIs[incurrentwell]), na.rm = TRUE)
+        sum$sd_ISIs[j] = sd(unlist(ISIs[incurrentwell]), na.rm = TRUE)
 
         # len=#spikes in burst (length of burst in bursts)
-        # mean.spikes.in.burst
-        ns <- unlist(get.burst.info(allb[icurrentwell], "len"))
-        sum$mean.spikes.in.burst[j] <- round(mean(ns, na.rm = TRUE), 3)
+        # mean_spikes_in_burst
+        ns <- unlist(get_burst_info(allb[icurrentwell], "len"))
+        sum$mean_spikes_in_burst[j] <- round(mean(ns, na.rm = TRUE), 3)
 
         # sd of spikes in burst
-        sum$sd.spikes.in.burst[j] <- round(sd(ns, na.rm = TRUE), 3)
+        sum$sd_spikes_in_burst[j] <- round(sd(ns, na.rm = TRUE), 3)
 
         # total number of spikes arcross all bursts
-        sum$total.spikes.in.burst[j] <- sum(ns, na.rm = TRUE)
+        sum$total_spikes_in_burst[j] <- sum(ns, na.rm = TRUE)
 
         # percent of spikes in bursts
-        sum$per.spikes.in.burst[j] <-
-        round(100 * (sum$total.spikes.in.burst[j] / sum$nspikes[j]), 3)
+        sum$per_spikes_in_burst[j] <-
+        round(100 * (sum$total_spikes_in_burst[j] / sum$nspikes[j]), 3)
 
         # mean IBI
-        sum$mean.IBIs[j] <- round(mean(unlist(tempIBIs[incurrentwell]), na.rm = TRUE), 3)
+        sum$mean_IBIs[j] <- round(mean(unlist(tempIBIs[incurrentwell]), na.rm = TRUE), 3)
         # sd IBI
-        sum$sd.IBIs[j] <- round(sd(unlist(tempIBIs[incurrentwell]), na.rm = TRUE), 3)
+        sum$sd_IBIs[j] <- round(sd(unlist(tempIBIs[incurrentwell]), na.rm = TRUE), 3)
         # cv IBI
-        sum$cv.IBIs[j] <- round(sum$mean.IBIs[j] / sum$sd.IBIs[j], 3)
+        sum$cv_IBIs[j] <- round(sum$mean_IBIs[j] / sum$sd_IBIs[j], 3)
 
       } else {
         sum$nspikes[j] <- NA
         sum$nAB[j] <- NA
         sum$duration[j] <- NA
-        sum$mean.dur[j] <- NA
-        sum$mean.freq[j] <- NA
+        sum$mean_dur[j] <- NA
+        sum$mean_freq[j] <- NA
         sum$nbursts[j] <- NA
-        sum$bursts.per.sec[j] <- NA
-        sum$bursts.per.min[j] <- NA
-        sum$mean.dur[j] <- NA
-        sum$sd.dur[j] <- NA
-        sum$mean.freq.in.burst[j] <- NA
-        sum$sd.freq.in.burst[j] <- NA
-        sum$mean.ISIs[j] = NA
-        sum$sd.ISIs[j] = NA
-        sum$mean.spikes.in.burst[j] <- NA
-        sum$sd.spikes.in.burst[j] <- NA
-        sum$total.spikes.in.burst[j] <- NA
-        sum$per.spikes.in.burst[j] <- NA
-        sum$mean.IBIs[j] <- NA
-        sum$sd.IBIs[j] <- NA
-        sum$cv.IBIs[j] <- NA
+        sum$bursts_per_sec[j] <- NA
+        sum$bursts_per_min[j] <- NA
+        sum$mean_dur[j] <- NA
+        sum$sd_dur[j] <- NA
+        sum$mean_freq_in_burst[j] <- NA
+        sum$sd_freq_in_burst[j] <- NA
+        sum$mean_ISIs[j] = NA
+        sum$sd_ISIs[j] = NA
+        sum$mean_spikes_in_burst[j] <- NA
+        sum$sd_spikes_in_burst[j] <- NA
+        sum$total_spikes_in_burst[j] <- NA
+        sum$per_spikes_in_burst[j] <- NA
+        sum$mean_IBIs[j] <- NA
+        sum$sd_IBIs[j] <- NA
+        sum$cv_IBIs[j] <- NA
 
       }
 

@@ -1,5 +1,5 @@
-\name{IGM.aggregate.features}
-\alias{IGM.aggregate.features}
+\name{aggregate_features}
+\alias{aggregate_features}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Aggregate Feature Data
@@ -8,12 +8,12 @@ Aggregate Feature Data
 Takes data from S object (MEA data structure) and makes a list of dataframes. Each dataframe corresponds to one feature, containing values for each well across each DIV of recording
 }
 \usage{
-IGM.aggregate.features(s, feat.type, parameters)
+aggregate_features(s, feat_type, parameters)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{s}{MEA data structure}
-  \item{feat.type}{Type of features (e.g. "spikes", "ns", "bursts")}
+  \item{feat_type}{Type of features (e.g. "spikes", "ns", "bursts")}
   \item{parameters}{ A list of parameters, see data("parameters")  }
 }
 \value{A list of dataframes for a given set of features}
@@ -22,9 +22,9 @@ IGM.aggregate.features(s, feat.type, parameters)
 	data("parameters")
 	s<-list()
 	s[[1]]<-S
-	spike.features = suppressWarnings( IGM.aggregate.features(s, "spike", parameters))
-	ns.features = suppressWarnings( IGM.aggregate.features(s, "ns", parameters) )
-	burst.features = suppressWarnings( IGM.aggregate.features(s, "burst", parameters) )
+	spike_features = suppressWarnings( aggregate_features(s, "spike", parameters))
+	ns_features = suppressWarnings( aggregate_features(s, "ns", parameters) )
+	burst_features = suppressWarnings( aggregate_features(s, "burst", parameters) )
 }
 \keyword{MEA}
 \keyword{Aggregate}% __ONLY ONE__ keyword per line

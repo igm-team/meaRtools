@@ -1,8 +1,8 @@
-IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
+plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
   for (i in (1:length(s))) {
     basename <- get_file_basename(s[[i]]$file)
-    burstPlotPath = paste(outputdir, "/", basename, "_burst_plot.pdf", sep = "")
-    pdf(file = burstPlotPath)
+    burst_plot_path = paste(outputdir, "/", basename, "_burst_plot.pdf", sep = "")
+    pdf(file = burst_plot_path)
     # layout
     p <- .plot_mealayout(s[[i]]$layout, use_names = T, cex = 0.25)
     title(main = paste(paste("Electrode Layout"),
@@ -12,75 +12,75 @@ IGM.plot.plate.summary.for.bursts <- function(s, outputdir, parameters) {
     # Add distribution plots
 
     # Perform IBI distribution analysis
-    if (parameters$burst.distribution.IBI$perform) {
+    if (parameters$burst_distribution_IBI$perform) {
 
       feature = "IBI"; print("Running IBI distribution analysis.")
-      params = parameters$burst.distribution.IBI
-      p <- calc.burst.distributions(s[[i]], minVals = params$min.cases, xlimit = params$x.lim, binsInSec = params$bins.in.seg, feature = feature,
-        filterValuesByMin = params$filter.by.min, minValues = params$min.values, perWell = params$per.well, outputdir = outputdir,
-        min.electrodes = parameters$well_min_rate, parameters$timeStamp)}
+      params = parameters$burst_distribution_IBI
+      p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
+        filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform ISI distribution analysis
-    if (parameters$burst.distribution.ISI$perform) {
+    if (parameters$burst_distribution_ISI$perform) {
 
       feature = "ISI"; print("Running ISI distribution analysis.")
-      params = parameters$burst.distribution.ISI
-      p <- calc.burst.distributions(s[[i]], minVals = params$min.cases, xlimit = params$x.lim, binsInSec = params$bins.in.seg, feature = feature,
-        filterValuesByMin = params$filter.by.min, minValues = params$min.values, perWell = params$per.well, outputdir = outputdir,
-        min.electrodes = parameters$well_min_rate, parameters$timeStamp)}
+      params = parameters$burst_distribution_ISI
+      p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
+        filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform nSpikes distribution analysis
-    if (parameters$burst.distribution.nSpikes$perform) {
+    if (parameters$burst_distribution_nSpikes$perform) {
 
       feature = "nspikesInBurst"; print("Running nSpikes in bursts distribution analysis.")
-      params = parameters$burst.distribution.nSpikes
-      p <- calc.burst.distributions(s[[i]], minVals = params$min.cases, xlimit = params$x.lim, binsInSec = params$bins.in.seg, feature = feature,
-        filterValuesByMin = params$filter.by.min, minValues = params$min.values, perWell = params$per.well, outputdir = outputdir,
-        min.electrodes = parameters$well_min_rate, parameters$timeStamp)}
+      params = parameters$burst_distribution_nSpikes
+      p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
+        filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform duration of bursts distribution analysis
-    if (parameters$burst.distribution.durn$perform) {
+    if (parameters$burst_distribution_durn$perform) {
 
       feature = "duration"; print("Running duration of bursts distribution analysis.")
-      params = parameters$burst.distribution.durn
-      p <- calc.burst.distributions(s[[i]], minVals = params$min.cases, xlimit = params$x.lim, binsInSec = params$bins.in.seg, feature = feature,
-        filterValuesByMin = params$filter.by.min, minValues = params$min.values, perWell = params$per.well, outputdir = outputdir,
-        min.electrodes = parameters$well_min_rate, parameters$timeStamp)}
+      params = parameters$burst_distribution_durn
+      p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
+        filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # Perform duration of bursts distribution analysis
-    if (parameters$burst.distribution.spikeFreq$perform) {
+    if (parameters$burst_distribution_spikeFreq$perform) {
 
       feature = "spikesDensityInBurst"; print("Running spike density in bursts distribution analysis.")
-      params = parameters$burst.distribution.spikeFreq
-      p <- calc.burst.distributions(s[[i]], minVals = params$min.cases, xlimit = params$x.lim, binsInSec = params$bins.in.seg, feature = feature,
-        filterValuesByMin = params$filter.by.min, minValues = params$min.values, perWell = params$per.well, outputdir = outputdir,
-        min.electrodes = parameters$well_min_rate, parameters$timeStamp)}
+      params = parameters$burst_distribution_spikeFreq
+      p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases, xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec, feature = feature,
+        filter_values_by_min = params$filter_by_min, min_values = params$min_values, per_well = params$per_well, outputdir = outputdir,
+        min_electrodes = parameters$well_min_rate, parameters$time_stamp)}
 
     # MFR
     p <- .plot_meanfiringrate(s[[i]], main = "Mean Firing Rate by Plate (Hz)")
     # p<- plot(s[[i]], main = "", label.cells = FALSE, use_names = FALSE)
 
-    p <- .channel.plot.by.well(s[[i]], resp = "meanfiringrate", resp.label = "Mean Firing Rate (Hz)")
+    p <- .channel_plot_by_well(s[[i]], resp = "meanfiringrate", resp_label = "Mean Firing Rate (Hz)")
     # Mean Duration
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean.dur", resp.label = "Mean Duration of Burst (s)")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_dur", resp_label = "Mean Duration of Burst (s)")
     # plot of Number of bursts by channel and well
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$nbursts", resp.label = "Number of Bursts")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$nbursts", resp_label = "Number of Bursts")
     # mean Inter Burst Interval
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean.IBIs", resp.label = "Mean IBIs (ms)")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_IBIs", resp_label = "Mean IBIs (ms)")
     # mean ISI within bursts
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean_isis", resp.label = "Mean ISI w/i Bursts (s)")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_isis", resp_label = "Mean ISI w/i Bursts (s)")
     # mean burst per minute
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$bursts.per.min", resp.label = "Mean Burst per Minute")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$bursts_per_min", resp_label = "Mean Burst per Minute")
     # mean spikes in a burst
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$mean.spikes", resp.label = "Mean # Spikes/Burst")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_spikes", resp_label = "Mean # Spikes/Burst")
     # % spikes in a burst
-    p <- .channel.plot.by.well(s[[i]], resp = "bs$per.spikes.in.burst", resp.label = "% Spikes/Burst")
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$per_spikes_in_burst", resp_label = "% Spikes/Burst")
     dev.off()
   }
 }
 
-write.plate.summary.for.bursts <- function(s, outputdir) {
-  masterSum <- .get.burst.info.averaged.over.well(s)
+write_plate_summary_for_bursts <- function(s, outputdir) {
+  masterSum <- .get_burst_info_averaged_over_well(s)
   csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file), "_well_bursts.csv", sep = "")
 
   for (i in 1:length(s)) {
@@ -123,7 +123,7 @@ write.plate.summary.for.bursts <- function(s, outputdir) {
 
 
     # write a title
-    write.table("Bursting Analysis averaged over Each Well",
+    write.table("Burst Analysis Averaged Over Each Well",
       csvfile, sep = ",", append = FALSE, row.names = FALSE, col.names = FALSE)
 
 
