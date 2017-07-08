@@ -1,0 +1,16 @@
+Package: meaRtools
+Type: Package
+Title: R tools for MEA Analysis
+Version: 1.0.0
+Date: 2017-05-13
+Author: Quanli Wang, Sahar Gelfman, Diana Hall, Ryan Dhindsa
+Maintainer: Sahar Gelfman <sg3261@columbia.edu>
+Description: Software tools for the characterization of neuronal networks as recorded on multi-electrode arrays.
+Depends: R (>= 3.2.2)
+Imports: lattice,tcltk,emdist,ggplot2 (>= 2.0.0),
+        gridExtra,reshape2,plyr, gtools
+License: GPL(>=3)
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: yes
+Packaged: 2017-07-08 13:39:02 UTC; sg3261
