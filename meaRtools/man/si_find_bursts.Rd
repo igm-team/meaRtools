@@ -5,12 +5,13 @@ Find bursts}
 \description{
 For one spike train, find the bursts using the Poisson surprise method.}
 \usage{
-si_find_bursts(spikes,s_min,burst.isi.max)
+si_find_bursts(spikes,s_min,burst_isi_max)
 }
 \arguments{
   \item{spikes}{
 A spike train of one channel, located in MEA data structure (example S$spikes[[1]]). }
   \item{s_min}{ A minimum value for the surprise index}
+  \item{burst_isi_max}{ ISI threshold used by the the surprise index algorithm}
 }
 \value{
 Returns a matrix of burst information for a specific channel.

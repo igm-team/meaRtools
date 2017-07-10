@@ -42,7 +42,7 @@
   }
 
   if (!is.null(ids)) {
-    spikes <- .filter.channel.names(spikes, ids)
+    spikes <- .filter_channel_names(spikes, ids)
   }
 
   ## No more spike trains should be removed, so we can refilter
@@ -120,7 +120,7 @@ calculate_isis <- function(s) {
                      "sdfiringrate_by_active_electordes",
                      "meanisis", "sdisis")
   rownames(sum) <- wells
-  nelectrodes <- plate$n.elec.r * plate$n.elec.c
+  nelectrodes <- plate$n_elec_r * plate$n_elec_c
   if (!is.null(s$goodwells)) {
     for (j in 1:length(s$goodwells)) {
       icurrentwell <- (s$goodwells[j] == s$cw)
@@ -189,12 +189,12 @@ compute_mean_firingrate_by_well <- function(s) {
         df <- do.call("rbind", df)
         colnames(df) <- c("isis", "electrode")
         plateinfo <- .plateinfo(s$layout$array)
-        d1 <- expand.grid(col = 1:plateinfo$n.elec.c,
-                          row = 1:plateinfo$n.elec.r)
+        d1 <- expand.grid(col = 1:plateinfo$n_elec_c,
+                          row = 1:plateinfo$n_elec_r)
         all_electrodes <- sort(paste(well, "_",
                               d1[, "row"], d1[, "col"],
                               sep = ""))
-        layout_electrodes <- c(plateinfo$n.elec.r, plateinfo$n.elec.c)
+        layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
         df <- data.frame(df)
         df$isis <- as.numeric(as.vector(df$isis))
         df$electrode <- as.character(as.vector(df$electrode))
@@ -236,10 +236,10 @@ compute_mean_firingrate_by_well <- function(s) {
       maxy <- max(df[, 2])
       colnames(df) <- c("time", "meanfiringrate", "electrode")
       plateinfo <- .plateinfo(s$layout$array)
-      d1 <- expand.grid(col = 1:plateinfo$n.elec.c, row = 1:plateinfo$n.elec.r)
+      d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
       all_electrodes <- sort(paste(well, "_", d1[, "row"],
                                    d1[, "col"], sep = ""))
-      layout_electrodes <- c(plateinfo$n.elec.r, plateinfo$n.elec.c)
+      layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
       df <- data.frame(df)
 
       p1 <- xyplot(meanfiringrate ~ time | factor(electrode,
@@ -334,8 +334,8 @@ plot_plate_summary_for_spikes <- function(s, outputdir) {
     # MFR
     p <- .plot_meanfiringrate(s[[i]], main = "Mean Firing Rate by Plate (Hz)")
     p <- .plot_isis_by_plate(s[[i]])
-    p <- .channel.plot.by.well(s[[i]], resp = "meanfiringrate",
-            resp.label = "Mean Firing Rate (Hz)")
+    p <- .channel_plot_by_well(s[[i]], resp = "meanfiringrate",
+            resp_label = "Mean Firing Rate (Hz)")
     p <- .plot_mean_firingrate_by_electrode(s[[i]])
     p <- .plot_isis_by_electrode(s[[i]])
     dev.off()
@@ -585,7 +585,7 @@ isi <- function(train) {
   s$timepoint <- s1$timepoint
   if (s$nspikes[1] > 0) {
     s$allb <- lapply(s$spikes, mi.find.bursts, s$parameters$mi.par)
-    s$bs <- calc.burst.summary(s)
+    s$bs <- calc_burst_summary(s)
   }
 
   s <- calculate_isis(s)

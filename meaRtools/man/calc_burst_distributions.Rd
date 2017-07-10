@@ -1,37 +1,37 @@
-\name{calc.burst.distributions}
-\alias{calc.burst.distributions}
+\name{calc_burst_distributions}
+\alias{calc_burst_distributions}
 \title{ calculate and plot burst featues distributions}
 \description{
 The function calculates normalized distributions of selected bursting features and plots distribution graphs of all treatments in a recording. The function also prints csv output in the /Analysis directory for downstream stats such as permutation test of treatment labels}
 \usage{
-calc.burst.distributions(s, minVals = 1, xlimit = 25, binsInSec = 5, 
-feature = "non", filterValuesByMin = 0, minValues = 0, perWell = 0, outputdir = getwd(),
-min.electrodes=4, timeStamp="DATE_TIME")
+calc_burst_distributions(s, min_vals = 1, xlimit = 25, bins_in_sec = 5, 
+feature = "non", filter_values_by_min = 0, min_values = 0, per_well = 0, 
+outputdir = getwd(), min_electrodes = 4, time_stamp = "DATE_TIME")
 }
 \arguments{
   \item{s}{
 MEA data structure
 }
-  \item{minVals}{
+  \item{min_vals}{
 minimum values number per electrode, electrodes with a smaller number of values than that are discarded}
   \item{xlimit}{
 max limit of values, for example: xlimit = 25 for IBI analysis means that IBIs longer than 25 seconds will not be part of distribution calculations}
-  \item{binsInSec}{
-how many bins to cut each of the segments. For example: IBI analysis has 25 seconds as xlimit, to analyse in a 0.1 sec resolution binsInSec should be set to 10, for 1 sec resolution set binsInsec to 1
+  \item{bins_in_sec}{
+how many bins to cut each of the segments. For example: IBI analysis has 25 seconds as xlimit, to analyse in a 0.1 sec resolution bins_in_sec should be set to 10, for 1 sec resolution set bins_in_sec to 1
 }
   \item{feature}{
 what feature to analyze, options are "IBI", "ISI, "nspikesInBurst", "duration", "spikesDensityInBurst"}
-  \item{filterValuesByMin}{
-should analysis disregard values with lower then filterValuesByMin number of values ? (0/1, default is 0). For example, if set to 1 for duration analysis, should analysis consider also bursts shorter than filterValuesByMin ?}
-  \item{minValues}{
-disregards values with lower then filterValuesByMin , only if filterValuesByMin set to 1 }
-  \item{perWell}{
+  \item{filter_values_by_min}{
+should analysis disregard values with lower then filter_values_by_min number of values ? (0/1, default is 0). For example, if set to 1 for duration analysis, should analysis consider also bursts shorter than filter_values_by_min ?}
+  \item{min_values}{
+disregards values with lower then filter_values_by_min , only if filter_values_by_min set to 1 }
+  \item{per_well}{
 should distribution analysis be performed by testing treatment differences on well level means (1) or electrode level means(0) }
   \item{outputdir}{
 output directory}
-  \item{min.electrodes}{
+  \item{min_electrodes}{
 minimum electrodes for an active well}
-  \item{timeStamp}{
+  \item{time_stamp}{
 time stamp for the output files}
 }
 \details{
@@ -48,8 +48,8 @@ Sahar Gelfman
 # Load exapmple of recording Robject (MEA data structure)
 data("S")  
 feature="IBI"; 
-#calc.burst.distributions(S, minVals = 15, xlimit = 20, binsInSec = 5, 
-#feature = feature, perWell = 0, outputdir = "/Analysis")}
+#calc_burst_distributions(S, min_vals = 15, xlimit = 20, bins_in_sec = 5, 
+#feature = feature, per_well = 0, outputdir = "/Analysis")}
 
 \keyword{ distributions }
 \keyword{ IBI }

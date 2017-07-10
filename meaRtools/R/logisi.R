@@ -161,7 +161,7 @@
 
     ## Recompute IBI (only needed if phase 3 deleted some cells).
     if (nrow(bursts) > 1) {
-      ibi2 = c(NA, .calc.ibi(spikes, bursts))
+      ibi2 = c(NA, .calc_ibi(spikes, bursts))
     } else {
       ibi2 = NA
     }

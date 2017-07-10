@@ -31,46 +31,46 @@ List of 20
  $ ns.T                        : num 0.01
  $ ns.N                        : num 3
  $ sur                         : num 100
- $ burst.distribution.IBI      :List of 7
+ $ burst_distribution_IBI      :List of 7
   ..$ perform      : num 1
-  ..$ min.cases    : num 15
-  ..$ x.lim        : num 20
-  ..$ bins.in.seg  : num 5
-  ..$ min.values   : num 0
-  ..$ filter.by.min: num 0
-  ..$ per.well     : num 0
- $ burst.distribution.durn     :List of 7
+  ..$ min_cases    : num 15
+  ..$ x_axis_lim        : num 20
+  ..$ bins_in_sec  : num 5
+  ..$ min_values   : num 0
+  ..$ filter_by_min: num 0
+  ..$ per_well     : num 0
+ $ burst_distribution_durn     :List of 7
   ..$ perform      : num 1
-  ..$ min.cases    : num 15
-  ..$ x.lim        : num 18
-  ..$ bins.in.seg  : num 10
-  ..$ min.values   : num 0
-  ..$ filter.by.min: num 0
-  ..$ per.well     : num 0
- $ burst.distribution.ISI      :List of 7
+  ..$ min_cases    : num 15
+  ..$ x_axis_lim        : num 18
+  ..$ bins_in_sec  : num 10
+  ..$ min_values   : num 0
+  ..$ filter_by_min: num 0
+  ..$ per_well     : num 0
+ $ burst_distribution_ISI      :List of 7
   ..$ perform      : num 1
-  ..$ min.cases    : num 15
-  ..$ x.lim        : num 0.5
-  ..$ bins.in.seg  : num 100
-  ..$ min.values   : num 0
-  ..$ filter.by.min: num 0
-  ..$ per.well     : num 0
- $ burst.distribution.nSpikes  :List of 7
+  ..$ min_cases    : num 15
+  ..$ x_axis_lim        : num 0.5
+  ..$ bins_in_sec  : num 100
+  ..$ min_values   : num 0
+  ..$ filter_by_min: num 0
+  ..$ per_well     : num 0
+ $ burst_distribution_nSpikes  :List of 7
   ..$ perform      : num 1
-  ..$ min.cases    : num 5
-  ..$ x.lim        : num 200
-  ..$ bins.in.seg  : num 1
-  ..$ min.values   : num 0
-  ..$ filter.by.min: num 0
-  ..$ per.well     : num 0
- $ burst.distribution.spikeFreq:List of 7
+  ..$ min_cases    : num 5
+  ..$ x_axis_lim        : num 200
+  ..$ bins_in_sec  : num 1
+  ..$ min_values   : num 0
+  ..$ filter_by_min: num 0
+  ..$ per_well     : num 0
+ $ burst_distribution_spikeFreq:List of 7
   ..$ perform      : num 1
-  ..$ min.cases    : num 15
-  ..$ x.lim        : num 300
-  ..$ bins.in.seg  : num 1
-  ..$ min.values   : num 0
-  ..$ filter.by.min: num 0
-  ..$ per.well     : num 0
+  ..$ min_cases    : num 15
+  ..$ x_axis_lim        : num 300
+  ..$ bins_in_sec  : num 1
+  ..$ min_values   : num 0
+  ..$ filter_by_min: num 0
+  ..$ per_well     : num 0
 }
 
 \examples{

@@ -9,7 +9,7 @@ summarize.network.spikes <- function(e, nspikes, ns.E, sur) {
     well <- wells[[i]]
     data <- nspikes$ns.all[[i]]$measures
     if (!is.null(data)) {
-      indexes <- .names.to.indexes(names(e$spikes), well, allow.na = TRUE)
+      indexes <- .names_to_indexes(names(e$spikes), well, allow_na = TRUE)
       electrodes <- names(e$spikes)[indexes]
       en.map <- matrix(0, length(electrodes), dim(data)[1])
       rownames(en.map) <- electrodes
@@ -165,22 +165,22 @@ IGM.xyplot.network.spikes <- function(nspikes) {
     p1
   }
 }
-.active.wells.network.spikes <- function(nspikes) {
-  active.wells <- nspikes
-  active.wells$ns.all <- nspikes$ns.all[sort(nspikes$wells[sapply(nspikes$wells, function(well) {
+.active_wells_network_spikes <- function(nspikes) {
+  active_wells <- nspikes
+  active_wells$ns.all <- nspikes$ns.all[sort(nspikes$wells[sapply(nspikes$wells, function(well) {
       !is.na(nspikes$ns.all[[well]]$brief[[1]]) & nspikes$ns.all[[well]]$brief[[1]] > 0})
     ])]
-  active.wells
+  active_wells
 }
 
-IGM.plot.active.wells.network.spikes <- function(nspikes) {
-  active.wells <- .active.wells.network.spikes(nspikes)$ns.all
-  if (length(active.wells) > 0) {
-    for (j in 1:length(active.wells)) {
-      IGM.plot.network.spikes(active.wells[[j]], main = names(active.wells)[j], ylab = "Count", xlab = "Time (s)")
-      y <- as.vector(active.wells[[j]]$mean)
+plot_active_wells_network_spikes <- function(nspikes) {
+  active_wells <- .active_wells_network_spikes(nspikes)$ns.all
+  if (length(active_wells) > 0) {
+    for (j in 1:length(active_wells)) {
+      IGM.plot.network.spikes(active_wells[[j]], main = names(active_wells)[j], ylab = "Count", xlab = "Time (s)")
+      y <- as.vector(active_wells[[j]]$mean)
       plot(ts(y, start = c(- (length(y) - 1) / 2, 1)), xlab = "Time (ms)", ylab = "Count", main = paste("Mean NS for",
-        names(active.wells)[j], sep = " "))
+        names(active_wells)[j], sep = " "))
     }
   }
 }
@@ -188,24 +188,24 @@ IGM.plot.active.wells.network.spikes <- function(nspikes) {
 write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
   csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_ns.csv", sep = "")
   div <- .get_div(s)
-  active.wells <- .active.wells.network.spikes(nspikes)$ns.all
-  if (length(active.wells) > 0) {
+  active_wells <- .active_wells_network_spikes(nspikes)$ns.all
+  if (length(active_wells) > 0) {
     # sahar 10292014 - add genotype column and change newcol from 2 to 3
     newcol <- 3
     # 2 to peak.min and peak.max
-    p <- length(active.wells[[1]]$brief) + length(active.wells[[1]]$mean) + newcol
+    p <- length(active_wells[[1]]$brief) + length(active_wells[[1]]$mean) + newcol
     nsdata <- matrix(0, length(s$well), p)
     temp <- c() # Diana 10/2014
     # Diana Hall 10-31-2014 change
-    length.temp.mean <- length(active.wells[[1]]$mean)
+    length_temp_mean <- length(active_wells[[1]]$mean)
     for (j in 1:length(s$well)) {
-      cur.well <- s$well[j]
-      if (is.element(cur.well, names(active.wells))){
-        temp <- active.wells[[cur.well]]
+      cur_well <- s$well[j]
+      if (is.element(cur_well, names(active_wells))){
+        temp <- active_wells[[cur_well]]
         nsdata[j, 1:length(temp$brief)] <- temp$brief
         nsdata[j, length(temp$brief) + 1] <- min(temp$measures[, "peak.val"])
         nsdata[j, length(temp$brief) + 2] <- max(temp$measures[, "peak.val"])
-        nsdata[j, length(temp$brief) + 3] <- s$treatment[cur.well]
+        nsdata[j, length(temp$brief) + 3] <- s$treatment[cur_well]
         nsdata[j, (length(temp$brief) + newcol + 1):p] <- as.double(temp$mean)
 
       } else {
@@ -213,14 +213,14 @@ write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
         nsdata[j, 1:length(temp$brief)] <- temp$brief
         nsdata[j, length(temp$brief) + 1] <- NA
         nsdata[j, length(temp$brief) + 2] <- NA
-        # nsdata[j,length(temp$brief)+3] <- as.character( s$treatment[cur.well] )
-        nsdata[j, length(temp$brief) + 3] <- s$treatment[cur.well]
-        nsdata[j, (length(temp$brief) + newcol + 1):p] <- rep(0, length.temp.mean)
+        # nsdata[j,length(temp$brief)+3] <- as.character( s$treatment[cur_well] )
+        nsdata[j, length(temp$brief) + 3] <- s$treatment[cur_well]
+        nsdata[j, (length(temp$brief) + newcol + 1):p] <- rep(0, length_temp_mean)
       }
     }
 
     nsdata <- data.frame(nsdata)
-    names(nsdata)[1:length(temp$brief)] <- names(active.wells[[1]]$brief)
+    names(nsdata)[1:length(temp$brief)] <- names(active_wells[[1]]$brief)
     names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <- c("peak.min", "peak.max", "treatment")
 
     for (j in 1:(p - length(temp$brief) - newcol)) {

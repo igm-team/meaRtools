@@ -27,9 +27,9 @@ get_project_plate_name <- function(file) {
 
 .get_electrode_layout <- function(r, well) {
   plateinfo <- .plateinfo(r$layout$array)
-  d1 <- expand.grid(col = 1:plateinfo$n.elec.c, row = 1:plateinfo$n.elec.r)
+  d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
   electrodes <- sort(paste(well, "_", d1[, "row"], d1[, "col"], sep = ""))
-  layout <- c(plateinfo$n.elec.r, plateinfo$n.elec.c)
+  layout <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
   return(list(electrodes = electrodes, layout = layout))
 }
 
