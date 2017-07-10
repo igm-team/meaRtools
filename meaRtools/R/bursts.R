@@ -80,7 +80,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
 }
 
 write_plate_summary_for_bursts <- function(s, outputdir) {
-  masterSum <- .get_burst_info_averaged_over_well(s)
+  masterSum <- .get_mean_burst_info_per_well(s)
   csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file), "_well_bursts.csv", sep = "")
 
   for (i in 1:length(s)) {

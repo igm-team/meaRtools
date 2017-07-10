@@ -6,7 +6,7 @@
 
 \usage{
 filter_wells(unfiltered_df, nae,min_electrodes = 4, 
-well_filter_maximum_DIV_inactive_ratio = 0.5)
+well_max_div_inactive_ratio = 0.5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,7 +16,7 @@ well_filter_maximum_DIV_inactive_ratio = 0.5)
 }
   \item{min_electrodes}{Minimum number of active electrode to consider a well for analysis
 }
-  \item{well_filter_maximum_DIV_inactive_ratio}{The DIV inactive/active well ratio below which a well will be considered active for a set of DIVs
+  \item{well_max_div_inactive_ratio}{The DIV inactive/active well ratio below which a well will be considered active for a set of DIVs
 }
 }
 \value{A dataframe identical in format to the input, except that wells that do not meet the filtering criteria are removed.

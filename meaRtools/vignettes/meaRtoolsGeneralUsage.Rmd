@@ -296,10 +296,10 @@ nae <- spike.features$nAE
 nae[is.na(nae)] <- 0
 
 # filter spike wells
-spike.features = lapply(spike.features, function(x) filter_wells( x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio))
+spike.features = lapply(spike.features, function(x) filter_wells( x, nae, parameters$well_min_rate, parameters$well_max_div_inactive_ratio))
 
 # filter network burst wells
-nb.features <- lapply(nb.features, function(x) filter_wells(x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio ))
+nb.features <- lapply(nb.features, function(x) filter_wells(x, nae, parameters$well_min_rate, parameters$well_max_div_inactive_ratio ))
 # re-order features by well name
 nb.features <- lapply(nb.features, function(x) x[order(x[,'well']),])
 
@@ -367,5 +367,6 @@ mtext(side = 1, at = 0, line = 4,
 This document provides the steps to use meaRtools's functions as a pipeline for an MEA experiment analysis lasting 3 DIVs. In the /Analysis output folder are now the full results for extracting all the features and comparing them between the treatments that we decided to test. Even with only three recordings the output files are numerous require a deep dive for better understanding the full picture of the difference between treatments. We hope you will enjoy all the capabilities that meaRtools has to offer and use it to deeply and fully understand your MEA recordings. Please read the meaRtools manuscript for detailed information about the methods and do not hesitate to contact us for any explanation that might be lacking in this document.
 
 Goodluck!
-IGM MEA team
+
+meaRtools team
 
