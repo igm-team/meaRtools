@@ -146,7 +146,7 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 ## the list returned, (masterSum[[1]],masterSum[[2]]..etc for each spike list s[[i]])
 ## has meta data and has been filtered according to weather it's 48 or 12 well
 # necessary: the timepoint "00" is needed to set which wells are active etc
-.get_burst_info_averaged_over_well <- function(s) {
+.get_mean_burst_info_per_well <- function(s) {
   masterSum <- list() # summary over all files
   for (i in 1:length(s)) {
     sum = list() # summary for each timepoint
