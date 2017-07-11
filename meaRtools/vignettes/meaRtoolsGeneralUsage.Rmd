@@ -324,14 +324,14 @@ write_features_to_files(s, nb.features, analysis$output_dir, "nb")
 
 ## Testing for differences between treatments
 
-The example recordings have three treatments (groups): treatX, treatY and untreated. to perform MW-tests, permutate the data and plot, we first need to decide which treatment we would like to compare to all the others. Here we use 'untreated' as that treatment that will be tested against treatX and treatY. However, you can also use the get.wt(s) function and it will open a tcltk window with the treatments available on the plate and will let you choose the one you're interested in, to use as argument to the testing scheme.
+The example recordings have three treatments (groups): treatX, treatY and untreated. to perform MW-tests, permutate the data and plot, we first need to decide which treatment we would like to compare to all the others. Here we use 'untreated' as that treatment that will be tested against treatX and treatY. However, you can also use the get_wt(s) function and it will open a tcltk window with the treatments available on the plate and will let you choose the one you're interested in, to use as argument to the testing scheme.
 
 ```{r}
 
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, spike.features, "spikes", analysis$output_dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, burst.features, "bursts", analysis$output_dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, ns.features, "ns", analysis$output_dir))
-suppressMessages(permute.features.and.plot(s, "untreated", parameters$perm.n, nb.features, "nb", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, spike.features, "spikes", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, burst.features, "bursts", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, ns.features, "ns", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, nb.features, "nb", analysis$output_dir))
 
 ```
 

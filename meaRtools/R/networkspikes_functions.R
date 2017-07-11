@@ -14,17 +14,21 @@ summarize.network.spikes <- function(e, nspikes, ns.E, sur) {
       en.map <- matrix(0, length(electrodes), dim(data)[1])
       rownames(en.map) <- electrodes
       colnames(en.map) <- as.character(data[, 1])
-      # beg <- floor(min(unlist(e$spikes[indexes])))
       for (ns in 1:dim(data)[1]) {
         current.ns <- data[ns, 1]
-        en.map[, ns] <- unlist(lapply(e$spikes[indexes], function(x) {length(x[x > current.ns & x <= current.ns + (nspikes$ns.all)[[i]]$ns.T])}))
+        en.map[, ns] <- unlist(lapply(e$spikes[indexes], function(x) {
+          length(x[x > current.ns &
+                     x <= current.ns + (nspikes$ns.all)[[i]]$ns.T])
+        }))
       }
 
       en.map[en.map < ns.E] <- 0
-      filtered.indexes <- which(colSums(en.map >= ns.E) >= (nspikes$ns.all)[[i]]$ns.N)
+      filtered.indexes <- which(colSums(en.map >= ns.E) >=
+                                  (nspikes$ns.all)[[i]]$ns.N)
 
       en.map <- en.map[, filtered.indexes]
-      if (length(filtered.indexes) == 1) { # deal with R vector matrix problem
+      if (length(filtered.indexes) == 1) {
+        # deal with R vector matrix problem
         dim(en.map) <- c(length(electrodes), length(filtered.indexes))
         colnames(en.map) <- names(filtered.indexes)
         rownames(en.map) <- electrodes
@@ -46,9 +50,11 @@ summarize.network.spikes <- function(e, nspikes, ns.E, sur) {
       p <- NULL
     }
 
-    ns <- list(counts = nspikes$ns.all[[i]]$counts, ns.N = (nspikes$ns.all)[[i]]$ns.N, ns.T = (nspikes$ns.all)[[i]]$ns.T)
+    ns <- list(counts = nspikes$ns.all[[i]]$counts,
+          ns.N = (nspikes$ns.all)[[i]]$ns.N, ns.T = (nspikes$ns.all)[[i]]$ns.T)
     class(ns) <- "ns"
-    m <- .mean.ns(ns, p, plot = FALSE, nrow = 4, ncol = 4, ask = FALSE, sur = sur)
+    m <- .mean.ns(ns, p, plot = FALSE, nrow = 4,
+                  ncol = 4, ask = FALSE, sur = sur)
     if (is.null(m)) {
       ns$brief <- c(n = 0, peak.m = NA, peak.sd = NA, durn.m = NA, durn.sd = NA,
         percent.of.spikes.in.ns = NA,
@@ -88,17 +94,21 @@ summarize.network.spikes <- function(e, nspikes, ns.E, sur) {
       en.brief[, "spikes"] <- e$nspikes[indexes]
       en.brief[, "ns"] <- rowSums(en.map > 0)
       en.brief[, "spikes.in.ns"] <- rowSums(en.map)
-      en.brief[, "percent.of.spikes.in.ns"] <- 100 * en.brief[, "spikes.in.ns"] / en.brief[, "spikes"]
+      en.brief[, "percent.of.spikes.in.ns"] <-
+        100 * en.brief[, "spikes.in.ns"] / en.brief[, "spikes"]
 
-      en.brief[, "mean.spikes.per.ns"] <- en.brief[, "spikes.in.ns"] / en.brief[, "ns"]
-      en.brief[, "sd.spikes.per.ns"] <- unlist(lapply(rownames(en.brief), function(e) {
+      en.brief[, "mean.spikes.per.ns"] <- 
+        en.brief[, "spikes.in.ns"] / en.brief[, "ns"]
+      en.brief[, "sd.spikes.per.ns"] <- 
+        unlist(lapply(rownames(en.brief), function(e) {
         temp <- sd(en.map[e, which(en.map[e, ] > 0)])
         temp[is.na(temp)] <- NaN
         temp
       }))
 
 
-      en.brief[, "mean.insis"] <- unlist(lapply(rownames(en.brief), function(e) {
+      en.brief[, "mean.insis"] <- unlist(lapply(rownames(en.brief),
+      function(e) {
         insis <- diff(as.numeric(names(which(en.map[e, ] > 0))))
         m <- mean(insis)
         m
@@ -132,8 +142,8 @@ calculate.network.spikes <- function(e, sur=100, ns.N, ns.T) {
     ## Convert the mean network spike into a dataframe suitable for lattice
     ## graphics.
     if (!is.null(ns$mean)) {
-      m = ns$mean
-      t = as.vector(time(m))
+      m <- ns$mean
+      t <- as.vector(time(m))
       d <- data.frame(t = t, y = as.vector(m), well = well)
       d
     }
@@ -152,14 +162,18 @@ IGM.xyplot.network.spikes <- function(nspikes) {
   ## Produce the title for each well; note difference between '0' for zero
   ## network spikes found in a well vs 'NA' (no spikes on that well).
   strip.names <- sapply(nspikes$wells, function(well) {
-    n = nspikes$ns.all[[well]]
-    n.ns = n$brief[[1]]
+    n <- nspikes$ns.all[[well]]
+    n.ns <- n$brief[[1]]
     paste(well, n.ns)
   })
   df <- .as.data.frame.network.spikes(nspikes)
   if (!is.null(df)) {
-    p1 <- xyplot(y ~ 10 * t | factor(well, levels = nspikes$wells), data = df, strip = strip.custom(factor.levels = strip.names),
-      main = "Mean NS", xlab = "Time (ms)", ylab = "# electrodes", type = "l", drop.unused.levels = FALSE,
+    p1 <- xyplot(y ~ 10 * t | factor(well,
+      levels = nspikes$wells), data = df,
+      strip = strip.custom(factor.levels = strip.names),
+      main = "Mean NS", xlab = "Time (ms)",
+      ylab = "# electrodes", type = "l",
+      drop.unused.levels = FALSE,
       layout = nspikes$wells.layout)
     print(p1)
     p1
@@ -167,8 +181,11 @@ IGM.xyplot.network.spikes <- function(nspikes) {
 }
 .active_wells_network_spikes <- function(nspikes) {
   active_wells <- nspikes
-  active_wells$ns.all <- nspikes$ns.all[sort(nspikes$wells[sapply(nspikes$wells, function(well) {
-      !is.na(nspikes$ns.all[[well]]$brief[[1]]) & nspikes$ns.all[[well]]$brief[[1]] > 0})
+  active_wells$ns.all <- nspikes$ns.all[sort(nspikes$wells[sapply(nspikes$wells,
+      function(well) {
+          !is.na(nspikes$ns.all[[well]]$brief[[1]]) &
+              nspikes$ns.all[[well]]$brief[[1]] > 0
+      })
     ])]
   active_wells
 }
@@ -177,23 +194,27 @@ plot_active_wells_network_spikes <- function(nspikes) {
   active_wells <- .active_wells_network_spikes(nspikes)$ns.all
   if (length(active_wells) > 0) {
     for (j in 1:length(active_wells)) {
-      IGM.plot.network.spikes(active_wells[[j]], main = names(active_wells)[j], ylab = "Count", xlab = "Time (s)")
+      IGM.plot.network.spikes(active_wells[[j]],
+          main = names(active_wells)[j], ylab = "Count", xlab = "Time (s)")
       y <- as.vector(active_wells[[j]]$mean)
-      plot(ts(y, start = c(- (length(y) - 1) / 2, 1)), xlab = "Time (ms)", ylab = "Count", main = paste("Mean NS for",
+      plot(ts(y, start = c(- (length(y) - 1) / 2, 1)),
+           xlab = "Time (ms)", ylab = "Count", main = paste("Mean NS for",
         names(active_wells)[j], sep = " "))
     }
   }
 }
 
 write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
-  csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_ns.csv", sep = "")
+  csvwell <- paste(outputdir, "/", get_project_plate_name(s$file),
+                   "_ns.csv", sep = "")
   div <- .get_div(s)
   active_wells <- .active_wells_network_spikes(nspikes)$ns.all
   if (length(active_wells) > 0) {
     # sahar 10292014 - add genotype column and change newcol from 2 to 3
     newcol <- 3
     # 2 to peak.min and peak.max
-    p <- length(active_wells[[1]]$brief) + length(active_wells[[1]]$mean) + newcol
+    p <- length(active_wells[[1]]$brief) +
+             length(active_wells[[1]]$mean) + newcol
     nsdata <- matrix(0, length(s$well), p)
     temp <- c() # Diana 10/2014
     # Diana Hall 10-31-2014 change
@@ -213,33 +234,39 @@ write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
         nsdata[j, 1:length(temp$brief)] <- temp$brief
         nsdata[j, length(temp$brief) + 1] <- NA
         nsdata[j, length(temp$brief) + 2] <- NA
-        # nsdata[j,length(temp$brief)+3] <- as.character( s$treatment[cur_well] )
         nsdata[j, length(temp$brief) + 3] <- s$treatment[cur_well]
-        nsdata[j, (length(temp$brief) + newcol + 1):p] <- rep(0, length_temp_mean)
+        nsdata[j, (length(temp$brief) + newcol + 1):p] <-
+          rep(0, length_temp_mean)
       }
     }
 
     nsdata <- data.frame(nsdata)
     names(nsdata)[1:length(temp$brief)] <- names(active_wells[[1]]$brief)
-    names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <- c("peak.min", "peak.max", "treatment")
+    names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <-
+      c("peak.min", "peak.max", "treatment")
 
     for (j in 1:(p - length(temp$brief) - newcol)) {
-      names(nsdata)[j + newcol + length(temp$brief)] = paste("t", j, sep = "")
+      names(nsdata)[j + newcol + length(temp$brief)] <- paste("t", j, sep = "")
     }
     nsdata <- cbind(s$well, nsdata)
     names(nsdata)[1] <- "well"
 
     basename <- get_file_basename(s$file)
-    csvfile = paste(outputdir, "/", basename, "_ns.csv", sep = "")
+    csvfile <- paste(outputdir, "/", basename, "_ns.csv", sep = "")
 
-    write.table(paste("file= ", strsplit(basename(s$file), ".RData")[[1]][1], sep = ""),
+    write.table(paste("file= ", strsplit(basename(s$file),
+                                         ".RData")[[1]][1], sep = ""),
       csvfile, sep = ",", append = FALSE, row.names = FALSE, col.names = FALSE)
-    write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
+    write.table(" ", csvfile, sep = ",", append = TRUE,
+                row.names = FALSE, col.names = FALSE)
     # recording time
-    write.table(paste("recording time (s): [", paste(s$rec_time[1], round(s$rec_time[2]), sep = " ,"),
-      "]", sep = ""), csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
+    write.table(paste("recording time (s): [", paste(s$rec_time[1],
+                        round(s$rec_time[2]), sep = " ,"),
+      "]", sep = ""), csvfile, sep = ",", append = TRUE,
+      row.names = FALSE, col.names = FALSE)
 
-    write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
+    write.table(" ", csvfile, sep = ",", append = TRUE,
+                row.names = FALSE, col.names = FALSE)
 
     write.table("Network Spike analysis at well level",
       csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
@@ -249,7 +276,8 @@ write.network.spikes.to.csv <- function(s, nspikes, outputdir) {
       csvwell, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE))
 
 
-    write.table(" ", csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
+    write.table(" ", csvfile, sep = ",", append = TRUE,
+                row.names = FALSE, col.names = FALSE)
     write.table("Network Spike analysis at electrode level",
       csvfile, sep = ",", append = TRUE, row.names = FALSE, col.names = FALSE)
 
