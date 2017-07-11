@@ -40,7 +40,7 @@
   # Calculates network spikes
   # Called from .write_network_spike_summary
 
-  active_wells <- .active_wells_network_spikes(nspikes)$ns.all
+  active_wells <- .active_wells_network_spikes(nspikes)$ns_all
   if (length(active_wells) > 0) {
     newcol <- 3
     # 2 to peak.min and peak.max
@@ -54,8 +54,8 @@
       if (is.element(cur_well, names(active_wells))){
         temp <- active_wells[[cur_well]]
         nsdata[j, 1:length(temp$brief)] <- temp$brief
-        nsdata[j, length(temp$brief) + 1] <- min(temp$measures[, "peak.val"])
-        nsdata[j, length(temp$brief) + 2] <- max(temp$measures[, "peak.val"])
+        nsdata[j, length(temp$brief) + 1] <- min(temp$measures[, "peak_val"])
+        nsdata[j, length(temp$brief) + 2] <- max(temp$measures[, "peak_val"])
         nsdata[j, length(temp$brief) + 3] <- s$treatment[cur_well]
         nsdata[j, (length(temp$brief) + newcol + 1):p] <- as.double(temp$mean)
 
@@ -101,10 +101,10 @@
   for (i in 1:length(s)) {
     div <- paste("DIV", .get_div(s[[i]]), sep = "")
 
-    nspikes_old <- calculate.network.spikes(s[[i]], parameters$sur,
-                                            parameters$ns.N, parameters$ns.T)
-    nspikes <- summarize.network.spikes(s[[i]], nspikes_old,
-                                        ns.E = 1, parameters$sur)
+    nspikes_old <- calculate_network_spikes(s[[i]], parameters$sur,
+                                            parameters$ns_n, parameters$ns_t)
+    nspikes <- summarize_network_spikes(s[[i]], nspikes_old,
+                                        ns_e = 1, parameters$sur)
     basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
 
     df <- .compile_ns(s[[i]], nspikes)

@@ -393,20 +393,20 @@ calculate.network.bursts <- function(s, Sigma, min_electrodes, local_region_min_
   # extract features and merge features from different recordings into one data frame
   nb.structure <- list()
   nb.structure$summary <- list()
-  nb.structure$nb.all <- list()
-  nb.structure$nb.features <- list()
+  nb.structure$nb_all <- list()
+  nb.structure$nb_features <- list()
   if (length(s) > 0) {
     featuresExtracted.AllDIV <- list()
-    nb.all <- list()
+    nb_all <- list()
     for (i in 1:length(s)) {
       featuresExtracted.AllDIV[[i]] <- .NB.Extract.Features(s[[i]], Sigma, min_electrodes, local_region_min_nAE)
       featuresExtracted.OneDIV <- list(); featuresExtracted.OneDIV[[1]] <- featuresExtracted.AllDIV[[i]]
-      nb.structure$nb.all[[i]] <- featuresExtracted.AllDIV[[i]]$nb.times
+      nb.structure$nb_all[[i]] <- featuresExtracted.AllDIV[[i]]$nb.times
       nb.structure$result[[i]] <- featuresExtracted.AllDIV[[i]]
-      nb.structure$nb.features[[i]] <- .NB.Merge.Result(s, featuresExtracted.OneDIV , Sigma)
+      nb.structure$nb_features[[i]] <- .NB.Merge.Result(s, featuresExtracted.OneDIV , Sigma)
 
     }
-    nb.structure$nb.features.merged <- .NB.Merge.Result(s, nb.structure$result, Sigma)
+    nb.structure$nb_features_merged <- .NB.Merge.Result(s, nb.structure$result, Sigma)
   }
   nb.structure
 }

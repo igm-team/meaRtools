@@ -28,8 +28,8 @@ List of 20
   ..$ min.ibi   : num 0.8
   ..$ min.durn  : num 0.05
   ..$ min.spikes: num 5
- $ ns.T                        : num 0.01
- $ ns.N                        : num 3
+ $ ns_t                        : num 0.01
+ $ ns_n                        : num 3
  $ sur                         : num 100
  $ burst_distribution_IBI      :List of 7
   ..$ perform      : num 1

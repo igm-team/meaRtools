@@ -3,7 +3,7 @@ parameters <- list(
 burst_type = "mi",
 s_min=5,
   
-perm.n = 1000, ##Might want to specify in parameters or give user option?
+perm_n = 1000, ##Might want to specify in parameters or give user option?
 
 elec_min_rate = (1/60),
 elec_max_rate = 1000,
@@ -21,8 +21,8 @@ mi.par = list(beg.isi =    0.1,
                min.spikes = 5),
 
 ## Parameters for network.spikes
-ns.T = 0.01,    	#time in seconds
-ns.N = 3,        #how many coincident electrodes?
+ns_t = 0.01,    	#time in seconds
+ns_n = 3,        #how many coincident electrodes?
 sur=100, # num. ms before and after spike to check I think, used in ms
 
 #sahar -added for ver 2.0
