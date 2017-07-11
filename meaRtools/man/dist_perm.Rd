@@ -22,7 +22,7 @@ A list containing results of two statistical tests for the input probability dis
 \item{data.EMD }{Original value of EMD distance }
 \item{data.EMD }{Original value of maximum distance }
 \item{perm.EMD }{A permuted p.value of the EMD distance }
-\item{perm.p }{A permuted p.value of the maximum distance }
+\item{perm_p }{A permuted p.value of the maximum distance }
 \item{outp }{Maximum distances between genotypes for all permutations performed}
 \item{outEMD }{Maximum Earth Movers Distance between genotypes for all permutations performed }
 \item{data.wt }{Cumulative probabilities of the first genotype}

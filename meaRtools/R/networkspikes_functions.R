@@ -11,6 +11,7 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
     if (!is.null(data)) {
       indexes <- .names_to_indexes(names(e$spikes), well, allow_na = TRUE)
       electrodes <- names(e$spikes)[indexes]
+
       en_map <- matrix(0, length(electrodes), dim(data)[1])
       rownames(en_map) <- electrodes
       colnames(en_map) <- as.character(data[, 1])
@@ -22,7 +23,6 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
                      current_ns + (nspikes$ns_all)[[i]]$ns_t])
         }))
       }
-
       en_map[en_map < ns_e] <- 0
       filtered_indexes <-
         which(colSums(en_map >= ns_e) >= (nspikes$ns_all)[[i]]$ns_n)
@@ -34,8 +34,6 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
         colnames(en_map) <- names(filtered_indexes)
         rownames(en_map) <- electrodes
       }
-
-
 
       if (dim(en_map)[2] > 0) {
         p <- data[filtered_indexes, 1:2]
@@ -107,7 +105,6 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
         temp[is.na(temp)] <- NaN
         temp
       }))
-
 
       en_brief[, "mean_insis"] <- unlist(lapply(rownames(en_brief),
         function(e) {
@@ -267,6 +264,7 @@ write_network_spikes_to_csv <- function(s, nspikes, outputdir) {
       round(s$rec_time[2]), sep = " ,"),
       "]", sep = ""), csvfile, sep = ",",
       append = TRUE, row.names = FALSE, col.names = FALSE)
+
 
     write.table(" ", csvfile, sep = ",", append = TRUE,
                 row.names = FALSE, col.names = FALSE)
