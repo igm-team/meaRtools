@@ -23,7 +23,6 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
                      current_ns + (nspikes$ns_all)[[i]]$ns_t])
         }))
       }
-      
       en_map[en_map < ns_e] <- 0
       filtered_indexes <-
         which(colSums(en_map >= ns_e) >= (nspikes$ns_all)[[i]]$ns_n)
