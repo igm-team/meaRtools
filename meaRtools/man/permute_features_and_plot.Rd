@@ -1,8 +1,8 @@
-\name{permute.features.and.plot}
-\alias{permute.features.and.plot}
+\name{permute_features_and_plot}
+\alias{permute_features_and_plot}
 \title{Write PDF}
 \description{Generates a PDF containing plots and p-values for each feature. P-values are generating using Mann Whitney and permutation tests. This function requires that you create a list of dataframes for a given feature type (e.g. spikes) using the aggregate.data() function}
-\usage{permute.features.and.plot(s, wt, np, features_list, type, output_dir)}
+\usage{permute_features_and_plot(s, wt, np, features_list, type, output_dir)}
 
 \arguments{
   \item{s}{MEA data structure}
@@ -23,10 +23,10 @@ Ryan Dhindsa
 
 \examples{
 	data("S")
-	#spike.features<-aggregate_features(S, feat_type="spike" )
+	#spike_features<-aggregate_features(S, feat_type="spike" )
 	#wt <- "untreated"
 	#output_dir = getwd()
-	#permute.features.and.plot(S, wt, np, spike.features, "spikes", output_dir)}
+	#permute_features_and_plot(S, wt, np, spike_features, "spikes", output_dir)}
 
 \keyword{MEA}
 \keyword{analysis}

@@ -19,13 +19,13 @@ calculate.network.bursts(s,Sigma, min_electrodes, local_region_min_nAE)
   Indicates if an adaptive threthold method should be used.}
 }
 \value{
-Returns an object containing summary, nb.all, nb.features, result, and nb.features.merged.
+Returns an object containing summary, nb_all, nb_features, result, and nb_features_merged.
 
   \item{summary}{ brief summary }
-  \item{nb.all}{ Each well has 3 data frames with nb times, one for each smoothing window }
-  \item{nb.features}{ a list containing a data-frame for each DIV analyzed }
+  \item{nb_all}{ Each well has 3 data frames with nb times, one for each smoothing window }
+  \item{nb_features}{ a list containing a data-frame for each DIV analyzed }
   \item{ result }{ for each DIV analyzed, information on the DIV, times of nb for each well and each smoothing window }
-  \item{ nb.features.merged }{ data frame with nb related features averaged across DIVs }
+  \item{ nb_features_merged }{ data frame with nb related features averaged across DIVs }
 
   
 }

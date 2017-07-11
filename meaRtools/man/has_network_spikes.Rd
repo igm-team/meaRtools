@@ -1,5 +1,5 @@
-\name{has.network.spikes}
-\alias{has.network.spikes}
+\name{has_network_spikes}
+\alias{has_network_spikes}
 
 \title{
 A utility function to check if network spikes are detected.
@@ -8,7 +8,7 @@ A utility function to check if network spikes are detected.
 For an returned object from calcualte.network.spikes, this function provides a utility checking if it contains any network spikes from any well.
 }
 \usage{
-has.network.spikes(nspikes)
+has_network_spikes(nspikes)
 }
 \arguments{
   \item{nspikes}{ The network spike object returned by calling calcualte.network.spikes.

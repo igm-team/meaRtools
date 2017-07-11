@@ -64,7 +64,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
     tkmessageBox(message = "No burst data in Robject!\n")
     stop("No burst data in Robject!\n")
   }
-  if (!is.element("ns.all", names(s[[1]]))) {
+  if (!is.element("ns_all", names(s[[1]]))) {
 
     tkmessageBox(message = "No network spike data in Robject!\n")
     stop("No network spike data in Robject!\n")
@@ -122,11 +122,11 @@ generate.raster.plot <- function(RobjectFile=NULL,
   window.size.i = 1
   if (is.null(window.size)) {
     window.size.i = 1 }
-  if (!is.element(window.size, as.numeric(names(s[[1]]$nb.all[[1]])))) {
+  if (!is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
     window.size.i = 1
   }
-  if (is.element(window.size, as.numeric(names(s[[1]]$nb.all[[1]])))) {
-    window.size.i = which(window.size == as.numeric(names(s[[1]]$nb.all[[1]])))
+  if (is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
+    window.size.i = which(window.size == as.numeric(names(s[[1]]$nb_all[[1]])))
   }
 
 
@@ -190,8 +190,8 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
   # each spike has a name, e.g. "A2_321", "A2_322" that's 1st and 2nd spike of channel A2_32
   if (show.networkspikes){
-    if (!(s[[1]]$ns.all[[well.for.raster]]$brief[1] == 0 || is.na(s[[1]]$ns.all[[well.for.raster]]$brief[1]))){
-      raster.ns.t <- s[[1]]$ns.all[[well.for.raster]]$measures[ , c("time", "durn", "peak.val") ]
+    if (!(s[[1]]$ns_all[[well.for.raster]]$brief[1] == 0 || is.na(s[[1]]$ns_all[[well.for.raster]]$brief[1]))){
+      raster.ns.t <- s[[1]]$ns_all[[well.for.raster]]$measures[ , c("time", "durn", "peak_val") ]
       if (is.matrix(raster.ns.t)){
         raster.ns.t[, "time"] = raster.ns.t[, "time"]
         index.want <- which(raster.ns.t[, "time"] < interval.for.raster[2] & raster.ns.t[, "time"] > interval.for.raster[1])
@@ -223,11 +223,11 @@ generate.raster.plot <- function(RobjectFile=NULL,
   # +++++++++++++++++++++++++++++++++++++++show.nb
   raster.nb = NULL
   if (show.nb) {
-    if (is.element("nb.all", names(s[[1]]))) {
-      if (is.element(well.for.raster, names(s[[1]]$nb.all))) {
-        if (!(nrow(s[[1]]$nb.all[[well.for.raster]][[window.size.i]]) == 0 ||
-            is.na(nrow(s[[1]]$nb.all[[well.for.raster]][[window.size.i]])))) {
-          raster.nb.t <- s[[1]]$nb.all[[well.for.raster]][[window.size.i]][ , c("startT", "endT") ]
+    if (is.element("nb_all", names(s[[1]]))) {
+      if (is.element(well.for.raster, names(s[[1]]$nb_all))) {
+        if (!(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]]) == 0 ||
+            is.na(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]])))) {
+          raster.nb.t <- s[[1]]$nb_all[[well.for.raster]][[window.size.i]][ , c("startT", "endT") ]
           if (is.data.frame(raster.nb.t)) {
 
             index.want <- which(raster.nb.t$startT < interval.for.raster[2] &
@@ -265,7 +265,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
   }
   # nb plot title line
   if (!is.null(raster.nb) && show.nb){
-    plot.title.nb.line <- paste("orange = nb, window size ", names(s[[1]]$nb.all[[well.for.raster]])[window.size.i], "ms", sep = "")
+    plot.title.nb.line <- paste("orange = nb, window size ", names(s[[1]]$nb_all[[well.for.raster]])[window.size.i], "ms", sep = "")
   } else if (is.null(raster.nb) && show.nb){
     plot.title.nb.line <- paste("no network bursts")
   } else {
@@ -306,8 +306,8 @@ generate.raster.plot <- function(RobjectFile=NULL,
   }
   if (show.nb) {
     RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_nb")
-    if (!is.null(names(s[[1]]$nb.all[[well.for.raster]]))) {
-      RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_", names(s[[1]]$nb.all[[well.for.raster]])[window.size.i])
+    if (!is.null(names(s[[1]]$nb_all[[well.for.raster]]))) {
+      RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_", names(s[[1]]$nb_all[[well.for.raster]])[window.size.i])
     }
   }
 
@@ -343,10 +343,10 @@ generate.raster.plot <- function(RobjectFile=NULL,
             }
 
             print(x.coord)
-            cur.peak.val = raster.ns[i, "peak.val"]
-            print(cur.peak.val)
+            cur_peak_val = raster.ns[i, "peak_val"]
+            print(cur_peak_val)
             text(x = x.coord, y = 1.02  ,
-              labels = cur.peak.val , pos = NULL, col = "green")
+              labels = cur_peak_val , pos = NULL, col = "green")
           } # end of label for loop
         } # end of if(show.ns.number)
         mtext(text = summary(s[[1]]), outer = T, side = 3)
@@ -357,9 +357,9 @@ generate.raster.plot <- function(RobjectFile=NULL,
         if (show.ns.number) {
           # use vector indexing
           x.coord = raster.ns["time"]
-          cur.peak.val = raster.ns["peak.val"]
+          cur_peak_val = raster.ns["peak_val"]
           text(x = x.coord, y = 1.02 ,
-            labels = cur.peak.val , pos = NULL, col = "green")
+            labels = cur_peak_val , pos = NULL, col = "green")
         }
 
       }

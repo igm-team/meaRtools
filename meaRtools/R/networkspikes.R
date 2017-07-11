@@ -17,21 +17,21 @@
 ##' If you wish to see the individual network spikes, try .show.ns(ns, ...)
 ##' where the remaining args are passed to the plot function.
 ##' 
-##' @aliases .compute.ns
+##' @aliases .compute_ns
 ##' @param s MEA data structure
-##' @param ns.T Bin width (in seconds) for counting spikes.
-##' @param ns.N Threshold number of active electrodes required to make network
+##' @param ns_t Bin width (in seconds) for counting spikes.
+##' @param ns_n Threshold number of active electrodes required to make network
 ##' spike.
 ##' @param sur How many bins either side of peak to retain when computing the
 ##' mean network spike (default 100 bins either side).
 ##' @param whichcells An optional vector of electrode names.
 ##' @param plot Set to TRUE to plot network spikes.
 ##' @param ns A network spike data structure, returned by
-##' \code{\link{.compute.ns}}
+##' \code{\link{.compute_ns}}
 ##' @param ... Other plot arguments to pass to \code{\link{.show.ns}}
 ##' @return A list with the following elements: \item{counts}{vector giving the
 ##' number of active electrodes in each bin; this can be very long!}
-##' \item{ns.N}{The value of ns.N used.} \item{ns.T}{the value of ns.T used.}
+##' \item{ns_n}{The value of ns_n used.} \item{ns_t}{the value of ns_t used.}
 ##' \item{mean}{The profile of the mean network spike (this is a time series
 ##' object)} \item{measures}{If N network spikes were found, this is a matrix
 ##' with N rows, one per network spike.} \item{brief}{A short vector
@@ -42,7 +42,7 @@
 ##' @references Eytan and Marom (2006) J Neuroscience.
 ##' @keywords Network spikes, MEA analysis
 ##' 
-.compute.ns <- function(s, ns.T, ns.N, sur=100, whichcells=NULL,
+.compute_ns <- function(s, ns_t, ns_n, sur=100, whichcells=NULL,
   plot=FALSE) {
 
   indexes = .names_to_indexes(names(s$spikes), whichcells, allow_na = TRUE)
@@ -52,9 +52,9 @@
     ns <- list()
     ns$brief <- c(n = NA, peak.m = NA, peak.sd = NA, durn.m = NA, durn.sd = NA)
   } else {
-    counts <- .spikes.to.count2(s$spikes[indexes], time_interval = ns.T)
-    p <- .find.peaks(counts, ns.N)
-    ns <- list(counts = counts, ns.N = ns.N, ns.T = ns.T)
+    counts <- .spikes.to.count2(s$spikes[indexes], time_interval = ns_t)
+    p <- .find.peaks(counts, ns_n)
+    ns <- list(counts = counts, ns_n = ns_n, ns_t = ns_t)
     class(ns) <- "ns"
     m <- .mean.ns(ns, p, plot = plot, nrow = 4, ncol = 4, ask = FALSE, sur = sur)
     if (is.null(m)) {
@@ -62,10 +62,10 @@
       ns$brief <- c(n = 0, peak.m = NA, peak.sd = NA, durn.m = NA, durn.sd = NA)
     } else {
       ns$mean <- m$ns.mean; ns$measures <- m$measures
-      peak.val <- ns$measures[, "peak.val"]
+      peak_val <- ns$measures[, "peak_val"]
       durn <- ns$measures[, "durn"]
       ns$brief <- c(n = nrow(ns$measures),
-        peak.m = mean(peak.val), peak.sd = sd(peak.val),
+        peak.m = mean(peak_val), peak.sd = sd(peak_val),
         durn.m = mean(durn, na.rm = TRUE), durn.sd = sd(durn, na.rm = TRUE))
 
     }
@@ -115,12 +115,12 @@
 IGM.plot.network.spikes <- function(ns, ...) {
   ## Plot function for "ns" class.
   plot(ns$counts, ...)
-  abline(h = ns$ns.N, col = "red")
+  abline(h = ns$ns_n, col = "red")
 
   ## peak.times <- times[ ns$peaks[,1]]
   peak.times <- ns$measures[, "time"]
-  peak.val <- ns$measures[, "peak.val"]
-  points(peak.times, peak.val, col = "blue", pch = 19)
+  peak_val <- ns$measures[, "peak_val"]
+  points(peak.times, peak_val, col = "blue", pch = 19)
 
 }
 
@@ -165,7 +165,7 @@ IGM.plot.network.spikes <- function(ns, ...) {
   npts = length(ns$counts)
   times <- time(ns$counts)
   measures = matrix(NA, nrow = nrow(p), ncol = 4)
-  colnames(measures) = c("time", "index", "peak.val", "durn")
+  colnames(measures) = c("time", "index", "peak_val", "durn")
   n.ns = 0 # Number of valid network spikes found
   for (i in 1:nrow(p)) {
     peak.i = p[i, "index"]; lo = (peak.i - sur); hi = peak.i + sur
@@ -175,17 +175,17 @@ IGM.plot.network.spikes <- function(ns, ...) {
       n.ns = n.ns + 1
 
       dat = ns$counts[lo:hi]
-      peak.val = dat[sur + 1]
+      peak_val = dat[sur + 1]
       measures[n.ns, "time"] = times[peak.i]
       measures[n.ns, "index"] = peak.i
-      measures[n.ns, "peak.val"] = peak.val
+      measures[n.ns, "peak_val"] = peak_val
 
 
       if (plot) {
         plot(dat, xaxt = "n", yaxt = "n", ylim = c(0, 60),
           bty = "n", type = "l", xlab = "", ylab = "")
         ## abline(v=sur+1)
-        max.time <- ns$ns.T * sur
+        max.time <- ns$ns_t * sur
         axis(1, at = c(0, 1, 2) * sur,
           ## labels=c('-300 ms', '0 ms', '+300 ms'))
           labels = c(- max.time, 0, max.time))
@@ -193,10 +193,10 @@ IGM.plot.network.spikes <- function(ns, ...) {
       }
 
       hm = .find.halfmax(dat, peak.n = sur + 1, frac = 0.5, plot = plot)
-      measures[n.ns, "durn"] = hm$durn * ns$ns.T
+      measures[n.ns, "durn"] = hm$durn * ns$ns_t
       if (plot) {
         text <- sprintf("%d durn %.3f",
-          round(peak.val), measures[n.ns, "durn"])
+          round(peak_val), measures[n.ns, "durn"])
         legend("topleft", text, bty = "n")
       }
 
@@ -245,13 +245,13 @@ IGM.plot.network.spikes <- function(ns, ...) {
   }
 
 
-  ns.mean = ts(ave, start = (- sur * ns$ns.T), deltat = ns$ns.T)
+  ns.mean = ts(ave, start = (- sur * ns$ns_t), deltat = ns$ns_t)
 
   list(measures = measures, ns.mean = ns.mean)
 }
 
 
-.find.peaks <- function(trace, ns.N) {
+.find.peaks <- function(trace, ns_n) {
 
   ## Peaks are defined as being all elements between two zero entries
   ## (one at start, one at end) in the time series.  An alternate
@@ -263,7 +263,7 @@ IGM.plot.network.spikes <- function(ns, ...) {
   npts = length(trace)
 
   peaks = matrix(NA, nrow = max.peaks, ncol = 2)
-  colnames(peaks) <- c("index", "peak.val")
+  colnames(peaks) <- c("index", "peak_val")
   n = 0
 
   inside = FALSE;
@@ -278,7 +278,7 @@ IGM.plot.network.spikes <- function(ns, ...) {
         ## no longer inside a peak, save results if peak was tall enough.
         inside = FALSE;
 
-        if (peak > ns.N) {
+        if (peak > ns_n) {
           n = n + 1
           if (n > max.peaks) {
             ## oh oh, need more room.
@@ -332,9 +332,9 @@ IGM.plot.network.spikes <- function(ns, ...) {
   if (is.null(peak.n))
     peak.n = which.max(y)
 
-  peak.val = y[peak.n]
+  peak_val = y[peak.n]
 
-  half.max = peak.val * frac
+  half.max = peak_val * frac
 
   ## Break the data into three segments:
 
@@ -394,7 +394,7 @@ IGM.plot.network.spikes <- function(ns, ...) {
 
   if (plot) {
     ## abline(v=xl.half, col='green'); abline(v=xr.half, col='green'); #temp
-    abline(h = peak.val * frac, col = "red")
+    abline(h = peak_val * frac, col = "red")
     if (! any(is.na(c(xl.half, xr.half)))) {
       ## check first that both half-maxes are valid.
       segments(xl.half, half.max, xr.half, half.max, col = "blue")
