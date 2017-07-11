@@ -11,7 +11,7 @@ IGM.plot.network.spikes(ns, ...)
 }
 \arguments{
   \item{ns}{
-    The network spike object returned after running calculate.network.spikes.
+    The network spike object returned after running calculate_network_spikes.
 }
   \item{\dots}{
   Additional plotting options that is general to plot functions.

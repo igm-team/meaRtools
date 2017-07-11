@@ -3,7 +3,7 @@ parameters <- list(
 burst_type = "mi",
 s_min=5,
   
-perm.n = 1000, ##Might want to specify in parameters or give user option?
+perm_n = 1000, ##Might want to specify in parameters or give user option?
 
 elec_min_rate = (1/60),
 elec_max_rate = 1000,
@@ -11,7 +11,7 @@ elec_max_rate = 1000,
 well_min_rate=4,
 # The maximum DIV inactive/active ratio (below which a well will be considered active
 # for a set of DIVs)
-well_filter_maximum_DIV_inactive_ratio=0.5,
+well_max_div_inactive_ratio=0.5,
 
 #parameters for max-interval burst detection
 mi.par = list(beg.isi =    0.1,
@@ -21,8 +21,8 @@ mi.par = list(beg.isi =    0.1,
                min.spikes = 5),
 
 ## Parameters for network.spikes
-ns.T = 0.01,    	#time in seconds
-ns.N = 3,        #how many coincident electrodes?
+ns_t = 0.01,    	#time in seconds
+ns_n = 3,        #how many coincident electrodes?
 sur=100, # num. ms before and after spike to check I think, used in ms
 
 #sahar -added for ver 2.0

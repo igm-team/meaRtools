@@ -147,15 +147,15 @@ beg and end stand for the sequential spike  that begins and ends the burst. IBI 
 
 #### Extracting network spike data 
 
-To calculate network spikes we iterate over all the recordings , for each recording we  1) calculate the network spikes and 2) extract the network spike features from the spike.list object. To call network spikes, we provide the function calculate.network.spikes with several arguments: 
+To calculate network spikes we iterate over all the recordings , for each recording we  1) calculate the network spikes and 2) extract the network spike features from the spike.list object. To call network spikes, we provide the function calculate_network_spikes with several arguments: 
 
 s[[i]] - the first is the 'spike.list' object of the recording
 
 sur - the number of datapoints to be used in summmarizing mean network spikes (default is 100)
 
-ns.N - the number of electrodes above which  a network spike will be called 
+ns_n - the number of electrodes above which  a network spike will be called 
 
-ns.T - the time window for calling a network spike (10ms). 
+ns_t - the time window for calling a network spike (10ms). 
 
 For extracting the features into the 'spike.list' object, we use IGM.summary.network.spikes and provide it with the 'spike.list' object, the calculated network spikes data, the minimum number of spikes in each electrode that we wish to consider (default is 1) and agaiun the 'sur' parameter from above.
 
@@ -165,13 +165,13 @@ For extracting the features into the 'spike.list' object, we use IGM.summary.net
 for (i in 1:length(s)) {
 
   #Calculate Network Spikes
-  nspikes_old <- calculate.network.spikes(s[[i]],parameters$sur, parameters$ns.N, parameters$ns.T)
+  nspikes_old <- calculate_network_spikes(s[[i]],parameters$sur, parameters$ns_n, parameters$ns_t)
   
   # Extract network spike features that will be printed later
-  nspikes <- summarize.network.spikes(s[[i]],nspikes_old,ns.E = 1, parameters$sur)
+  nspikes <- summarize_network_spikes(s[[i]],nspikes_old,ns_e = 1, parameters$sur)
   
   # Add network spike data to the 'spike.list' object
-  s[[i]]$ns.all<-nspikes$ns.all
+  s[[i]]$ns_all<-nspikes$ns_all
 }
 ```
 
@@ -179,7 +179,7 @@ We now have all the network spike features calculated and we can look at them ea
 
 ```{r}
 
-s[[i]]$ns.all$B5$en.brief
+s[[i]]$ns_all$B5$en.brief
 
 ```
 
@@ -198,12 +198,12 @@ local_region_min_nAE - to tell the algorithm if we would like to use an adaptive
                                        parameters$min_electrodes,
                                        parameters$local_region_min_nAE)
     
-    nb.features <- NB.matrix.to.feature.dfs( nb.list$nb.features.merged )
+    nb_features <- NB.matrix.to.feature.dfs( nb.list$nb_features_merged )
 
     # attach data to s object
     for (i in 1:length(s) ){
-      s[[i]]$nb.all<-nb.list$nb.all[[i]]
-      s[[i]]$data.frame$nb.features<-nb.list$nb.features[[i]]
+      s[[i]]$nb_all<-nb.list$nb_all[[i]]
+      s[[i]]$data.frame$nb_features<-nb.list$nb_features[[i]]
     }
     
 ```
@@ -261,12 +261,12 @@ basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
 #Use the next commands for plotting all the ns graphs. Try opening a pdf file so that all will be printed to the same file (which is automatically done for burst features):
 
 pdf(file=paste0(analysis$output_perDIV_dir,"/ns_plot.pdf"))
-IGM.xyplot.network.spikes(nspikes)	
+xyplot_network_spikes(nspikes)	
 plot_active_wells_network_spikes(nspikes)
 dev.off()
 
 # write network spike data to output file
-write.network.spikes.to.csv(s[[i]],nspikes,analysis$output_perDIV_dir)
+write_network_spikes_to_csv(s[[i]],nspikes,analysis$output_perDIV_dir)
 
 # Check the graphs and csvs printed under the analysis$output_perDIV_dir path
 ```
@@ -276,14 +276,14 @@ write.network.spikes.to.csv(s[[i]],nspikes,analysis$output_perDIV_dir)
 One of the strong advantages of meaRtools is it's ability to combine the information from all the loaded recordings and use all of it when comparing between treatments. The following commands aggregate the data for spikes, bursts and network spikes. Network burst features were already aggregated automatically when we ran NB.matrix.to.feature.dfs.
 
 ```{r}
-spike.features = aggregate_features(s, "spike",parameters)
-ns.features = aggregate_features(s, "ns",parameters)
-burst.features = aggregate_features(s, "burst",parameters)
+spike_features = aggregate_features(s, "spike",parameters)
+ns_features = aggregate_features(s, "ns",parameters)
+burst_features = aggregate_features(s, "burst",parameters)
 
 # printing spike features nAE
-spike.features$nAE
+spike_features$nAE
 
-#Feel free to explore the spike/ns/burst and nb.features for the different features they offer
+#Feel free to explore the spike/ns/burst and nb_features for the different features they offer
 ```
 
 ## Filtering inactive wells
@@ -292,23 +292,23 @@ The next step is optional, it allows the user to discard from the analysis wells
 ```{r}
 
 # All uncalculated aEs were set previously to NA, convert all those to 0 aE before the filter
-nae <- spike.features$nAE
+nae <- spike_features$nAE
 nae[is.na(nae)] <- 0
 
 # filter spike wells
-spike.features = lapply(spike.features, function(x) filter_wells( x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio))
+spike_features = lapply(spike_features, function(x) filter_wells( x, nae, parameters$well_min_rate, parameters$well_max_div_inactive_ratio))
 
 # filter network burst wells
-nb.features <- lapply(nb.features, function(x) filter_wells(x, nae, parameters$well_min_rate, parameters$well_filter_maximum_DIV_inactive_ratio ))
+nb_features <- lapply(nb_features, function(x) filter_wells(x, nae, parameters$well_min_rate, parameters$well_max_div_inactive_ratio ))
 # re-order features by well name
-nb.features <- lapply(nb.features, function(x) x[order(x[,'well']),])
+nb_features <- lapply(nb_features, function(x) x[order(x[,'well']),])
 
 # printing spike features nAE after filter
-spike.features$nAE
+spike_features$nAE
 
 ```
 
-After the filter we can observe the spike features dataframe and find that well D5 was dropped from the table because it lacked activity in the first two recordings (compare to spike.features$nAE before the filter was applied).
+After the filter we can observe the spike features dataframe and find that well D5 was dropped from the table because it lacked activity in the first two recordings (compare to spike_features$nAE before the filter was applied).
 
 ## Writing aggregated tables to files
 
@@ -316,10 +316,10 @@ We can now easily print all the aggregated tables of all the extracted features 
 
 ```{r}
 #write csvs 
-write_features_to_files(s, spike.features, analysis$output_dir, "spikes")
-write_features_to_files(s, burst.features, analysis$output_dir, "bursts")
-write_features_to_files(s, ns.features, analysis$output_dir, "ns")
-write_features_to_files(s, nb.features, analysis$output_dir, "nb")
+write_features_to_files(s, spike_features, analysis$output_dir, "spikes")
+write_features_to_files(s, burst_features, analysis$output_dir, "bursts")
+write_features_to_files(s, ns_features, analysis$output_dir, "ns")
+write_features_to_files(s, nb_features, analysis$output_dir, "nb")
 ```
 
 ## Testing for differences between treatments
@@ -328,10 +328,17 @@ The example recordings have three treatments (groups): treatX, treatY and untrea
 
 ```{r}
 
+<<<<<<< HEAD
 suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, spike.features, "spikes", analysis$output_dir))
 suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, burst.features, "bursts", analysis$output_dir))
 suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, ns.features, "ns", analysis$output_dir))
 suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm.n, nb.features, "nb", analysis$output_dir))
+=======
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, spike_features, "spikes", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, burst_features, "bursts", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, ns_features, "ns", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, nb_features, "nb", analysis$output_dir))
+>>>>>>> MI
 
 ```
 
@@ -367,5 +374,6 @@ mtext(side = 1, at = 0, line = 4,
 This document provides the steps to use meaRtools's functions as a pipeline for an MEA experiment analysis lasting 3 DIVs. In the /Analysis output folder are now the full results for extracting all the features and comparing them between the treatments that we decided to test. Even with only three recordings the output files are numerous require a deep dive for better understanding the full picture of the difference between treatments. We hope you will enjoy all the capabilities that meaRtools has to offer and use it to deeply and fully understand your MEA recordings. Please read the meaRtools manuscript for detailed information about the methods and do not hesitate to contact us for any explanation that might be lacking in this document.
 
 Goodluck!
-IGM MEA team
+
+meaRtools team
 

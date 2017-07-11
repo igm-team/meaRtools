@@ -1,5 +1,5 @@
-\name{IGM.xyplot.network.spikes}
-\alias{IGM.xyplot.network.spikes}
+\name{xyplot_network_spikes}
+\alias{xyplot_network_spikes}
 \title{
 xyplot for network spikes at the plate level.
 }
@@ -7,7 +7,7 @@ xyplot for network spikes at the plate level.
 xyplot for network spikes at the plate level. It will detech the plate layout and plot individual wells according to plate layout. 
 }
 \usage{
-IGM.xyplot.network.spikes(nspikes)
+xyplot_network_spikes(nspikes)
 }
 
 \arguments{

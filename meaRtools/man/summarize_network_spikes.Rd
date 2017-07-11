@@ -1,5 +1,5 @@
-\name{summarize.network.spikes}
-\alias{summarize.network.spikes}
+\name{summarize_network_spikes}
+\alias{summarize_network_spikes}
 
 \title{
 Generate network spikes based features.
@@ -8,16 +8,16 @@ Generate network spikes based features.
 This function takes the returned object from calcualte.network.spikes function and parse and filter them using customed filters to regenerate features used by IGM MEA projects. 
 }
 \usage{
-summarize.network.spikes(e, nspikes, ns.E, sur)
+summarize_network_spikes(e, nspikes, ns_e, sur)
 }
 \arguments{
   \item{e}{
   A spike list object for a set of electrodes.
 }
   \item{nspikes}{
-  The spike list object returned from calling calculate.network.spikes.
+  The spike list object returned from calling calculate_network_spikes.
 }
-  \item{ns.E}{
+  \item{ns_e}{
   Minumum number of spikes for each electrode within the network spike window. Most IGM MEA projects use a value of 2.
 }
   \item{sur}{
