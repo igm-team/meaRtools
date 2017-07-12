@@ -227,11 +227,11 @@ generate.raster.plot <- function(RobjectFile=NULL,
       if (is.element(well.for.raster, names(s[[1]]$nb_all))) {
         if (!(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]]) == 0 ||
             is.na(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]])))) {
-          raster.nb.t <- s[[1]]$nb_all[[well.for.raster]][[window.size.i]][ , c("startT", "endT") ]
+          raster.nb.t <- s[[1]]$nb_all[[well.for.raster]][[window.size.i]][ , c("start_t", "end_t") ]
           if (is.data.frame(raster.nb.t)) {
 
-            index.want <- which(raster.nb.t$startT < interval.for.raster[2] &
-              raster.nb.t$endT > interval.for.raster[1])
+            index.want <- which(raster.nb.t$start_t < interval.for.raster[2] &
+              raster.nb.t$end_t > interval.for.raster[1])
             if (length(index.want) > 0) {
               raster.nb <- raster.nb.t[index.want, ]}
           }
@@ -320,8 +320,8 @@ generate.raster.plot <- function(RobjectFile=NULL,
   panel.function <- function(raster.ns, raster.nb, show.ns.number=T) {
     if (!is.null(raster.nb)) {
       for (cur.lnb in 1:length(raster.nb[, 1 ])) {
-        lines(xy.coords(c(raster.nb[cur.lnb, "startT"],
-          raster.nb[cur.lnb, "endT"]),
+        lines(xy.coords(c(raster.nb[cur.lnb, "start_t"],
+          raster.nb[cur.lnb, "end_t"]),
         c(- .02, - .02)) ,
         col = "orange", lwd = 4, lend = "square") }
     } # end is.null raster.nb
