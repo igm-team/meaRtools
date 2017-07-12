@@ -1,5 +1,5 @@
-\name{NB.matrix.to.feature.dfs}
-\alias{NB.matrix.to.feature.dfs}
+\name{nb_matrix_to_feature_dfs}
+\alias{nb_matrix_to_feature_dfs}
 
 \title{
 Convert network burst data matrix to a list of data frames.
@@ -8,11 +8,11 @@ Convert network burst data matrix to a list of data frames.
 Convert network burst data matrix to a list of dataframes. Each dataframe has rows representing wells while columns representing different timepoints(DIVs). The dataframe format alllows well level permutaiton based tests to be done much easier. 
 }
 \usage{
-NB.matrix.to.feature.dfs(Matrix_and_feature_names)
+nb_matrix_to_feature_dfs(matrix_and_feature_names)
 }
 
 \arguments{
-  \item{Matrix_and_feature_names}{ The data matrix return by calling function calculate.network.bursts.
+  \item{matrix_and_feature_names}{ The data matrix return by calling function calculate_network_bursts.
 }
 }
 
@@ -25,7 +25,7 @@ Quanli Wang
 }
 
 \seealso{
-   \code{\link{calculate.network.bursts}}
+   \code{\link{calculate_network_bursts}}
 }
 
 \keyword{network bursts}
