@@ -19,7 +19,7 @@ Output directory}
 Output file _bursts.csv holds all features generated for bursts per well and per channel:
 \item{treatment}{the treatment/genotype based on the experimental log file plan}
 \item{well}{well number}
-\item{nAE}{number of active electrodes}
+\item{nae}{number of active electrodes}
 \item{nAB}{number of electrodes with bursts}
 \item{duration}{total duration of bursts}
 \item{mean_dur}{mean duration of bursts}

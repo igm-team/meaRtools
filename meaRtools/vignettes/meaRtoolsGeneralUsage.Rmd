@@ -84,7 +84,7 @@ for (i in 1:length(spk_list_files)){
   #save title for output file name
   title<-strsplit(basename(spk_list_files[i]), ".csv")[[1]][1]
   #load plate design info for each file in the list
-  plate_chem_info<-get.experimental.log.file(spk_list_files[i], experimental_log_file)
+  plate_chem_info<-get_experimental_log_file(spk_list_files[i], experimental_log_file)
   
     # convert the spike list data to a 'spike.list' class Robject
   analysis$Robject[i]<-read_spikelist(key=title, spk_list_file=spk_list_files[i],          chem_info=plate_chem_info,r_object_dir=r_object_dir) 
@@ -186,20 +186,20 @@ s[[i]]$ns_all$B5$en.brief
 
 #### Extracting network bursts data 
 
-The last attribute we can extract is network bursts. To extract network bursts we do not require iterating through the 'spike.list' object, that is done automatically by calculate.network.bursts. We provide the function with several arguments alongside the 'spike.list' object: 
+The last attribute we can extract is network bursts. To extract network bursts we do not require iterating through the 'spike.list' object, that is done automatically by calculate_network_bursts. We provide the function with several arguments alongside the 'spike.list' object: 
 Sigma - the window sizes used for the analysis (10, 20 and 50ms)
 
 min_electrodes - the minimum electrodes to call a network burst 
 
-local_region_min_nAE - to tell the algorithm if we would like to use an adaptive threshold (default is 0).
+local_region_min_nae - to tell the algorithm if we would like to use an adaptive threshold (default is 0).
 
 ```{r}
 
-   nb.list <- calculate.network.bursts(s,parameters$Sigma,
+   nb.list <- calculate_network_bursts(s,parameters$Sigma,
                                        parameters$min_electrodes,
-                                       parameters$local_region_min_nAE)
+                                       parameters$local_region_min_nae)
     
-    nb_features <- NB.matrix.to.feature.dfs( nb.list$nb_features_merged )
+    nb_features <- nb_matrix_to_feature_dfs( nb.list$nb_features_merged )
 
     # attach data to s object
     for (i in 1:length(s) ){
@@ -274,15 +274,15 @@ write_network_spikes_to_csv(s[[i]],nspikes,analysis$output_perDIV_dir)
 
 ## Aggregating recordings
 
-One of the strong advantages of meaRtools is it's ability to combine the information from all the loaded recordings and use all of it when comparing between treatments. The following commands aggregate the data for spikes, bursts and network spikes. Network burst features were already aggregated automatically when we ran NB.matrix.to.feature.dfs.
+One of the strong advantages of meaRtools is it's ability to combine the information from all the loaded recordings and use all of it when comparing between treatments. The following commands aggregate the data for spikes, bursts and network spikes. Network burst features were already aggregated automatically when we ran nb_matrix_to_feature_dfs.
 
 ```{r}
 spike_features = aggregate_features(s, "spike",parameters)
 ns_features = aggregate_features(s, "ns",parameters)
 burst_features = aggregate_features(s, "burst",parameters)
 
-# printing spike features nAE
-spike_features$nAE
+# printing spike features nae
+spike_features$nae
 
 #Feel free to explore the spike/ns/burst and nb_features for the different features they offer
 ```
@@ -293,7 +293,7 @@ The next step is optional, it allows the user to discard from the analysis wells
 ```{r}
 
 # All uncalculated aEs were set previously to NA, convert all those to 0 aE before the filter
-nae <- spike_features$nAE
+nae <- spike_features$nae
 nae[is.na(nae)] <- 0
 
 # filter spike wells
@@ -304,12 +304,12 @@ nb_features <- lapply(nb_features, function(x) filter_wells(x, nae, parameters$w
 # re-order features by well name
 nb_features <- lapply(nb_features, function(x) x[order(x[,'well']),])
 
-# printing spike features nAE after filter
-spike_features$nAE
+# printing spike features nae after filter
+spike_features$nae
 
 ```
 
-After the filter we can observe the spike features dataframe and find that well D5 was dropped from the table because it lacked activity in the first two recordings (compare to spike_features$nAE before the filter was applied).
+After the filter we can observe the spike features dataframe and find that well D5 was dropped from the table because it lacked activity in the first two recordings (compare to spike_features$nae before the filter was applied).
 
 ## Writing aggregated tables to files
 

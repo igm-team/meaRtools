@@ -156,9 +156,9 @@
     "spike.intensity",
     "spike.intensity.by.aEs",
     "total.spikes.in.all.NBs,nNB",
-    "[total.spikes.in.all.NBs,nNB],nAE",
-    "mean[spikes.in.NB,nAE]",
-    "mean[spikes.in.NB,nAE,NB.duration]",
+    "[total.spikes.in.all.NBs,nNB],nae",
+    "mean[spikes.in.NB,nae]",
+    "mean[spikes.in.NB,nae,NB.duration]",
     "mean[spikes.in.NB]",
     "total.number.of.NBs")
   colnames(stat) <- rep("NA", n)
@@ -353,24 +353,24 @@
   result
 }
 
-NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
-  data <- Matrix_and_feature_names$df
-  feature_names <- Matrix_and_feature_names$feature_names
+nb_matrix_to_feature_dfs <- function(matrix_and_feature_names) {
+  data <- matrix_and_feature_names$df
+  feature_names <- matrix_and_feature_names$feature_names
   data <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
-  n.features <- dim(data)[2] - 3 # escape the first columns
+  n_features <- dim(data)[2] - 3 # escape the first columns
   dfs <- list()
-  Well.stat <- table(data[, "wells"])
+  well_stat <- table(data[, "wells"])
 
-  ref.matrix <- matrix(NA, length(Well.stat), length(unique(data[, 1])))
+  ref_matrix <- matrix(NA, length(well_stat), length(unique(data[, 1])))
   wells <- unique(data[, c("wells", "phenotypes")])
-  rownames(ref.matrix) <- wells[, "wells"]
-  colnames(ref.matrix) <- unique(data[, 1])
+  rownames(ref_matrix) <- wells[, "wells"]
+  colnames(ref_matrix) <- unique(data[, 1])
 
   # now change columnnames to match Ryan's code
   colnames(wells) <- c("well", "treatment")
   n <- dim(data)[1]
-  for (index in 1:n.features) {
-    data.matrix <- ref.matrix
+  for (index in 1:n_features) {
+    data.matrix <- ref_matrix
     for (i in 1:n) {
       data.matrix[data[i, "wells"], data[i, "divs"]] <- data[i, index + 3]
     }
@@ -382,23 +382,23 @@ NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
   dfs
 }
 
-.wilcox.test.perm <- function(data, np, g1, g2, feature.index) {
+.wilcox_test_perm <- function(data, np, g1, g2, feature_index) {
   # now figure out the p from data
-  d1 <- data[data[, "phenotypes"] == g1, feature.index]
+  d1 <- data[data[, "phenotypes"] == g1, feature_index]
   d1 <- d1[d1 >= 0]
-  d2 <- data[data[, "phenotypes"] == g2, feature.index]
+  d2 <- data[data[, "phenotypes"] == g2, feature_index]
   d2 <- d2[d2 >= 0]
-  suppressWarnings(data.p <- wilcox.test(d1, d2)$p.value)
+  suppressWarnings(data_p <- wilcox.test(d1, d2)$p.value)
 
   # subsetting data to genotypes and feature,
   #and also reformat into matrix for easy permutation
   d <- data[(data[, "phenotypes"] == g1) |
-              (data[, "phenotypes"] == g2), c(2, feature.index)]
+              (data[, "phenotypes"] == g2), c(2, feature_index)]
   d[, "wells"] <- factor(d[, "wells"]) # drop unused levels
-  Well.stat <- table(d[, "wells"])
-  data.matrix <- matrix(NA, length(Well.stat), max(Well.stat))
-  rownames(data.matrix) <- names(Well.stat)
-  n.cases <- length(unique(data[data[, "phenotypes"] == g1, "wells"]))
+  well_stat <- table(d[, "wells"])
+  data.matrix <- matrix(NA, length(well_stat), max(well_stat))
+  rownames(data.matrix) <- names(well_stat)
+  n_cases <- length(unique(data[data[, "phenotypes"] == g1, "wells"]))
   n <- dim(data.matrix)[1]
   for (i in 1:n) {
     temp <- d[d[, "wells"] == rownames(data.matrix)[i], 2]
@@ -407,7 +407,7 @@ NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
 
   outp <- matrix(0, np, 1)
   for (i in 1:np) {
-    cases <- sample(n, n.cases)
+    cases <- sample(n, n_cases)
     d1 <- as.vector(data.matrix[cases, ])
     d1 <- d1[d1 >= 0]
     d2 <- as.vector(data.matrix[- cases, ])
@@ -416,36 +416,36 @@ NB.matrix.to.feature.dfs <- function(Matrix_and_feature_names) {
   }
   outp <- sort(outp)
 
-  perm.p <- length(which(outp < data.p)) / np
-  list(perm.p = perm.p, outp = outp)
+  perm_p <- length(which(outp < data_p)) / np
+  list(perm_p = perm_p, outp = outp)
 
 }
 
 
-calculate.network.bursts <-
+calculate_network_bursts <-
   function(s, sigmas, min_electrodes, local_region_min_nae) {
   # extract features and merge features
   # from different recordings into one data frame
-  nb.structure <- list()
-  nb.structure$summary <- list()
-  nb.structure$nb_all <- list()
-  nb.structure$nb_features <- list()
+  nb_structure <- list()
+  nb_structure$summary <- list()
+  nb_structure$nb_all <- list()
+  nb_structure$nb_features <- list()
   if (length(s) > 0) {
-    featuresExtracted.AllDIV <- list()
+    features_extracted_all_div <- list()
     for (i in 1:length(s)) {
-      featuresExtracted.AllDIV[[i]] <-
+      features_extracted_all_div[[i]] <-
         .nb_extract_features(s[[i]],
             sigmas, min_electrodes, local_region_min_nae)
-      featuresExtracted.OneDIV <- list()
-      featuresExtracted.OneDIV[[1]] <- featuresExtracted.AllDIV[[i]]
-      nb.structure$nb_all[[i]] <- featuresExtracted.AllDIV[[i]]$nb_times
-      nb.structure$result[[i]] <- featuresExtracted.AllDIV[[i]]
-      nb.structure$nb_features[[i]] <-
-        .nb_merge_result(s, featuresExtracted.OneDIV, sigmas)
+      features_extracted_one_div <- list()
+      features_extracted_one_div[[1]] <- features_extracted_all_div[[i]]
+      nb_structure$nb_all[[i]] <- features_extracted_all_div[[i]]$nb_times
+      nb_structure$result[[i]] <- features_extracted_all_div[[i]]
+      nb_structure$nb_features[[i]] <-
+        .nb_merge_result(s, features_extracted_one_div, sigmas)
 
     }
-    nb.structure$nb_features_merged <-
-      .nb_merge_result(s, nb.structure$result, sigmas)
+    nb_structure$nb_features_merged <-
+      .nb_merge_result(s, nb_structure$result, sigmas)
   }
-  nb.structure
+  nb_structure
 }
