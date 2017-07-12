@@ -1,8 +1,8 @@
-############################################################################### 
+###############################################################################
 # Purpose:  Functions for aggregating data from s objects into single         #
 #                 dataframes per feature                                      #
 # Author:   Ryan Dhindsa                                                      #
-############################################################################### 
+###############################################################################
 
 # These functions take data from S object to make dataframes
 .write_spike_summary <- function(s) {
@@ -138,20 +138,20 @@
   # Returns:
   #   list of data frames containing spike data
 
-  masterSum <- .get_mean_burst_info_per_well(s)
+  master_sum <- .get_mean_burst_info_per_well(s)
 
   divs_df <- list()
   for (i in 1:length(s)) {
     div <- paste("div", .get_div(s[[i]]), sep = "")
 
     ########## data frame summarized over well
-    # get number of object in masterSum[[1]] list
+    # get number of object in master_sum[[1]] list
     tempdf <- c(); tempcolnames <- c()
-    for (j in 2:length(masterSum[[i]])) {
-      tempc <- unlist(masterSum[[i]][j])
+    for (j in 2:length(master_sum[[i]])) {
+      tempc <- unlist(master_sum[[i]][j])
       tempdf <- cbind(tempdf, tempc)
-      tempcolnames <- c(tempcolnames, names(masterSum[[i]][j]))
-    } # end of loop through masterSum list objects
+      tempcolnames <- c(tempcolnames, names(master_sum[[i]][j]))
+    } # end of loop through master_sum list objects
 
     # need to switch around columns so first columns come first
     if (dim(tempdf)[2] > 20) {
@@ -259,13 +259,13 @@ filter_wells <- function(unfiltered_df, nae, min_electrodes = 4,
   nae$treatment <- NULL
   nae[- 1] <- sapply(nae[- 1], as.numeric)
 
-  num.div <- ncol(nae) - 1
+  num_div <- ncol(nae) - 1
 
   inactive <- data.frame(num.inactive = rowSums(nae[, - 1] <
-           min_electrodes), total.div = num.div)
+           min_electrodes), total_div = num_div)
 
-  inactive[is.na(inactive$num.inactive), "num.inactive"] <- 0
-  inactive$fraction <- inactive$num.inactive / inactive$total.div
+  inactive[is.na(inactive$num_inactive), "num_inactive"] <- 0
+  inactive$fraction <- inactive$num_inactive / inactive$total_div
   inactive$well <- nae$well
 
   # grab only wells with inactive ratio < well_max_div_inactive_ratio

@@ -8,7 +8,7 @@ generate_raster_plot
 Creates a pdf raster plot of selected user selected well from an 's' object. Options include verticle lines showing network spike times, vertical bars showing bursts as well as # showing count of spikes in burst and network spikes.
 }
 \usage{
-generate_raster_plot(Robject_file = NULL, outputdir = NULL, well_for_raster
+generate_raster_plot(r_object_file = NULL, outputdir = NULL, well_for_raster
                  = NULL, interval_for_raster = NULL, show_bursts = F,
                  show_burst_number = F, show_networkspikes = F,
                  show_ns_number = F,  show_nb=F, window_size=NULL)
@@ -16,13 +16,13 @@ generate_raster_plot(Robject_file = NULL, outputdir = NULL, well_for_raster
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Robject_file}{
+  \item{r_object_file}{
 Default value is NULL, in which case tcltk pop-up file chooser will prompt user to select an 's' object.  Otherwise, provide a full path to to a .RData 's' object that contains burst and network data.
 }
 
   \item{outputdir}{
    A directory (character string in quotes) where pdf is to be saved.
-   Default is NULL, in which case the plot will be saved in the directory Robject_file location.
+   Default is NULL, in which case the plot will be saved in the directory r_object_file location.
 }
   \item{well_for_raster}{
    A well name, character string, from plate. e.g. well_for_raster="A3".
@@ -71,7 +71,7 @@ A pdf raster plot will be displayed in system viewer.
 Diana Hall
 }
 \examples{
-##generate_raster_plot(Robject_file=NULL,
+##generate_raster_plot(r_object_file=NULL,
 #                      well_for_raster=NULL, 
 #                      interval_for_raster=NULL,
 #                      show_bursts=F, 

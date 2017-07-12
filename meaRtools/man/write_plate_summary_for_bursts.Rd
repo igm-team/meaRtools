@@ -37,11 +37,11 @@ Output file _bursts.csv holds all features generated for bursts per well and per
 \item{total_spikes_in_burst }{total number of spikes in a bursts}
 \item{per_spikes_in_burst}{percent of spikes in a burst}
 
-\item{mean_ISIs}{mean ISI within a burst}
-\item{sd_ISIs}{sd ISI within a burst}  
-\item{mean_IBIs}{mean IBI}
-\item{sd_IBIs}{sd of IBIs}
-\item{cv_IBIs}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
+\item{mean_isis}{mean ISI within a burst}
+\item{sd_isis}{sd ISI within a burst}  
+\item{mean_ibis}{mean IBI}
+\item{sd_ibis}{sd of ibis}
+\item{cv_ibis}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
 \item{file}{input recording file}
 }
 

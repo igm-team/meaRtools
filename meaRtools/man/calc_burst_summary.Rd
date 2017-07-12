@@ -34,9 +34,9 @@ A data frame with the following columns:
 \item{mean_si}{mean Surprise Index (only for poisson .surprise measure)}
 \item{mean_isis}{mean ISI within a burst}
 \item{sd_mean_isis}{sd}  
-\item{mean_IBIs}{mean IBI}
-\item{sd_IBIs}{sd}
-\item{cv_IBIs}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
+\item{mean_ibis}{mean IBI}
+\item{sd_ibis}{sd}
+\item{cv_ibis}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
 }
 
 \examples{

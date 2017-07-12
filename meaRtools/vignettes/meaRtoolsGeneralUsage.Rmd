@@ -71,7 +71,8 @@ log.dir<-paste0( output_dir , "/LogFiles" )
 suppressWarnings(  dir.create(log.dir) )
 
 # For organization sake, set a list object to hold all output directories 
-analysis<-list(spikeFiles = spk_list_files, output_dir = output_dir, Routput_dir = r_object_dir, output_perDIV_dir = output_perDIV_dir)
+analysis<-list(spikeFiles = spk_list_files, output_dir = output_dir,
+           r_output_dir = r_object_dir, output_perDIV_dir = output_perDIV_dir)
 
 ```
 

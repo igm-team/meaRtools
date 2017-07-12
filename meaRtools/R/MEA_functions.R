@@ -143,11 +143,11 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 # ********average and sum burst variables across each well
 # input: s is a list containing burst info, and meta data
 ## purpose: average across wells
-## the list returned, (masterSum[[1]],masterSum[[2]]..etc for each spike list s[[i]])
+## the list returned, (master_sum[[1]],master_sum[[2]]..etc for each spike list s[[i]])
 ## has meta data and has been filtered according to weather it's 48 or 12 well
 # necessary: the timepoint "00" is needed to set which wells are active etc
 .get_mean_burst_info_per_well <- function(s) {
-  masterSum <- list() # summary over all files
+  master_sum <- list() # summary over all files
   for (i in 1:length(s)) {
     sum = list() # summary for each timepoint
     # calculate bursting variables for current data File
@@ -155,8 +155,8 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
     allb <- s[[i]]$allb
     tempsum <- calc_burst_summary(s[[i]])
 
-    # ISIs: gets the ISI for each channel of s[[i]]
-    ISIs = .calc_all_isi(s[[i]], allb)
+    # isis: gets the ISI for each channel of s[[i]]
+    isis = .calc_all_isi(s[[i]], allb)
 
     # IBIs get IBI's across all inter burst intervals across all data
     tempIBIs <- .calc_all_ibi(s[[i]], allb)
@@ -208,10 +208,10 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
           unlist(get_burst_info(allb[incurrentwell], "durn")), na.rm = TRUE)
 
         # mean of ISI across all channels in current well
-        sum$mean_ISIs[j] = mean(unlist(ISIs[incurrentwell]), na.rm = TRUE)
+        sum$mean_isis[j] = mean(unlist(isis[incurrentwell]), na.rm = TRUE)
 
         # finds sd of ISI across all channels in current well
-        sum$sd_ISIs[j] = sd(unlist(ISIs[incurrentwell]), na.rm = TRUE)
+        sum$sd_isis[j] = sd(unlist(isis[incurrentwell]), na.rm = TRUE)
 
         # len=#spikes in burst (length of burst in bursts)
         # mean_spikes_in_burst
@@ -248,8 +248,8 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
         sum$sd_dur[j] <- NA
         sum$mean_freq_in_burst[j] <- NA
         sum$sd_freq_in_burst[j] <- NA
-        sum$mean_ISIs[j] = NA
-        sum$sd_ISIs[j] = NA
+        sum$mean_isis[j] = NA
+        sum$sd_isis[j] = NA
         sum$mean_spikes_in_burst[j] <- NA
         sum$sd_spikes_in_burst[j] <- NA
         sum$total_spikes_in_burst[j] <- NA
@@ -267,22 +267,22 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
       names(sum[[k]]) = s[[i]]$goodwells
     }
 
-    # make a masterSum, that is a list of all the summaries
+    # make a master_sum, that is a list of all the summaries
     goodwellindex <- which(is.element(s[[i]]$well, s[[i]]$goodwells))
 
-    masterSum[[i]] <- sum
-    masterSum[[i]]$file <- strsplit(basename(s[[i]]$file), ".RData")[[1]][1]
-    masterSum[[i]]$treatment <- s[[i]]$treatment[goodwellindex]
-    masterSum[[i]]$size = s[[i]]$size[goodwellindex]
-    masterSum[[i]]$dose = s[[i]]$dose[goodwellindex]
-    masterSum[[i]]$well <- s[[i]]$well[goodwellindex]
-    masterSum[[i]]$nAE <- s[[i]]$nAE[goodwellindex]
-    masterSum[[i]]$timepoint = rep(s[[i]]$timepoint[1], length(s[[i]]$goodwells))
-    masterSum[[i]]$start.rec_time <- rep(s[[i]]$rec_time[1], length(s[[i]]$goodwells))
-    masterSum[[i]]$end.rec_time <- rep(s[[i]]$rec_time[2], length(s[[i]]$goodwells))
-    masterSum[[i]]$goodwells <- s[[i]]$goodwells
+    master_sum[[i]] <- sum
+    master_sum[[i]]$file <- strsplit(basename(s[[i]]$file), ".RData")[[1]][1]
+    master_sum[[i]]$treatment <- s[[i]]$treatment[goodwellindex]
+    master_sum[[i]]$size = s[[i]]$size[goodwellindex]
+    master_sum[[i]]$dose = s[[i]]$dose[goodwellindex]
+    master_sum[[i]]$well <- s[[i]]$well[goodwellindex]
+    master_sum[[i]]$nAE <- s[[i]]$nAE[goodwellindex]
+    master_sum[[i]]$timepoint = rep(s[[i]]$timepoint[1], length(s[[i]]$goodwells))
+    master_sum[[i]]$start.rec_time <- rep(s[[i]]$rec_time[1], length(s[[i]]$goodwells))
+    master_sum[[i]]$end.rec_time <- rep(s[[i]]$rec_time[2], length(s[[i]]$goodwells))
+    master_sum[[i]]$goodwells <- s[[i]]$goodwells
 
   }
 
-  masterSum
+  master_sum
 }

@@ -1,7 +1,7 @@
 # Diana Hall
-# purpose: generate raster plot with Robject complete with burst + ns data made from IGM.main
-#  prompts user for input or the file path may be passed
-generate_raster_plot <- function(Robject_file=NULL,
+# purpose: generate raster plot with Robject complete with burst + ns data
+# made from IGM.main prompts user for input or the file path may be passed
+generate_raster_plot <- function(r_object_file=NULL,
   outputdir=NULL,
   well_for_raster=NULL,
   interval_for_raster=NULL,
@@ -13,25 +13,25 @@ generate_raster_plot <- function(Robject_file=NULL,
   window_size=NULL) {
 
   #
-  if (is.null(Robject_file)){
+  if (is.null(r_object_file)){
     have_data <- F; counter <- 1
     while (have_data == F) {
-      Robject_file <- tk_choose.files(caption =
+      r_object_file <- tk_choose.files(caption =
                           "Select R-object (.RData) for raster plot")
-      data.type <- strsplit(basename(Robject_file), split = "[.]")[[1]][2]
+      data_type <- strsplit(basename(r_object_file), split = "[.]")[[1]][2]
 
       # laod and check
-      if (!is.element(data.type, c("rdata", "RData", "rData", "Rdata"))){
+      if (!is.element(data_type, c("rdata", "RData", "rData", "Rdata"))){
         counter <- counter + 1
         tkmessageBox(message = ".RData file needed!",
                      icon = "error", type = "ok")
       } else {
-        t <- load(Robject_file, verbose = T)
+        t <- load(r_object_file, verbose = T)
         s <- list(); s[[1]] <- get(t)
         have_data <- T
         analysis <- list()
-        analysis$output_dir <- dirname(Robject_file)
-        analysis$Routput_dir <- dirname(Robject_file)
+        analysis$output_dir <- dirname(r_object_file)
+        analysis$r_output_dir <- dirname(r_object_file)
       }
       if (counter == 4) {
         stop()
@@ -39,9 +39,9 @@ generate_raster_plot <- function(Robject_file=NULL,
     }
   } else {
     analysis <- list()
-    analysis$output_dir <- dirname(Robject_file)
-    analysis$Routput_dir <- dirname(Robject_file)
-    t <- load(Robject_file, verbose = T)
+    analysis$output_dir <- dirname(r_object_file)
+    analysis$r_output_dir <- dirname(r_object_file)
+    t <- load(r_object_file, verbose = T)
     s <- list(); s[[1]] <- get(t)
     have_data <- T
   }
@@ -190,22 +190,22 @@ generate_raster_plot <- function(Robject_file=NULL,
     if (!(s[[1]]$ns_all[[well_for_raster]]$brief[1] == 0 ||
           is.na(s[[1]]$ns_all[[well_for_raster]]$brief[1]))){
       raster_ns_t <- s[[1]]$ns_all[[well_for_raster]]$measures[,
-                                        c("time", "durn", "peak_val") ]
+                                        c("time", "durn", "peak_val")]
       if (is.matrix(raster_ns_t)){
         raster_ns_t[, "time"] <- raster_ns_t[, "time"]
-        index.want <- which(raster_ns_t[, "time"] < interval_for_raster[2] &
+        index_want <- which(raster_ns_t[, "time"] < interval_for_raster[2] &
                               raster_ns_t[, "time"] > interval_for_raster[1])
-        if (length(index.want) > 0){
-          raster_ns <- raster_ns_t[index.want, ]
+        if (length(index_want) > 0){
+          raster_ns <- raster_ns_t[index_want, ]
         } else {
           raster_ns <- NULL
         }
 
       } else {
         raster_ns_t["time"] <- raster_ns_t["time"]
-        index.want <- which(raster_ns_t["time"] < interval_for_raster[2] &
+        index_want <- which(raster_ns_t["time"] < interval_for_raster[2] &
                               raster_ns_t["time"] > interval_for_raster[1])
-        if (length(index.want) > 0){
+        if (length(index_want) > 0){
           raster_ns <- raster_ns_t
         } else {
           raster_ns <- NULL
@@ -228,12 +228,12 @@ generate_raster_plot <- function(Robject_file=NULL,
         if (!(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]]) == 0 ||
             is.na(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]])))) {
           raster_nb_t <- s[[1]]$nb_all[[well_for_raster]][[window_size_i]][,
-                                                        c("start_t", "end_t") ]
+                                                        c("start_t", "end_t")]
           if (is.data.frame(raster_nb_t)) {
-            index.want <- which(raster_nb_t$start_t < interval_for_raster[2] &
+            index_want <- which(raster_nb_t$start_t < interval_for_raster[2] &
               raster_nb_t$end_t > interval_for_raster[1])
-            if (length(index.want) > 0) {
-              raster_nb <- raster_nb_t[index.want, ]
+            if (length(index_want) > 0) {
+              raster_nb <- raster_nb_t[index_want, ]
             }
           }
         }
@@ -313,9 +313,9 @@ generate_raster_plot <- function(Robject_file=NULL,
 
   # +++++++++++++
   # Diana 11-29-2016: make 1 common panel function
-  panel.function <- function(raster_ns, raster_nb, show_ns_number=T) {
+  panel_function <- function(raster_ns, raster_nb, show_ns_number=T) {
     if (!is.null(raster_nb)) {
-      for (cur.lnb in 1:length(raster_nb[, 1 ])) {
+      for (cur.lnb in 1:length(raster_nb[, 1])) {
         lines(xy.coords(c(raster_nb[cur.lnb, "start_t"],
           raster_nb[cur.lnb, "end_t"]),
         c(- .02, - .02)),
@@ -331,19 +331,19 @@ generate_raster_plot <- function(Robject_file=NULL,
           col = "green")
         }
         if (show_ns_number) {
-          close.neighbors <- which(c(raster_ns[- 1, 1], tail(raster_ns[- 1, 1] +
+          close_neighbors <- which(c(raster_ns[- 1, 1], tail(raster_ns[- 1, 1] +
                                         1.1, n = 1)) - raster_ns[, 1] < 1) + 1
           for (i in 1:length(raster_ns[, 1])) {
-            x.coord <- raster_ns[i, "time"]
-            if (is.element(i, close.neighbors)) {
+            x_coord <- raster_ns[i, "time"]
+            if (is.element(i, close_neighbors)) {
               deltay_t <- (interval_for_raster[2] - interval_for_raster[1]) / 75
-              x.coord <- x.coord + deltay_t
+              x_coord <- x_coord + deltay_t
             }
 
-            print(x.coord)
+            print(x_coord)
             cur_peak_val <- raster_ns[i, "peak_val"]
             print(cur_peak_val)
-            text(x <- x.coord, y <- 1.02,
+            text(x <- x_coord, y <- 1.02,
               labels = cur_peak_val, pos = NULL, col = "green")
           } # end of label for loop
         } # end of if(show_ns_number)
@@ -354,9 +354,9 @@ generate_raster_plot <- function(Robject_file=NULL,
         col = "green")
         if (show_ns_number) {
           # use vector indexing
-          x.coord -> raster_ns["time"]
+          x_coord -> raster_ns["time"]
           cur_peak_val -> raster_ns["peak_val"]
-          text(x = x.coord, y = 1.02,
+          text(x = x_coord, y = 1.02,
             labels = cur_peak_val, pos = NULL, col = "green")
         }
       }
@@ -370,13 +370,13 @@ generate_raster_plot <- function(Robject_file=NULL,
 
 
   .plot_spike_list(s[[1]], beg = interval_for_raster[1],
-    label.cells = T,
+    label_cells = T,
     end = interval_for_raster[2],
     show_bursts = show_bursts,
     whichcells = well_for_raster,
     show_burst_number = show_burst_number,
     main = plot.title,
-    panel.first = panel.function(raster_ns = raster_ns, raster_nb = raster_nb,
+    panel_first = panel_function(raster_ns = raster_ns, raster_nb = raster_nb,
       show_ns_number = T))
 
   dev.off()
@@ -390,10 +390,10 @@ generate_raster_plot <- function(Robject_file=NULL,
 
 .plot_spike_list <- function(s, whichcells = NULL, beg = min(unlist(s$spikes),
                                                              na.rm = TRUE),
-  end = max(unlist(s$spikes), na.rm = TRUE), label.cells = FALSE,
+  end = max(unlist(s$spikes), na.rm = TRUE), label_cells = FALSE,
   show_burst_number=F,
   use_names = TRUE, show_bursts = FALSE, main = NULL, ylab = "Unit",
-  xlab = "Time (s)", for.figure = FALSE, show_episodes, episode_y = - 0.01,
+  xlab = "Time (s)", for_figure = FALSE, show_episodes, episode_y = - 0.01,
   ...) {
   if (length(whichcells) > 0 && is.numeric(whichcells[1])) {
     }
@@ -404,14 +404,14 @@ generate_raster_plot <- function(Robject_file=NULL,
   if (is.null(main)) {
     main <- basename(s$file)
   }
-  N <- length(whichcells)
-  ticpercell <- 1 / N
+  n_len <- length(whichcells)
+  ticpercell <- 1 / n_len
   deltay <- ticpercell * 0.8
   yminadd <- ticpercell
   if (show_bursts)
     spikes <- s$spikes
     else spikes <- s$spikes
-  if (for.figure) {
+  if (for_figure) {
     plot(c(beg, end), c(0, 1), type = "n", yaxt = "n", bty = "n",
       main = "", xaxt = "n", xaxs = "i", yaxs = "i", xlab = "",
       ylab = "", ...)
@@ -422,14 +422,15 @@ generate_raster_plot <- function(Robject_file=NULL,
       main = main, xlab = xlab, ylab = ylab, ...)
   }
   ymin <- 0
-  have.bursts <- ( (length(s$allb) > 0) && show_bursts)
+  have_bursts <- (
+    (length(s$allb) > 0) && show_bursts)
   for (cell in whichcells) {
     ts <- spikes[[cell]]
     n <- length(ts)
     if (n > 0) {
       ys <- numeric(n) + ymin
       segments(ts, ys, ts, ys + deltay, lwd = 0.2)
-      if (have.bursts) {
+      if (have_bursts) {
         burst_times <- s$allb[[cell]]
         if (!is.na(burst_times[1])) {
           nbursts <- nrow(burst_times)
@@ -452,8 +453,8 @@ generate_raster_plot <- function(Robject_file=NULL,
     }
     ymin <- ymin + yminadd
   }
-  if (label.cells) {
-    allys <- seq(from = yminadd / 2, by = yminadd, length = N)
+  if (label_cells) {
+    allys <- seq(from = yminadd / 2, by = yminadd, length = n_len)
     if (use_names) {
       labels <- names(spikes)[whichcells]
     }
