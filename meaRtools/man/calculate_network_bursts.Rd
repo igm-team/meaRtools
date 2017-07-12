@@ -1,12 +1,12 @@
-\name{calculate.network.bursts}
-\alias{calculate.network.bursts}
+\name{calculate_network_bursts}
+\alias{calculate_network_bursts}
 \title{
 Compute network bursts for a list of MEA recordings.
 }
 \description{
 For a list of MEA recordings, ususally from the same plate at different time point,This function detects and report network burst features at the well level.}
 \usage{
-calculate.network.bursts(s,sigmas, min_electrodes, local_region_min_nae)
+calculate_network_bursts(s,sigmas, min_electrodes, local_region_min_nae)
 }
 \arguments{
   \item{s}{ 
