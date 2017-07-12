@@ -9,8 +9,8 @@ generate_raster_plot <- function(Robject_file=NULL,
   show_burst_number=F,
   show_networkspikes=F,
   show_ns_number=F,
-  show.nb=F,
-  window.size=NULL) {
+  show_nb=F,
+  window_size=NULL) {
 
   #
   if (is.null(Robject_file)){
@@ -107,23 +107,23 @@ generate_raster_plot <- function(Robject_file=NULL,
   }
 
   # +++++++++++++++++++++ show network burst
-  if (!exists("show.nb") || is.na(show.nb)) {
-    show.nb <- F
+  if (!exists("show_nb") || is.na(show_nb)) {
+    show_nb <- F
   }
-  if (!is.element(show.nb, c(T, F))) {
-    show.nb <- F
+  if (!is.element(show_nb, c(T, F))) {
+    show_nb <- F
   }
 
   #  window size
   window_size_i <- 1
-  if (is.null(window.size)) {
+  if (is.null(window_size)) {
     window_size_i <- 1
   }
-  if (!is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
+  if (!is.element(window_size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
     window_size_i <- 1
   }
-  if (is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
-    window_size_i <- which(window.size == as.numeric(names(s[[1]]$nb_all[[1]])))
+  if (is.element(window_size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
+    window_size_i <- which(window_size == as.numeric(names(s[[1]]$nb_all[[1]])))
   }
 
   # ++++++++++++++++++++++++++interval check
@@ -221,7 +221,7 @@ generate_raster_plot <- function(Robject_file=NULL,
 
   # show nb
   raster_nb <- NULL
-  if (show.nb) {
+  if (show_nb) {
     if (is.element("nb_all", names(s[[1]]))) {
       if (is.element(well_for_raster, names(s[[1]]$nb_all))) {
         if (!(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]]) == 0 ||
@@ -257,11 +257,11 @@ generate_raster_plot <- function(Robject_file=NULL,
     plot_title_ns_line <- paste(" ")
   }
   # nb plot title line
-  if (!is.null(raster_nb) && show.nb){
+  if (!is.null(raster_nb) && show_nb){
     plot_title_nb_line <- paste("orange = nb, window size ",
             names(s[[1]]$nb_all[[well_for_raster]])[window_size_i], "ms",
             sep = "")
-  } else if (is.null(raster_nb) && show.nb){
+  } else if (is.null(raster_nb) && show_nb){
     plot_title_nb_line <- paste("no network bursts")
   } else {
     plot_title_nb_line <- paste(" ")
@@ -298,7 +298,7 @@ generate_raster_plot <- function(Robject_file=NULL,
   if (show_ns_number) {
     raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_nsN")
   }
-  if (show.nb) {
+  if (show_nb) {
     raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_nb")
     if (!is.null(names(s[[1]]$nb_all[[well_for_raster]]))) {
       raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_",
@@ -392,7 +392,7 @@ generate_raster_plot <- function(Robject_file=NULL,
   end = max(unlist(s$spikes), na.rm = TRUE), label.cells = FALSE,
   show_burst_number=F,
   use_names = TRUE, show_bursts = FALSE, main = NULL, ylab = "Unit",
-  xlab = "Time (s)", for.figure = FALSE, show.episodes, episode.y = - 0.01,
+  xlab = "Time (s)", for.figure = FALSE, show_episodes, episode_y = - 0.01,
   ...) {
   if (length(whichcells) > 0 && is.numeric(whichcells[1])) {
     }
@@ -429,21 +429,21 @@ generate_raster_plot <- function(Robject_file=NULL,
       ys <- numeric(n) + ymin
       segments(ts, ys, ts, ys + deltay, lwd = 0.2)
       if (have.bursts) {
-        burst.times <- s$allb[[cell]]
-        if (!is.na(burst.times[1])) {
-          nbursts <- nrow(burst.times)
+        burst_times <- s$allb[[cell]]
+        if (!is.na(burst_times[1])) {
+          nbursts <- nrow(burst_times)
           ys <- rep(ymin + deltay / 2, nbursts)
           shimmy <- deltay * 0.25
           odd <- (1:nbursts) %% 2 == 1
           ys[odd] <- ys[odd] + shimmy
-          start.burst <- ts[burst.times[, "beg"]]
-          end.burst <- ts[burst.times[, "beg"] + burst.times[,
+          start_burst <- ts[burst_times[, "beg"]]
+          end_burst <- ts[burst_times[, "beg"] + burst_times[,
           "len"] - 1]
-          segments(start.burst, ys, end.burst, ys, col = "red",
+          segments(start_burst, ys, end_burst, ys, col = "red",
             lwd = 2)
           if (show_burst_number) {
-            text(start.burst, rep(ymin + deltay * 1.1,
-              nbursts), labels = burst.times[, "len"],
+            text(start_burst, rep(ymin + deltay * 1.1,
+              nbursts), labels = burst_times[, "len"],
             col = "blue")
           }
         }
@@ -461,11 +461,11 @@ generate_raster_plot <- function(Robject_file=NULL,
     }
     axis(2, at = allys, labels = labels, las = 1, tick = F)
   }
-  if (missing(show.episodes)) {
-    show.episodes <- ("episodes" %in% names(s))
+  if (missing(show_episodes)) {
+    show_episodes <- ("episodes" %in% names(s))
   }
-  if (show.episodes) {
-    segments(s$episodes[, "beg"], episode.y, s$episodes[,
-      "end"], episode.y, col = "purple", xpd = NA)
+  if (show_episodes) {
+    segments(s$episodes[, "beg"], episode_y, s$episodes[,
+      "end"], episode_y, col = "purple", xpd = NA)
   }
 }

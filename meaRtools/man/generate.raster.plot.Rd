@@ -11,7 +11,7 @@ Creates a pdf raster plot of selected user selected well from an 's' object. Opt
 generate_raster_plot(Robject_file = NULL, outputdir = NULL, well_for_raster
                  = NULL, interval_for_raster = NULL, show_bursts = F,
                  show_burst_number = F, show_networkspikes = F,
-                 show_ns_number = F,  show.nb=F, window.size=NULL)
+                 show_ns_number = F,  show_nb=F, window_size=NULL)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -53,12 +53,12 @@ A boolean value sets whether # electrodes in network spikes are indicated (TRUE/
   e.g. show_ns_number=FALSE
    Default=FALSE
 }
-  \item{show.nb}{
+  \item{show_nb}{
 A boolean value sets whether network bursts should be indicated in raster by orange horizontal lines (TRUE/FALSE)
   e.g. show_ns_number=FALSE
    Default=FALSE
 }
-  \item{ window.size }{
+  \item{ window_size }{
 A numeric value indicating which of the three smoothing sizes available in the R-object should be used in network burst identification e.g. show_ns_number=10Default=NULL
 }
 
@@ -78,8 +78,8 @@ Diana Hall
 #                      show_burst_number=F, 
 #                      show_networkspikes=F,
 #                      show_ns_number=F,
-#                      show.nb=F,
-#                      window.size=NULL )
+#                      show_nb=F,
+#                      window_size=NULL )
 
 }
 \keyword{ utility }
