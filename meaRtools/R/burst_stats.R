@@ -36,9 +36,9 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## mean_si: mean Surprise Index (only for poisson .surprise measure)
   ## mean_isis: mean ISI within a burst (old name: mean2.isis)
   ## sd_mean_isis: sd
-  ## mean_IBIs: mean IBI
-  ## sd_IBIs: sd
-  ## cv_IBIs: Coefficient of variation of IBI (equals mean.IBI
+  ## mean_ibis: mean IBI
+  ## sd_ibis: sd
+  ## cv_ibis: Coefficient of variation of IBI (equals mean.IBI
   ## devided by sd.IBI)
 
   allb <- s$allb
@@ -64,9 +64,9 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   mean_dur <- round(sapply(durations, mean), 3)
   sd_dur <- round(sapply(durations, sd), 3)
 
-  ISIs <- .calc_all_isi(s, allb)
-  mean_isis <- sapply(ISIs, mean)
-  sd_ISIs <- unlist(sapply(ISIs, sd, na.rm = TRUE))
+  isis <- .calc_all_isi(s, allb)
+  mean_isis <- sapply(isis, mean)
+  sd_isis <- unlist(sapply(isis, sd, na.rm = TRUE))
 
 
   ns <- get_burst_info(allb, "len")
@@ -79,12 +79,12 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   mean_si <- round(sapply(si, mean), 3)
 
 
-  IBIs <- .calc_all_ibi(s, allb)
-  mean_IBIs <- sapply(IBIs, mean)
-  sd_IBIs <- sapply(IBIs, sd, na.rm = TRUE)
-  cv_IBIs <- round(sd_IBIs / mean_IBIs, 3)
+  ibis <- .calc_all_ibi(s, allb)
+  mean_ibis <- sapply(ibis, mean)
+  sd_ibis <- sapply(ibis, sd, na.rm = TRUE)
+  cv_ibis <- round(sd_ibis / mean_ibis, 3)
   ## round afterwards...
-  mean_IBIs <- round(mean_IBIs, 3); sd_IBIs <- round(sd_IBIs, 3)
+  mean_ibis <- round(mean_ibis, 3); sd_ibis <- round(sd_ibis, 3)
 
   df <- data.frame(channels = channels, spikes = spikes, mean_freq = mean_freq,
     nbursts = nbursts,
@@ -99,10 +99,10 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
     per_spikes_out_burst = round(100.0 - per_spikes_in_burst, 3),
     mean_si = mean_si,
     mean_isis = mean_isis,
-    sd_mean_isis = sd_ISIs,
-    mean_IBIs = mean_IBIs,
-    sd_IBIs = sd_IBIs,
-    cv_IBIs = cv_IBIs
+    sd_mean_isis = sd_isis,
+    mean_ibis = mean_ibis,
+    sd_ibis = sd_ibis,
+    cv_ibis = cv_ibis
   )
   df
 
@@ -157,7 +157,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## Compute ISI within bursts for all spike trains.
 
   calc_isi <- function(spikes, b) {
-    ## for one spike train, get all ISIs within bursts in that train.
+    ## for one spike train, get all isis within bursts in that train.
     if (.num_bursts(b) == 0) {
       return(NA)
     }
@@ -170,28 +170,28 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
     isis <- as.vector(
       unlist(apply(b, 1,
         function(x) {
-          diff(spikes[ x[1]:x[2]])
+          diff(spikes[x[1]:x[2]])
         })))
   }
 
   nchannels <- s$NCells
-  ISIs <- list()
+  isis <- list()
   for (i in 1:nchannels) {
-    ISIs[[i]] <- calc_isi(s$spikes[[i]], allb[[i]])
+    isis[[i]] <- calc_isi(s$spikes[[i]], allb[[i]])
   }
 
-  ISIs
+  isis
 }
 
 .calc_all_ibi <- function(s, allb) {
   ## Compute IBI for all spike trains.
   nchannels <- s$NCells
-  IBIs <- list()
+  ibis <- list()
   for (i in 1:nchannels) {
-    IBIs[[i]] <- .calc_ibi(s$spikes[[i]], allb[[i]])
+    ibis[[i]] <- .calc_ibi(s$spikes[[i]], allb[[i]])
   }
 
-  IBIs
+  ibis
 }
 
 .calc_ibi <- function(spikes, b) {
@@ -226,7 +226,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## Summarise the burst information.  This does not handle per_spikes_in_burst
   subset <- allb_sum[which(allb_sum$bursty == 1), ]
 
-  fields <- c("spikes", "mean_dur", "cv_IBIs", "bursts_per_min",
+  fields <- c("spikes", "mean_dur", "cv_ibis", "bursts_per_min",
              "per_spikes_in_burst")
   res <- rep(0, length(fields) * 2)
   names(res) <- paste(rep(fields, each = 2), c("m", "sd"), sep = ".")

@@ -51,11 +51,11 @@
 
   gap <- 1
   spacing <- 200 # electrode spacing.
-  well.wid <- (max_elec_col + gap) * spacing
-  well.ht <- (max_elec_row + gap) * spacing
+  well_wid <- (max_elec_col + gap) * spacing
+  well_ht <- (max_elec_row + gap) * spacing
 
-  x <- (well_c * well.wid) + (elec_c * spacing)
-  y <- (well_r * well.ht) + (elec_r * spacing)
+  x <- (well_c * well_wid) + (elec_c * spacing)
+  y <- (well_r * well_ht) + (elec_r * spacing)
 
   cbind(x, y)
 

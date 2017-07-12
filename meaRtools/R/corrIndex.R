@@ -5,37 +5,37 @@
 
 .corr_index <- function(s, distance_breaks,
   dt = getOption("meaRtools_corr_dt", default = 0.05),
-  min.rate = 0,
+  min_rate = 0,
   corr_method = getOption("meaRtools_corr_method", default = "CI")) {
   ## Make a correlation index object.
   ## MIN.RATE: if greater than zero, we analyse only spike trains whose
   ## firing rate is greater than this minimal rate.
   ## corr_method is which method to use.
   dists <- .make_distances(s$layout$pos)
-  dists.bins <- .bin_distances(dists, distance_breaks)
+  dists_bins <- .bin_distances(dists, distance_breaks)
 
   spikes <- s$spikes
   if (length(spikes) > 1) {
-    corr.indexes <- NULL
+    corr_indexes <- NULL
     if (corr_method == "CI") {
-      corr.indexes <- .make_corr_indexes2(spikes, dt, min.rate)
+      corr_indexes <- .make_corr_indexes2(spikes, dt, min_rate)
     }
     if (corr_method == "Tiling") {
-      corr.indexes <- .tiling_allpairwise(s, dt)
+      corr_indexes <- .tiling_allpairwise(s, dt)
     }
     if (is.null(corr_method)) {
       stop("Corr index not calculated")
     }
 
 
-    corr_id <- cbind(dist = .my_upper(dists), corr = .my_upper(corr.indexes),
-    dist_bin <- .my_upper(dists.bins))
+    corr_id <- cbind(dist = .my_upper(dists), corr = .my_upper(corr_indexes),
+    dist_bin <- .my_upper(dists_bins))
 
     dist_mids <- diff(distance_breaks) / 2 +
     distance_breaks[- (length(distance_breaks))]
     corr_id_means <- .corr_get_means(corr_id, dist_mids)
   } else {
-    corr.indexes <- NA
+    corr_indexes <- NA
     corr_id <- NA
     corr_id_means <- NA
   }
@@ -57,13 +57,13 @@
 }
 
 
-.make_distances <- function(posns, rm.lower=TRUE) {
+.make_distances <- function(posns, rm_lower=TRUE) {
   ## POSNS should be a (N,2) array.  Returns a NxN upper triangular
   ## array of the distances between all pairs of cells.
 
   x <- posns[, 1]; y <- posns[, 2]
   d <- round(sqrt(outer(x, x, "-") ^ 2 + outer(y, y, "-") ^ 2))
-  if (rm.lower)
+  if (rm_lower)
     d[lower.tri(d)] <- 0
   d
 }
@@ -96,7 +96,7 @@
   res
 }
 
-.make_corr_indexes2 <- function(spikes, dt, min.rate=0) {
+.make_corr_indexes2 <- function(spikes, dt, min_rate=0) {
   ## New version using the C routine for corr indexing.
   ## Return the correlation index values for each pair of spikes.
   ## The matrix returned is upper triangular.
@@ -111,34 +111,34 @@
     ## If only one spike train, cannot compute the cross corr indexes.
     0;
   } else {
-    Tmax <- max(unlist(spikes)) # time of last spike.
-    Tmin <- min(unlist(spikes)) # time of first spike.
+    t_max <- max(unlist(spikes)) # time of last spike.
+    t_min <- min(unlist(spikes)) # time of first spike.
 
-    no.minimum <- isTRUE(all.equal(min.rate, 0))
+    no_minimum <- isTRUE(all.equal(min_rate, 0))
 
-    if (!no.minimum) {
+    if (!no_minimum) {
       ## precompute rates, and find which electrodes are okay.
-      rates <- sapply(spikes, length) / (Tmax - Tmin)
-      rates.ok <- rates > min.rate
+      rates <- sapply(spikes, length) / (t_max - t_min)
+      rates_ok <- rates > min_rate
       cat(sprintf("Rejecting %d electrodes with firing rate below %.3f Hz\n",
-        n - sum(rates.ok), min.rate))
+        n - sum(rates_ok), min_rate))
     } else {
-      rates.ok <- rep(0, n) # need to pass to C anyway...
+      rates_ok <- rep(0, n) # need to pass to C anyway...
     }
 
     ## create one long vector of spikes.
-    all.spikes <- unlist(spikes)
+    all_spikes <- unlist(spikes)
     nspikes <- sapply(spikes, length)
-    duration <- Tmax - Tmin
+    duration <- t_max - t_min
 
-    first.spike <- c(0, cumsum(nspikes)[- n])
+    first_spike <- c(0, cumsum(nspikes)[- n])
     z <- .C("count_overlap_arr",
-      as.double(all.spikes),
+      as.double(all_spikes),
       as.integer(n),
       as.integer(nspikes),
-      as.integer(first.spike),
-      as.integer(rates.ok),
-      as.integer(no.minimum),
+      as.integer(first_spike),
+      as.integer(rates_ok),
+      as.integer(no_minimum),
       as.double(duration),
       as.double(dt),
       res = double(n * n))
@@ -151,38 +151,38 @@
 .corr_get_means <- function(id, mid) {
   ## mid contains the mid point of each bin.
   data_by_bin <- split(id[, "corr"], id[, "dist_bin"])
-  bins.found <- as.integer(names(data_by_bin)) # assume sorted?
-  mids <- mid[bins.found]
+  bins_found <- as.integer(names(data_by_bin)) # assume sorted?
+  mids <- mid[bins_found]
   means <- sapply(data_by_bin, mean)
   sds <- sapply(data_by_bin, sd)
   n <- sapply(data_by_bin, length)
   cbind(mid = mids, mean = means, sd = sds, n = n)
 }
 
-.corr_do_fit <- function(id, plot=TRUE, show.ci=FALSE, ...) {
+.corr_do_fit <- function(id, plot=TRUE, show_ci=FALSE, ...) {
   ## Do the fit to the exponential and optionally plot it.  Any
   ## correlation index of zero is removed, since we cannot take the
   ## log of zero.  Hopefully there won't be too many of these.
   ## If SHOW.CI is true, do the fit with 95% confidence intervals.
 
-  y.zero <- which(id[, 2] == 0)
-  if (length(y.zero) > 0) {
-    id <- id[- y.zero, ]
-    warning(paste("removing", length(y.zero), "zero entries"))
+  y_zero <- which(id[, 2] == 0)
+  if (length(y_zero) > 0) {
+    id <- id[- y_zero, ]
+    warning(paste("removing", length(y_zero), "zero entries"))
   }
   x <- id[, 1]
-  y_log <- log(id[, 2])
-  fit <- lm( y_log ~ x )
-  if (show.ci) {
+  ylog <- log(id[, 2])
+  fit <- lm(ylog ~ x)
+  if (show_ci) {
     ## TODO: why is 850 hard coded in here
-    expt.new <- data.frame(x = seq(0, 850, 10)) # range of x for predictions.
-    expt.clim <- predict(fit, expt.new, interval = "confidence")
+    expt_new <- data.frame(x = seq(0, 850, 10)) # range of x for predictions.
+    expt_clim <- predict(fit, expt_new, interval = "confidence")
   }
   if (plot) {
-    if (show.ci) {
+    if (show_ci) {
       ## Confidence intervals will show mean, so don't need
       ## to do both matlines and curve.
-      matlines(expt.new$x, exp(expt.clim), lty = c(1, 2, 2),
+      matlines(expt_new$x, exp(expt_clim), lty = c(1, 2, 2),
         col = "black")
     } else {
       curve(exp(fit$coeff[1]) * exp(x * fit$coeff[2]), add = TRUE,
@@ -198,7 +198,7 @@
   ## e.g. my upper matrix 1:9, nrow 3, diag true.
   ## returns 1 4 5 7 8 9
   if (is.matrix(x)) {
-    x[ which(upper.tri(x, diag))]
+    x[which(upper.tri(x, diag))]
   } else {
     stop(paste(deparse(substitute(x)), "is not a matrix"))
   }
@@ -206,7 +206,7 @@
 
 
 ##' Compute tiling coefficient for an MEA recording.
-##' 
+##'
 ##' Given an s object, we return all pairwise correlations.
 ##' @param s  The spike object.
 ##' @param dt Time window, in seconds, for coincident activity.
@@ -215,14 +215,14 @@
 .tiling_allpairwise <- function(s, dt=0.05) {
   n <- length(s$spikes)
 
-  all.spikes <- unlist(s$spikes)
+  all_spikes <- unlist(s$spikes)
   nspikes <- sapply(s$spikes, length)
-  first.spike <- c(0, cumsum(nspikes)[- n])
+  first_spike <- c(0, cumsum(nspikes)[- n])
   z <- .C("tiling_arr",
-    as.double(all.spikes),
+    as.double(all_spikes),
     as.integer(n),
     as.integer(nspikes),
-    as.integer(first.spike),
+    as.integer(first_spike),
     as.double(s$rec_time),
     as.double(dt),
     res = double(n * n))
