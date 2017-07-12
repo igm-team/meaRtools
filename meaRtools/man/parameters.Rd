@@ -55,7 +55,7 @@ List of 20
   ..$ min_values   : num 0
   ..$ filter_by_min: num 0
   ..$ per_well     : num 0
- $ burst_distribution_nSpikes  :List of 7
+ $ burst_distribution_nspikes  :List of 7
   ..$ perform      : num 1
   ..$ min_cases    : num 5
   ..$ x_axis_lim        : num 200
@@ -63,7 +63,7 @@ List of 20
   ..$ min_values   : num 0
   ..$ filter_by_min: num 0
   ..$ per_well     : num 0
- $ burst_distribution_spikeFreq:List of 7
+ $ burst_distribution_spike_freq:List of 7
   ..$ perform      : num 1
   ..$ min_cases    : num 15
   ..$ x_axis_lim        : num 300

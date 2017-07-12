@@ -114,7 +114,7 @@ get.experimental.log.file <- function(file, masterChemFile=masterChemFile) {
 
   }
 
-  s$active_wells <- .axion.elec_to_well(s$channels)
+  s$active_wells <- .axion_elec_to_well(s$channels)
 
 
   if (length(strsplit(resp, "$", fixed = TRUE)[[1]]) > 1){
