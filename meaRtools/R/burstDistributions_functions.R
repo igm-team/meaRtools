@@ -92,7 +92,7 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   jump <- bins_in_sec
 
   # Calculate active E per well
-  Cper_well <- NULL
+  c_per_well <- NULL
   wells <- unique(s$cw)
   if (length(wells) > 0) {
     for (well in wells) {
@@ -104,7 +104,7 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
       }
       active_electrodes <- which(s$cw == well & as.vector(
         unlist(lapply(s$isis, length))) > 0)
-      Cper_well <- rbind(Cper_well, data.frame(well, new_count =
+      c_per_well <- rbind(c_per_well, data.frame(well, new_count =
                                                  length(active_electrodes)))
     }} else {
     write("No wells found!", file = log_file, append = TRUE)
@@ -117,8 +117,10 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   current_enum <- 0
 
   # Making the full table
-  post <- c( ( 1 / jump ) * ( min_values * jump ) : ( xlimit * jump ) )
-  post_t <- post[1:length(post) - 1] + ( post[1] + post[2] ) / 2
+  post <- c(
+    (1 / jump) * (min_values * jump):(xlimit * jump)
+    )
+  post_t <- post[1:length(post) - 1] + (post[1] + post[2]) / 2
 
   # Creating the electrode / well matrix
   all_pos <- rep(post_t, times = length(treatments))
@@ -143,7 +145,7 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
     }
 
     # Check number of aE
-    if (Cper_well$new_count[Cper_well$well == well] < min_electrodes){
+    if (c_per_well$new_count[c_per_well$well == well] < min_electrodes){
       write(paste("Skipped well- ", well, " less than ", min_electrodes,
                   " electrodes", sep = ""), file = log_file, append = TRUE)
       next
@@ -164,7 +166,9 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
     # If electrode has enough values then calculate normal histogram
     if (length(data) > min_vals) {
       e <- hist(data, plot = FALSE, breaks =
-                  c( ( 1 / jump) * (min_values * jump) : (xlimit * jump ) ))
+                  c(
+                    (1 / jump) * (min_values * jump):(xlimit * jump))
+                )
 
       # normalize to number of values in electrode
       hist_data <- data.frame(normHist = (e$counts / length(data)),
@@ -275,7 +279,8 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
           append = TRUE)
     return(1)
   }
-  if ( (dim(table)[2] - (first_data_column - 1) ) <= 1) {
+  if (
+    (dim(table)[2] - (first_data_column - 1)) <= 1) {
     write(paste("Not enough electrodes (<=1) to plot, skipping file ", s$file,
                 sep = ""), file = log_file, append = TRUE)
     return(1)
@@ -328,8 +333,8 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
     # Prepare a table for permutations analysis
     clean_trt <- tto_plot[, colSums(is.na(tto_plot)) != nrow(tto_plot)]
 
-    transposed <- as.data.frame( t(clean_trt[1:ceiling(xlimit * jump),
-                                  first_data_column:length(clean_trt)]) )
+    transposed <- as.data.frame(t(clean_trt[1:ceiling(xlimit * jump),
+                                  first_data_column:length(clean_trt)]))
     names_t <- rownames(transposed)
     for (pos in 1:length(names_t)) {
       names_t[pos] <- strsplit(names_t[pos], "_")[[1]][1]
@@ -423,10 +428,10 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
 dist_perm <- function(datafile, np, type, kotype) {
   # read in and parse data
   data <- read.csv(datafile, header = FALSE)
-  data$V1 <- .trim_trailing(as.character(data$V1))
-  data <- data[data$V1 == type | data$V1 == kotype, ]
-  phenotype <- data$V1
-  wells <- data$V2
+  data[, 1] <- .trim_trailing(as.character(data[, 1]))
+  data <- data[data[, 1] == type | data[, 1] == kotype, ]
+  phenotype <- data[, 1]
+  wells <- data[, 2]
   value <- data[, 3:dim(data)[2]]
   value <- as.matrix(value)
 
@@ -434,28 +439,28 @@ dist_perm <- function(datafile, np, type, kotype) {
   well_values <- unique(wells)
 
   # find out unique Kockout wells
-  KO <- unique(wells[which(phenotype != type)])
+  mt <- unique(wells[which(phenotype != type)])
 
   # generate well level phenotype
   phenotype <- rep(type, length(well_values))
 
-  for (i in 1:length(KO)) {
-    phenotype[which(well_values == KO[i])] <- kotype
+  for (i in 1:length(mt)) {
+    phenotype[which(well_values == mt[i])] <- kotype
   }
 
   # prepare output and sampling parameters
-  n.wt <- length(which(phenotype == type))
+  n_wt <- length(which(phenotype == type))
   n <- length(phenotype)
   outp <- matrix(0, np, 1)
-  out_EMD <- matrix(0, np, 1)
+  out_emd <- matrix(0, np, 1)
 
   # permute
   for (i in 1:np) {
     if (i %% 100 == 0) {
       cat(paste(i, " permutations\n", sep = ""))
     }
-    wt <- sample(n, n.wt)
-    wt_e <- which(data$V2 %in% well_values[wt])
+    wt <- sample(n, n_wt)
+    wt_e <- which(data[, 2] %in% well_values[wt])
     data_wt <- cumsum(colMeans(value[wt_e, ]))
     data_ko <- cumsum(colMeans(value[- wt_e, ]))
 
@@ -464,16 +469,16 @@ dist_perm <- function(datafile, np, type, kotype) {
     data_wt_original[is.na(data_wt_original)] <- 0
     data_ko_original <- colMeans(value[- wt_e, ])
     data_ko_original[is.na(data_ko_original)] <- 0
-    out_EMD[i] <- emd(matrix(c(data_wt_original, 1:length(data_wt_original)),
+    out_emd[i] <- emd(matrix(c(data_wt_original, 1:length(data_wt_original)),
               ncol = 2), matrix(c(data_ko_original,
                                   1:length(data_wt_original)), ncol = 2))
   }
   outp <- sort(outp)
-  out_EMD <- sort(out_EMD)
+  out_emd <- sort(out_emd)
 
   # now figure out the distance from data
   wt <- which(phenotype == type)
-  wt_e <- which(data$V2 %in% well_values[wt])
+  wt_e <- which(data[, 2] %in% well_values[wt])
   data_wt <- cumsum(colMeans(value[wt_e, ]))
   data_ko <- cumsum(colMeans(value[- wt_e, ]))
   data_p <- max(abs(data_wt - data_ko))
@@ -481,15 +486,15 @@ dist_perm <- function(datafile, np, type, kotype) {
   data_wt_original[is.na(data_wt_original)] <- 0
   data_ko_original <- colMeans(value[- wt_e, ])
   data_ko_original[is.na(data_ko_original)] <- 0
-  data_EMD <- emd(matrix(c(data_wt_original, 1:length(data_wt_original)),
+  data_emd <- emd(matrix(c(data_wt_original, 1:length(data_wt_original)),
               ncol = 2), matrix(c(data_ko_original,
                                   1:length(data_wt_original)), ncol = 2))
 
   # compute permutaton p-value
   perm_p <- length(which(outp < data_p)) / np
-  perm_EMD <- length(which(out_EMD < data_EMD)) / np
-  result <- list(data_EMD = data_EMD, data_p = data_p, perm_EMD = perm_EMD,
-              perm_p = perm_p, outp = outp, out_EMD = out_EMD,
+  perm_emd <- length(which(out_emd < data_emd)) / np
+  result <- list(data_emd = data_emd, data_p = data_p, perm_emd = perm_emd,
+              perm_p = perm_p, outp = outp, out_emd = out_emd,
               data_wt = data_wt, data_ko = data_ko, data_wt_original =
               data_wt_original, data_ko_original = data_ko_original)
   return(result)

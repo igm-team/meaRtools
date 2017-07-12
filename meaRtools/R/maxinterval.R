@@ -39,7 +39,7 @@ mi.find.bursts <- function(spikes, mi.par) {
   ## The end of the burst is given when two spikes have an ISI greater
   ## than END.ISI.
 
-  ## Find ISIs closer than beg.isi, and end with end.isi.
+  ## Find isis closer than beg.isi, and end with end.isi.
 
 
   ## LAST.END is the time of the last spike in the previous burst.
