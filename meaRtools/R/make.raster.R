@@ -223,6 +223,7 @@ generate_raster_plot <- function(Robject_file=NULL,
   raster_nb <- NULL
   if (show.nb) {
     if (is.element("nb_all", names(s[[1]]))) {
+
       if (is.element(well_for_raster, names(s[[1]]$nb_all))) {
         if (!(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]]) == 0 ||
             is.na(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]])))) {

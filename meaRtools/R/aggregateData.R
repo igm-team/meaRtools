@@ -21,7 +21,7 @@
   # loop through DIVs in s object and create 1 df per DIV.
   # Each df gets stored in divs_df
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get_div(s[[i]]), sep = "")
+    div <- paste("div", .get_div(s[[i]]), sep = "")
 
     df <- .spike_summary_by_well(s[[i]])
     df <- cbind(rownames(df), df)
@@ -99,7 +99,7 @@
 
   # calculate network spikes
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get_div(s[[i]]), sep = "")
+    div <- paste("div", .get_div(s[[i]]), sep = "")
 
     nspikes_old <- calculate_network_spikes(s[[i]], parameters$sur,
                                             parameters$ns_n, parameters$ns_t)
@@ -142,7 +142,7 @@
 
   divs_df <- list()
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get_div(s[[i]]), sep = "")
+    div <- paste("div", .get_div(s[[i]]), sep = "")
 
     ########## data frame summarized over well
     # get number of object in masterSum[[1]] list

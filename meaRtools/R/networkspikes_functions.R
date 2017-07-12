@@ -53,17 +53,17 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
                ns_n = (nspikes$ns_all)[[i]]$ns_n,
                ns_t = (nspikes$ns_all)[[i]]$ns_t)
     class(ns) <- "ns"
-    m <- .mean.ns(ns, p, plot = FALSE, nrow = 4,
+    m <- .mean_ns(ns, p, plot = FALSE, nrow = 4,
                   ncol = 4, ask = FALSE, sur = sur)
     if (is.null(m)) {
-      ns$brief <- c(n = 0, peak.m = NA, peak.sd = NA, durn.m = NA, durn.sd = NA,
+      ns$brief <- c(n = 0, peak_m = NA, peak_sd = NA, durn_m = NA, durn_sd = NA,
         percent.of.spikes.in.ns = NA,
         mean.spikes.in.ns = NA,
         mean.insi = NA)
       ns$en_map <- NULL
       ns$brief_electrode <- NULL
     } else {
-      ns$mean <- m$ns.mean
+      ns$mean <- m$ns_mean
       ns$measures <- m$measures
       peak_val <- ns$measures[, "peak_val"]
       durn <- ns$measures[, "durn"]
@@ -73,9 +73,9 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
       } else {
         mean_insis <- NA
       }
-      ns$brief <- c(n = nrow(ns$measures), peak.m = mean(peak_val),
-        peak.sd = sd(peak_val), durn.m = mean(durn, na.rm = TRUE),
-        durn.sd = sd(durn, na.rm = TRUE),
+      ns$brief <- c(n = nrow(ns$measures), peak_m = mean(peak_val),
+        peak_sd = sd(peak_val), durn_m = mean(durn, na.rm = TRUE),
+        durn_sd = sd(durn, na.rm = TRUE),
         percent.of.spikes.in.ns = 100 * sum(en_map) / sum(e$nspikes[indexes]),
         mean.spikes.in.ns = sum(en_map) / nrow(ns$measures),
         mean_insis = mean_insis
@@ -193,7 +193,7 @@ plot_active_wells_network_spikes <- function(nspikes) {
   active_wells <- .active_wells_network_spikes(nspikes)$ns_all
   if (length(active_wells) > 0) {
     for (j in 1:length(active_wells)) {
-      IGM.plot.network.spikes(active_wells[[j]],
+      plot_network_spikes(active_wells[[j]],
           main = names(active_wells)[j], ylab = "Count", xlab = "Time (s)")
       y <- as.vector(active_wells[[j]]$mean)
       plot(ts(y, start = c(- (length(y) - 1) / 2, 1)),
