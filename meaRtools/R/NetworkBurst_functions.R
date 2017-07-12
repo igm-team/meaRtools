@@ -200,8 +200,8 @@
 
 
       nbTimesTemp <- cbind.data.frame(burst_start, burst_end)
-      nbTimesTemp$startT = burst_start * 0.002 + offset2
-      nbTimesTemp$endT = burst_end * 0.002 + offset2
+      nbTimesTemp$start_t = burst_start * 0.002 + offset2
+      nbTimesTemp$end_t = burst_end * 0.002 + offset2
       nbTimes[[current]] <- nbTimesTemp
 
       stat[1, current] <- sum(indicator0) * bin.time / timespan # mean network burst time per second
