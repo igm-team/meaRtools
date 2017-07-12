@@ -218,7 +218,7 @@ si_find_bursts <- function(spikes, s_min, burst_isi_max = NULL) {
   ## End of burst detection; accumulate result.
   if (s > s_min) {
 
-    ## compute the ISIs, and then the mean ISI.
+    ## compute the isis, and then the mean ISI.
 
     ## Fencepost issue: I is the number of spikes in the burst, so if
     ## the first spike is N, the last spike is at N+I-1, not N+I.

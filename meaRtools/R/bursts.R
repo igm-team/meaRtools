@@ -92,7 +92,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
     p <- .channel_plot_by_well(s[[i]], resp = "bs$nbursts",
                                resp_label = "Number of Bursts")
     # mean Inter Burst Interval
-    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_IBIs",
+    p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_ibis",
                                resp_label = "Mean IBIs (ms)")
     # mean ISI within bursts
     p <- .channel_plot_by_well(s[[i]], resp = "bs$mean_isis",
@@ -111,7 +111,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
 }
 
 write_plate_summary_for_bursts <- function(s, outputdir) {
-  masterSum <- .get_mean_burst_info_per_well(s)
+  master_sum <- .get_mean_burst_info_per_well(s)
   csvwell <- paste(outputdir, "/", get_project_plate_name(s[[1]]$file),
                    "_well_bursts.csv", sep = "")
 
@@ -121,13 +121,13 @@ write_plate_summary_for_bursts <- function(s, outputdir) {
     csvfile <- paste(outputdir, "/", basename, "_bursts.csv", sep = "")
 
     ########## data frame summarized over well
-    # get number of object in masterSum[[1]] list
+    # get number of object in master_sum[[1]] list
     tempdf <- c(); tempcolnames <- c()
-    for (j in 2:length(masterSum[[i]])) {
-      tempc <- unlist(masterSum[[i]][j])
+    for (j in 2:length(master_sum[[i]])) {
+      tempc <- unlist(master_sum[[i]][j])
       tempdf <- cbind(tempdf, tempc)
-      tempcolnames <- c(tempcolnames, names(masterSum[[i]][j]))
-    } # end of loop through masterSum list objects
+      tempcolnames <- c(tempcolnames, names(master_sum[[i]][j]))
+    } # end of loop through master_sum list objects
 
     # need to switch around columns so first columns come first
     if (dim(tempdf)[2] > 20) {
