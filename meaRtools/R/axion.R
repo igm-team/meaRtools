@@ -1,7 +1,7 @@
 ## General functions useful for processing the Axion data.
 
 ## This variable stores all the information related to the wells; typically this
-## is accessed through the plateinfo(arrayname) function.
+## is accessed through the plateinfo arrayname function.
 
 .axion_plateinfo <- list("Axion 48 well" = list(
   n_well = 48,
@@ -23,8 +23,8 @@
 
 .plateinfo <- function(arrayname) {
   ## Return useful information related to arrayname
-  ## 
-  ## plateinfo("Axion 12 well")
+  ##
+  ## plateinfo "Axion 12 well"
   res <- .axion_plateinfo[[arrayname]]
   if (is.null(res)) {
     stop("arrayname not recognised:", arrayname)
@@ -39,7 +39,7 @@
   ## and hence the well layout of the plate.
 
   max_well_row <- plateinfo$n_well_r
-  max_well_col <- plateinfo$n_well_c
+#  max_well_col  plateinfo$n_well_c
   max_elec_row <- plateinfo$n_elec_r
   max_elec_col <- plateinfo$n_elec_c
 
@@ -77,7 +77,7 @@
 }
 
 .axion_spikes_to_df <- function(spikes) {
-  ## Convert a list of spikes to a 2-column  (elec, time) data frame.
+  ## Convert a list of spikes to a two column  elec, time data frame
   names <- names(spikes)
   names(spikes) <- NULL
   nspikes <- sapply(spikes, length)
@@ -90,10 +90,10 @@
   ## This works on the logic that certain electrode names will only be
   ## found on certain plates. e.g. the electrode name "D6_33" can only appear
   ## on a well with 48 arrays.
-  ## 
-  ## .axion_guess_well_number("D3_33")  ## should be 48.
-  ## .axion_guess_well_number("B3_53")  ## should be 12
-  ## .axion_guess_well_number("A2_11") ## this is ambiguous.
+  ##
+  ## .axion_guess_well_number "D3_33"  ## should be 48.
+  ## .axion_guess_well_number "B3_53"  ## should be 12
+  ## .axion_guess_well_number "A2_11" ## this is ambiguous.
 
   well_r <- match(substring(channels, 1, 1), LETTERS)
   well_c <- as.integer(substring(channels, 2, 2))
@@ -130,14 +130,14 @@
   electrodes[matches]
 }
 
-.axion.elec_to_well <- function(elec) {
+.axion_elec_to_well <- function(elec) {
   ## Extract well name from ELECtrode name.
   substring(elec, 1, 2)
 }
 
 .get_array_info <- function(data) {
-  ## Array-specific information; maybe this could go in a file, rather
-  ## than be read-in separately.  Useful for the HDF5 functions.
+# Array-specific information, maybe this could go in a file, rather
+# than be read-in separately.
   pos <- data$epos;  rownames(pos) <- data$names
   array <- data$array
 
@@ -162,45 +162,34 @@
   ## If the elements of IDS are numeric, they are assumed to be the
   ## indexes of the spike trains; otherwise, they are assumed to be the
   ## names of cells.
-  ## e.g.
-  ## spikes2 <- .filter_channel_names(spikes, c('-', 'g4a', 'a6a'))
-  ## spikes2 <- .filter_channel_names(spikes, c('g4a', 'a6a'))
-  ## spikes2 <- .filter_channel_names(spikes, c(5, 3, 1))
-  ## first call throws away two channels; second call keeps just two channels.
-  ## third just keeps the three trains mentioned.
 
   if (any(is.character(ids)))
-    ids = .names_to_indexes(names(spikes), ids)
+    ids <- .names_to_indexes(names(spikes), ids)
 
   spikes[ids]
 }
 
 .names_to_indexes <- function(names, elems, allow_na=FALSE, allow_regex=TRUE) {
-  ## Return the indexes of where each element of ELEMS is within NAMES.
-  ## If the first element of ELEMS is '-', then return all indexes except
-  ## those matching ELEMS.  If ELEMS is NULL, then 1:n is returned, where n is
-  ## the length of NAMES.
-  ## Example:
-  ## names = c('a', 'b', 'c', 'd', 'e')
-  ## .names_to_indexes(names, c('d', 'b', 'a'))  ## 4 2 1
-  ## .names_to_indexes(names, c( '-', 'c', 'a')) ## 2 4 5
-  ## .names_to_indexes(names, NULL)
+  ## Return the indexes of where each element of elems is within names.
+  ## If the first element of elems is a dash sign,
+  ## then return all indexes except those matching elems.
+  ## If elems is NULL, then 1 to n is returned, where n is the length of NAMES.
 
-  ## to check if first element is "-", we have to use this more
-  ## complex expression, as elems[1] == "-" is an error if the first element
-  ## by chance is NA.
+  ## to check if first element is a dash sign, we have to use this more
+  ## complex expression, as elems 1 equals dash sign is
+  ## an error if the first element by chance is NA.
   if (is.null(elems)) {
     return(1:length(names))
   }
   if (isTRUE(all.equal("-", elems[1]))) {
-    invert = TRUE
-    elems = elems[- 1]
+    invert <- TRUE
+    elems <- elems[- 1]
   } else {
-    invert = FALSE
+    invert <- FALSE
 
   }
 
-  indexes = match(elems, names)
+  indexes <- match(elems, names)
 
 
   if (allow_regex) {
@@ -209,7 +198,9 @@
     which_na <- which(is.na(indexes))
     if (any(which_na)) {
       regex_elems <- elems[which_na]
-      new_indexes <- lapply(regex_elems, function(r) {grep(r, names)})
+      new_indexes <- lapply(regex_elems, function(r){
+        grep(r, names)
+      })
       new_indexes <- unique(unlist(new_indexes))
       indexes <- indexes[- which_na]
       indexes <- c(indexes, new_indexes) # TODO, preserve order?
@@ -218,12 +209,12 @@
   }
 
   if (!allow_na) {
-    if (any(is.na(indexes))) 
+    if (any(is.na(indexes)))
     stop("some indexes not found.")
   }
 
   if (invert)
-    indexes = setdiff(1:(length(names)), indexes)
+    indexes <- setdiff(1:(length(names)), indexes)
 
   indexes
 

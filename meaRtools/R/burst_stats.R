@@ -8,36 +8,38 @@ get_burst_info <- function(allb, index) {
     } else {
       0
     }
-  }, simplify = FALSE)
+  }
+  , simplify = FALSE)
 }
 
 calc_burst_summary <- function(s, bursty_threshold=1) {
-  ## bursty_threshold: min number of  bursts/minute to count as
+  ## bursty_threshold: min number of  bursts per minute to count as
   ## a bursty unit.
 
-  ## Compute the summary burst information.  Use a separate
-  ## call (write.csv() for example) to write the burst information to file.
+  ## Compute the summary burst information.
 
   ## The columns of the data.frame returned.
-  ## channels - electrode name
-  ## spikes - #spikes
-  ## mean_freq - firing rate (Hz)
-  ## nbursts - #bursts detected
-  ## bursts_per_sec - #bursts/second.matrix(nrow=0,ncol=1)
-  ## bursts_per_min - #bursts/min
-  ## bursty - is bursts_per_min >bursty_threshold (defaults to 1 burst/min)
-  ## mean_dur - mean burst duration
-  ## sd_dur - sd
-  ## mean_spikes - mean #spikes in a burst
-  ## sd_spikes  - sd
-  ## per_spikes_in_burst - % of spikes in a burst
-  ## per_spikes_out_burst- % of spikes not in a burst
-  ## mean_si - mean Surprise Index (only for poisson .surprise measure)
-  ## mean_isis - mean ISI within a burst (old name: mean2.isis)
-  ## sd_mean_isis - sd
-  ## mean_IBIs - mean IBI
-  ## sd_IBIs - sd
-  ## cv_IBIs - Coefficient of variation of IBI (= mean.IBI/sd.IBI)
+  ## channels: electrode name
+  ## spikes: #spikes
+  ## mean_freq: firing rate (Hz)
+  ## nbursts: #bursts detected
+  ## bursts_per_sec: #bursts per second.matrix, nrow is 0,ncol is 1
+  ## bursts_per_min: #bursts per min
+  ## bursty: is bursts_per_min bigger than bursty_threshold
+  ## (defaults to 1 burst per min)
+  ## mean_dur: mean burst duration
+  ## sd_dur: sd
+  ## mean_spikes : mean #spikes in a burst
+  ## sd_spikes: sd
+  ## per_spikes_in_burst : % of spikes in a burst
+  ## per_spikes_out_burst: % of spikes not in a burst
+  ## mean_si: mean Surprise Index (only for poisson .surprise measure)
+  ## mean_isis: mean ISI within a burst (old name: mean2.isis)
+  ## sd_mean_isis: sd
+  ## mean_IBIs: mean IBI
+  ## sd_IBIs: sd
+  ## cv_IBIs: Coefficient of variation of IBI (equals mean.IBI
+  ## devided by sd.IBI)
 
   allb <- s$allb
 
@@ -56,15 +58,15 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   bursts_per_min <- bursts_per_sec * 60
 
 
-  bursty = ifelse(bursts_per_min >= bursty_threshold, 1, 0)
+  bursty <- ifelse(bursts_per_min >= bursty_threshold, 1, 0)
 
   durations <- get_burst_info(allb, "durn")
   mean_dur <- round(sapply(durations, mean), 3)
   sd_dur <- round(sapply(durations, sd), 3)
 
-  ISIs = .calc_all_isi(s, allb)
-  mean_isis = sapply(ISIs, mean)
-  sd_ISIs = unlist(sapply(ISIs, sd, na.rm = TRUE))
+  ISIs <- .calc_all_isi(s, allb)
+  mean_isis <- sapply(ISIs, mean)
+  sd_ISIs <- unlist(sapply(ISIs, sd, na.rm = TRUE))
 
 
   ns <- get_burst_info(allb, "len")
@@ -110,7 +112,6 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## Plot result of burst analysis in a stripchart, one col per channel.
   ## Feature plotted is given by index, e.g. "durn", "len".
 
-  ## plot_channels <- min(length(allb), 70)
   plot_channels <- length(allb) # plot all channels.
 
   values <- list()
@@ -123,7 +124,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
     }
 
     infs <- which(res == Inf)
-    if (length(infs) > 0) 
+    if (length(infs) > 0)
     res <- res[- infs]
 
     values[[i]] <- res
@@ -136,7 +137,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   maxs <- max(sapply(values, max), na.rm = TRUE)
 
   if (is.null(ylab))
-    ylab = index
+    ylab <- index
 
   stripchart(values, method = "jitter", pch = 20, vert = TRUE, main = title,
     ylim = c(mins, maxs),
@@ -148,14 +149,14 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## Return the number of bursts found for a spike train.
   if (is.na(b[1]))
     0
-    else 
+    else
   nrow(b)
 }
 
 .calc_all_isi <- function(s, allb) {
   ## Compute ISI within bursts for all spike trains.
 
-  calc_isi = function(spikes, b) {
+  calc_isi <- function(spikes, b) {
     ## for one spike train, get all ISIs within bursts in that train.
     if (.num_bursts(b) == 0) {
       return(NA)
@@ -166,7 +167,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
     ## normal cases, bursts are of different lengths, so "apply"
     ## returns a list.
 
-    isis = as.vector(
+    isis <- as.vector(
       unlist(apply(b, 1,
         function(x) {
           diff(spikes[ x[1]:x[2]])
@@ -174,9 +175,9 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   }
 
   nchannels <- s$NCells
-  ISIs = list()
+  ISIs <- list()
   for (i in 1:nchannels) {
-    ISIs[[i]] = calc_isi(s$spikes[[i]], allb[[i]])
+    ISIs[[i]] <- calc_isi(s$spikes[[i]], allb[[i]])
   }
 
   ISIs
@@ -185,9 +186,9 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
 .calc_all_ibi <- function(s, allb) {
   ## Compute IBI for all spike trains.
   nchannels <- s$NCells
-  IBIs = list()
+  IBIs <- list()
   for (i in 1:nchannels) {
-    IBIs[[i]] = .calc_ibi(s$spikes[[i]], allb[[i]])
+    IBIs[[i]] <- .calc_ibi(s$spikes[[i]], allb[[i]])
   }
 
   IBIs
@@ -197,46 +198,48 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## Compute the interburst intervals (IBI) for one spike train.
   ## Only valid if more than one burst.
 
-  nburst = .num_bursts(b)
+  nburst <- .num_bursts(b)
   if (nburst == 0) {
-    res = NA # no bursts
+    res <- NA # no bursts
   } else {
     if (nburst == 1) {
-      res = NA # cannot compute  IBI w/only 1 burst.
+      res <- NA # cannot compute  IBI w/only 1 burst.
     } else {
       ## find end spike in each burst.
-      end = b[, "beg"] + b[, "len"] - 1
+      end <- b[, "beg"] + b[, "len"] - 1
 
-      ## for NBURST bursts, there will be NBURST-1 IBIs.
-      start_spikes = b[2:nburst, "beg"]
-      end_spikes = end[1:(nburst - 1)]
-      ## NEX uses a strange definition of IBI -- it counts the time between
-      ## the first spike of burst N and the first spike of burst N+1 as the
-      ## IBI.  If we want to use that definition, use the following line:
-      ## end.spikes   = b[1:(nburst-1),"beg"]
-      res = spikes[start_spikes] - spikes[end_spikes]
+      ## for n bursts, there will be n bursts minus 1 IBIs.
+      start_spikes <- b[2:nburst, "beg"]
+      end_spikes <- end[1:(nburst - 1)]
+      ## NEX uses a strange definition of IBI: it counts the time between
+      ## the first spike of n burst and the first spike of n burst
+      ## plus one as the IBI.
+      ## If we want to use that definition, use the following line:
+      ## end.spikes equal b where 1 to nburst minus 1
+      res <- spikes[start_spikes] - spikes[end_spikes]
     }
   }
   res
 }
 
-.mean_burst_summary = function(allb_sum) {
+.mean_burst_summary <- function(allb_sum) {
   ## Summarise the burst information.  This does not handle per_spikes_in_burst
-  subset = allb_sum[which(allb_sum$bursty == 1), ]
+  subset <- allb_sum[which(allb_sum$bursty == 1), ]
 
-  fields = c("spikes", "mean_dur", "cv_IBIs", "bursts_per_min", "per_spikes_in_burst")
-  res = rep(0, length(fields) * 2)
-  names(res) = paste(rep(fields, each = 2), c("m", "sd"), sep = ".")
-  n = 1
+  fields <- c("spikes", "mean_dur", "cv_IBIs", "bursts_per_min",
+             "per_spikes_in_burst")
+  res <- rep(0, length(fields) * 2)
+  names(res) <- paste(rep(fields, each = 2), c("m", "sd"), sep = ".")
+  n <- 1
   for (field in fields) {
-    dat = subset[[field]]
+    dat <- subset[[field]]
     if (length(dat) > 0) {
-      mean = mean(dat, na.rm = TRUE); sd = sd(dat, na.rm = TRUE);
+      mean <- mean(dat, na.rm = TRUE); sd <- sd(dat, na.rm = TRUE);
     } else {
-      mean = sd = NA;
+      mean <- sd <- NA;
     }
-    res[n] = mean; res[n + 1] = sd
-    n = n + 2
+    res[n] <- mean; res[n + 1] <- sd
+    n <- n + 2
   }
 
   res
