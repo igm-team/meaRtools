@@ -25,7 +25,7 @@ An example 'S' list object containing multiple fields describing 1 minute record
     \item{units}{units of dose of treatment}
     \item{dose}{ dose of treatment}
     \item{well}{well names}
-    \item{nAE}{# active electrodes (firing>5spikes/min)}
+    \item{nae}{# active electrodes (firing>5spikes/min)}
     \item{cw}{wells that each channel belongs to }
     \item{parameters}{ A list of parameters, see data("parameters") }
     \item{allb}{for each electrode, a matrix of burst related information }

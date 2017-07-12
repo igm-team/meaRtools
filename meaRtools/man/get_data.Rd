@@ -1,13 +1,13 @@
-\name{get.data}
-\alias{get.data}
+\name{get_data}
+\alias{get_data}
 \title{
-get.data
+get_data
 }
 \description{
 pop up file chooser with caption. Also, sets directory of analysis output.
 }
 \usage{
-get.data(caption = "")
+get_data(caption = "")
 }
 \arguments{
   \item{caption}{
@@ -24,7 +24,7 @@ Creates 2 directories:
 }
 
 \examples{
-## get.data(caption="Please select a spike-list file for analysis")
+## get_data(caption="Please select a spike-list file for analysis")
 }
 \keyword{ s-object }
 

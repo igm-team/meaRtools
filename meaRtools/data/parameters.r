@@ -7,7 +7,7 @@ perm_n = 1000, ##Might want to specify in parameters or give user option?
 
 elec_min_rate = (1/60),
 elec_max_rate = 1000,
-# minimum nAE
+# minimum nae
 well_min_rate=4,
 # The maximum DIV inactive/active ratio (below which a well will be considered active
 # for a set of DIVs)
@@ -86,7 +86,7 @@ burst_distribution_spike_freq = list(
   per_well = 0),     # 0/1 - perform analysis per well=1 or per electrode=0
 
   #network burst parameters
-  local_region_min_nAE= 0, #do not change for now
+  local_region_min_nae= 0, #do not change for now
   min_electrodes= 4 ,
   Sigma= c(10,20,50) , # a list of window size to be considered 
 

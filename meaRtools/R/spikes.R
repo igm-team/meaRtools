@@ -113,7 +113,7 @@ calculate_isis <- function(s) {
   s$isis <- lapply(s$spikes, diff)
   start_pos <- 1
   sum <- matrix(data = NA, nrow = length(wells), ncol = start_pos + 8)
-  colnames(sum) <- c("treatment", "nAE", "nspikes_by_well",
+  colnames(sum) <- c("treatment", "nae", "nspikes_by_well",
                      "meanfiringrate_by_well",
                      "meanfiringrate_by_all_ectctordes",
                      "meanfiringrate_by_active_electordes",
@@ -557,21 +557,21 @@ isi <- function(train) {
   s2$dose <- s1$dose
   s2$well <- s1$well
 
-  # get.num.AE
-  s2 <- get.num.AE(s2)
+  # get_num_ae
+  s2 <- get_num_ae(s2)
 
   # indices of low and high firing rate
 
-  low <- which(s2$nAE < well_min_rate)
+  low <- which(s2$nae < well_min_rate)
 
   bad_wells <- names(low)
   bad_wells <- c("-", bad_wells) # "-" needed to remove these well!
   # just these three for example
   s <- remove_spikes(s2, bad_wells)
 
-  s$goodwells <- names(which(s2$nAE >= well_min_rate))
+  s$goodwells <- names(which(s2$nae >= well_min_rate))
 
-  # [which(s2$nAE >= well_min_rate)
+  # [which(s2$nae >= well_min_rate)
   s$treatment <- s1$treatment
   names(s$treatment) <- s1$well
   s$size <- s1$size
@@ -581,7 +581,7 @@ isi <- function(train) {
   s$dose <- s1$dose
   names(s$dose) <- s1$well
   s$well <- s1$well
-  s <- get.num.AE(s)
+  s <- get_num_ae(s)
   s$timepoint <- s1$timepoint
   if (s$nspikes[1] > 0) {
     s$allb <- lapply(s$spikes, mi.find.bursts, s$parameters$mi.par)

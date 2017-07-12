@@ -156,9 +156,9 @@
     "spike.intensity",
     "spike.intensity.by.aEs",
     "total.spikes.in.all.NBs,nNB",
-    "[total.spikes.in.all.NBs,nNB],nAE",
-    "mean[spikes.in.NB,nAE]",
-    "mean[spikes.in.NB,nAE,NB.duration]",
+    "[total.spikes.in.all.NBs,nNB],nae",
+    "mean[spikes.in.NB,nae]",
+    "mean[spikes.in.NB,nae,NB.duration]",
     "mean[spikes.in.NB]",
     "total.number.of.NBs")
   colnames(stat) <- rep("NA", n)
