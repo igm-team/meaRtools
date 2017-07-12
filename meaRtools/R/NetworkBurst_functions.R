@@ -209,7 +209,6 @@
         stop("Burst region no match")
       }
 
-
       nb_times_temp <- cbind.data.frame(burst_start, burst_end)
       nb_times_temp$start_t <- burst_start * 0.002 + offset2
       nb_times_temp$end_t <- burst_end * 0.002 + offset2

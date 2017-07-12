@@ -1,39 +1,37 @@
 # Diana Hall
 # purpose: generate raster plot with Robject complete with burst + ns data made from IGM.main
 #  prompts user for input or the file path may be passed
-generate.raster.plot <- function(RobjectFile=NULL,
-  outputdir=NULL ,
-  well.for.raster=NULL,
-  interval.for.raster=NULL,
-  show.bursts=F,
-  show.burst.number=F,
-  show.networkspikes=F,
-  show.ns.number=F,
+generate_raster_plot <- function(Robject_file=NULL,
+  outputdir=NULL,
+  well_for_raster=NULL,
+  interval_for_raster=NULL,
+  show_bursts=F,
+  show_burst_number=F,
+  show_networkspikes=F,
+  show_ns_number=F,
   show.nb=F,
   window.size=NULL) {
 
-  # show.nb=T;show.ns.number=T;show.networkspikes=T;show.burst.number=T; .plot.mm.s=meaRtools:::.plot.mm.s
-  # show.bursts=T;interval.for.raster=c(1,15);well.for.raster="B2"; window.size=10;
-  # RobjectFile="/Users/dh2744/Dropbox/Columbia/Software/github/mea/test/testData/exampleRecording/Analysis/R_Objects/exampleRecording_1012016_plate1_DIV4.RData"
-  # outputdir="/Users/dh2744/Dropbox/Columbia/Software/github/mea/test/testData/Many_treatments"
-  # 
-  if (is.null(RobjectFile)){
-    have.data = F; counter = 1
-    while (have.data == F) {
-      RobjectFile <- tk_choose.files(caption = "Select R-object (.RData) for raster plot")
-      data.type <- strsplit(basename(RobjectFile), split = "[.]")[[1]][2]
+  #
+  if (is.null(Robject_file)){
+    have_data <- F; counter <- 1
+    while (have_data == F) {
+      Robject_file <- tk_choose.files(caption =
+                          "Select R-object (.RData) for raster plot")
+      data.type <- strsplit(basename(Robject_file), split = "[.]")[[1]][2]
 
       # laod and check
       if (!is.element(data.type, c("rdata", "RData", "rData", "Rdata"))){
-        counter = counter + 1
-        tkmessageBox(message = ".RData file needed!", icon = "error", type = "ok")
+        counter <- counter + 1
+        tkmessageBox(message = ".RData file needed!",
+                     icon = "error", type = "ok")
       } else {
-        t = load(RobjectFile, verbose = T)
-        s = list(); s[[1]] <- get(t)
-        have.data = T
+        t <- load(Robject_file, verbose = T)
+        s <- list(); s[[1]] <- get(t)
+        have_data <- T
         analysis <- list()
-        analysis$output_dir <- dirname(RobjectFile)
-        analysis$Routput_dir <- dirname(RobjectFile)
+        analysis$output_dir <- dirname(Robject_file)
+        analysis$Routput_dir <- dirname(Robject_file)
       }
       if (counter == 4) {
         stop()
@@ -41,22 +39,20 @@ generate.raster.plot <- function(RobjectFile=NULL,
     }
   } else {
     analysis <- list()
-    analysis$output_dir <- dirname(RobjectFile)
-    analysis$Routput_dir <- dirname(RobjectFile)
-    t = load(RobjectFile, verbose = T)
-    s = list(); s[[1]] <- get(t)
-    have.data = T
+    analysis$output_dir <- dirname(Robject_file)
+    analysis$Routput_dir <- dirname(Robject_file)
+    t <- load(Robject_file, verbose = T)
+    s <- list(); s[[1]] <- get(t)
+    have_data <- T
   }
 
   if (is.null(outputdir)){
-    outputdir = analysis$output_dir
+    outputdir <- analysis$output_dir
   } else {
     dir.create(outputdir, showWarnings = FALSE)
   }
 
   setwd(outputdir)
-
-
 
   # error checks
   # check for correct data
@@ -73,101 +69,100 @@ generate.raster.plot <- function(RobjectFile=NULL,
   ## ready data for plot
   # correct spike times for recording start offset
 
-
-  # initialize loop and keep raster up
-  # want.new.raster<-T;show.bursts<-T;show.burst.number<-T;show.networkspikes<-T; show.ns.number<-T;
-
-  # +++++++++++++++++++++well.for.raster
-  if (!exists("well.for.raster") || is.null(well.for.raster)) {
+  #  well for raster
+  if (!exists("well_for_raster") || is.null(well_for_raster)) {
     return("Well has no data, please select another well")
   }
-  well.for.raster <- toupper(well.for.raster) # ensure user entered upper case well names
+  well_for_raster <- toupper(well_for_raster)
+  # ensure user entered upper case well names
   # check if its among available channels
-  if (!is.element(well.for.raster, unique(s[[1]]$cw))) {
+  if (!is.element(well_for_raster, unique(s[[1]]$cw))) {
 
     return("Well has no data, please select another well")
-
   }
-
 
 
   # +++++++++++++++++++++ show bursts
-  if (!exists("show.bursts") || is.na(show.bursts)) { show.bursts = F }
-  if (!is.element(show.bursts, c(T, F))) {
-    show.bursts = T
+  if (!exists("show_bursts") || is.na(show_bursts)) {
+    show_bursts <- F
+  }
+  if (!is.element(show_bursts, c(T, F))) {
+    show_bursts <- T
   }
 
   # +++++++++++++++++++++ show network spikes
-  if (!exists("show.networkspikes") || is.na(show.networkspikes)) {
-    show.networkspikes = F }
-  if (!is.element(show.networkspikes, c(T, F))) {
-    show.networkspikes = F
+  if (!exists("show_networkspikes") || is.na(show_networkspikes)) {
+    show_networkspikes <- F
+  }
+  if (!is.element(show_networkspikes, c(T, F))) {
+    show_networkspikes <- F
   }
 
   # +++++++++++++++++++++ show bursts number
-  if (!exists("show.burst.number") || is.na(show.burst.number)) {
-    show.burst.number = F }
-  if (!is.element(show.burst.number, c(T, F))) {
-    show.burst.number = F
+  if (!exists("show_burst_number") || is.na(show_burst_number)) {
+    show_burst_number <- F
+  }
+  if (!is.element(show_burst_number, c(T, F))) {
+    show_burst_number <- F
   }
 
   # +++++++++++++++++++++ show network burst
   if (!exists("show.nb") || is.na(show.nb)) {
-    show.nb = F }
+    show.nb <- F
+  }
   if (!is.element(show.nb, c(T, F))) {
-    show.nb = F
+    show.nb <- F
   }
 
-  # +++++++++++++++++++++ window.size
-  window.size.i = 1
+  #  window size
+  window_size_i <- 1
   if (is.null(window.size)) {
-    window.size.i = 1 }
+    window_size_i <- 1
+  }
   if (!is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
-    window.size.i = 1
+    window_size_i <- 1
   }
   if (is.element(window.size, as.numeric(names(s[[1]]$nb_all[[1]])))) {
-    window.size.i = which(window.size == as.numeric(names(s[[1]]$nb_all[[1]])))
+    window_size_i <- which(window.size == as.numeric(names(s[[1]]$nb_all[[1]])))
   }
-
 
   # ++++++++++++++++++++++++++interval check
-  if (is.null(interval.for.raster) || length(interval.for.raster) < 2) {
+  if (is.null(interval_for_raster) || length(interval_for_raster) < 2) {
     if (is.element("rec_time", names(s[[1]]))){
-      interval.for.raster <- c(s[[1]]$rec_time[1], s[[1]]$rec_time[2])
+      interval_for_raster <- c(s[[1]]$rec_time[1], s[[1]]$rec_time[2])
     } else {
-      interval.for.raster <- c(min(unlist(lapply(s[[1]]$spikes, min))),
+      interval_for_raster <- c(min(unlist(lapply(s[[1]]$spikes, min))),
         max(unlist(lapply(s[[1]]$spikes, max))))
     }
-
   }
 
-  if (any(is.na(interval.for.raster))) {
-    if (is.na(interval.for.raster[1])) {
-      interval.for.raster[1] <- s[[1]]$rec_time[1]
+  if (any(is.na(interval_for_raster))) {
+    if (is.na(interval_for_raster[1])) {
+      interval_for_raster[1] <- s[[1]]$rec_time[1]
     }
-    if (is.na(interval.for.raster[2])) {
-      interval.for.raster[2] <- s[[1]]$rec_time[2]
+    if (is.na(interval_for_raster[2])) {
+      interval_for_raster[2] <- s[[1]]$rec_time[2]
     }
   }
   # error check on times chosen
-  if (0 > interval.for.raster[1]) {
-    interval.for.raster[1] <- s[[1]]$rec_time[1]
+  if (0 > interval_for_raster[1]) {
+    interval_for_raster[1] <- s[[1]]$rec_time[1]
     print(paste("Beginning of raster interval preceeds recording start",
       "resetting start of raster interval to start of recording",
       sep = "\n"))
 
   }
 
-  if (ceiling(s[[1]]$rec_time[2]) < interval.for.raster[2]) {
-    interval.for.raster[2] <- s[[1]]$rec_time[2]
+  if (ceiling(s[[1]]$rec_time[2]) < interval_for_raster[2]) {
+    interval_for_raster[2] <- s[[1]]$rec_time[2]
 
     print(paste("End of raster interval exceeds recording end",
       "resetting end of raster interval to end of recoding",
       sep = "\n"))
 
   }
-  if (ceiling(s[[1]]$rec_time[2]) < interval.for.raster[1]) {
-    interval.for.raster[1] <- s[[1]]$rec_time[1]
+  if (ceiling(s[[1]]$rec_time[2]) < interval_for_raster[1]) {
+    interval_for_raster[1] <- s[[1]]$rec_time[1]
 
     print(paste("Start of raster interval exceeds recording end",
       "resetting end of raster interval to end of recoding",
@@ -175,195 +170,197 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
   }
 
-  if (interval.for.raster[2] < interval.for.raster[1]) {
-    interval.for.raster <- c(ceiling(s[[1]]$rec_time[1]), floor(s[[1]]$rec_time[2]))
+  if (interval_for_raster[2] < interval_for_raster[1]) {
+    interval_for_raster <- c(ceiling(s[[1]]$rec_time[1]),
+                             floor(s[[1]]$rec_time[2]))
 
   }
 
-  # +++++++++++++++++++++ show.ns.number
-  if (!exists("show.ns.number") || is.null(show.ns.number)) {
-    show.ns.number = F }
-  if (!is.element(show.ns.number, c(T, F))) {
-    show.ns.number = F
+  # show ns number
+  if (!exists("show_ns_number") || is.null(show_ns_number)) {
+    show_ns_number <- F
+  }
+  if (!is.element(show_ns_number, c(T, F))) {
+    show_ns_number <- F
   }
 
-
-  # each spike has a name, e.g. "A2_321", "A2_322" that's 1st and 2nd spike of channel A2_32
-  if (show.networkspikes){
-    if (!(s[[1]]$ns_all[[well.for.raster]]$brief[1] == 0 || is.na(s[[1]]$ns_all[[well.for.raster]]$brief[1]))){
-      raster.ns.t <- s[[1]]$ns_all[[well.for.raster]]$measures[ , c("time", "durn", "peak_val") ]
-      if (is.matrix(raster.ns.t)){
-        raster.ns.t[, "time"] = raster.ns.t[, "time"]
-        index.want <- which(raster.ns.t[, "time"] < interval.for.raster[2] & raster.ns.t[, "time"] > interval.for.raster[1])
+  # each spike has a name, e.g. "A2_321", "A2_322" that's 1st and 2nd spike of
+  # channel A2_32
+  if (show_networkspikes){
+    if (!(s[[1]]$ns_all[[well_for_raster]]$brief[1] == 0 ||
+          is.na(s[[1]]$ns_all[[well_for_raster]]$brief[1]))){
+      raster_ns_t <- s[[1]]$ns_all[[well_for_raster]]$measures[,
+                                        c("time", "durn", "peak_val") ]
+      if (is.matrix(raster_ns_t)){
+        raster_ns_t[, "time"] <- raster_ns_t[, "time"]
+        index.want <- which(raster_ns_t[, "time"] < interval_for_raster[2] &
+                              raster_ns_t[, "time"] > interval_for_raster[1])
         if (length(index.want) > 0){
-          raster.ns <- raster.ns.t[index.want, ]
+          raster_ns <- raster_ns_t[index.want, ]
         } else {
-          raster.ns = NULL
+          raster_ns <- NULL
         }
 
       } else {
-        raster.ns.t["time"] = raster.ns.t["time"]
-        index.want <- which(raster.ns.t["time"] < interval.for.raster[2] & raster.ns.t["time"] > interval.for.raster[1])
+        raster_ns_t["time"] <- raster_ns_t["time"]
+        index.want <- which(raster_ns_t["time"] < interval_for_raster[2] &
+                              raster_ns_t["time"] > interval_for_raster[1])
         if (length(index.want) > 0){
-          raster.ns <- raster.ns.t
+          raster_ns <- raster_ns_t
         } else {
-          raster.ns = NULL
+          raster_ns <- NULL
         }
-
       }
-
     } else {
-      raster.ns = NULL
+      raster_ns <- NULL
     }
   } else {
-    raster.ns = NULL
+    raster_ns <- NULL
   }
 
 
-  # +++++++++++++++++++++++++++++++++++++++show.nb
-  raster.nb = NULL
+  # show nb
+  raster_nb <- NULL
   if (show.nb) {
     if (is.element("nb_all", names(s[[1]]))) {
-      if (is.element(well.for.raster, names(s[[1]]$nb_all))) {
-        if (!(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]]) == 0 ||
-            is.na(nrow(s[[1]]$nb_all[[well.for.raster]][[window.size.i]])))) {
-          raster.nb.t <- s[[1]]$nb_all[[well.for.raster]][[window.size.i]][ , c("start_t", "end_t") ]
-          if (is.data.frame(raster.nb.t)) {
 
-            index.want <- which(raster.nb.t$start_t < interval.for.raster[2] &
-              raster.nb.t$end_t > interval.for.raster[1])
+      if (is.element(well_for_raster, names(s[[1]]$nb_all))) {
+        if (!(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]]) == 0 ||
+            is.na(nrow(s[[1]]$nb_all[[well_for_raster]][[window_size_i]])))) {
+          raster_nb_t <- s[[1]]$nb_all[[well_for_raster]][[window_size_i]][,
+                                                        c("start_t", "end_t") ]
+          if (is.data.frame(raster_nb_t)) {
+            index.want <- which(raster_nb_t$start_t < interval_for_raster[2] &
+              raster_nb_t$end_t > interval_for_raster[1])
             if (length(index.want) > 0) {
-              raster.nb <- raster.nb.t[index.want, ]}
+              raster_nb <- raster_nb_t[index.want, ]
+            }
           }
         }
       }
     }
   }
 
-  ####################################################### 
-
-
-
-  ss <- summary(s[[1]])
-
   # make plot title
-  plot.title.first.line <- paste(unlist(strsplit(basename(s[[1]]$file), split = "_"))[1:4],
-    collapse = "_")
+  plot_title_first_line <- paste(unlist(strsplit(basename(s[[1]]$file),
+                                       split = "_"))[1:4], collapse = "_")
   # Diana change by user request: include treatment of chosen well
-  plot.title.first.line <- paste(paste(unlist(strsplit(plot.title.first.line, split = ".RData"))[1],
-    collapse = "_"),
-  paste(well.for.raster,
-    s[[1]]$treatment[well.for.raster], sep = "=")
-  , sep = ", ")
+  plot_title_first_line <- paste(paste(unlist(strsplit(plot_title_first_line,
+                                       split = ".RData"))[1], collapse = "_"),
+  paste(well_for_raster, s[[1]]$treatment[well_for_raster], sep = "="),
+                                       sep = ", ")
   # ns plot title line
-  if (!is.null(raster.ns) && show.networkspikes){
-    plot.title.ns.line <- paste("green = ns, # ns.peak " , sep = "")
-  } else if (is.null(raster.ns) && show.networkspikes){
-    plot.title.ns.line <- paste("no network spikes")
+  if (!is.null(raster_ns) && show_networkspikes){
+    plot_title_ns_line <- paste("green = ns, # ns.peak ", sep = "")
+  } else if (is.null(raster_ns) && show_networkspikes){
+    plot_title_ns_line <- paste("no network spikes")
   } else {
-    plot.title.ns.line <- paste(" ")
+    plot_title_ns_line <- paste(" ")
   }
   # nb plot title line
-  if (!is.null(raster.nb) && show.nb){
-    plot.title.nb.line <- paste("orange = nb, window size ", names(s[[1]]$nb_all[[well.for.raster]])[window.size.i], "ms", sep = "")
-  } else if (is.null(raster.nb) && show.nb){
-    plot.title.nb.line <- paste("no network bursts")
+  if (!is.null(raster_nb) && show.nb){
+    plot_title_nb_line <- paste("orange = nb, window size ",
+            names(s[[1]]$nb_all[[well_for_raster]])[window_size_i], "ms",
+            sep = "")
+  } else if (is.null(raster_nb) && show.nb){
+    plot_title_nb_line <- paste("no network bursts")
   } else {
-    plot.title.nb.line <- paste(" ")
+    plot_title_nb_line <- paste(" ")
   }
 
   # burst title line
-  if (show.bursts && show.burst.number){
-    plot.title.b.line <- paste("red (horz)= burst,  ",
+  if (show_bursts && show_burst_number){
+    plot_title_b_line <- paste("red (horz)= burst,  ",
       "blue=# spikes/burst", sep = "")
-  } else if (show.bursts && !show.burst.number){
-    plot.title.b.line <- paste("red= bursts ", sep = "")
+  } else if (show_bursts && !show_burst_number){
+    plot_title_b_line <- paste("red= bursts ", sep = "")
   } else {
-    plot.title.b.line <- paste(" ")
+    plot_title_b_line <- paste(" ")
   }
-  plot.title <- paste(plot.title.first.line,
-    plot.title.b.line,
-    plot.title.ns.line,
-    plot.title.nb.line,
+  plot.title <- paste(plot_title_first_line,
+    plot_title_b_line,
+    plot_title_ns_line,
+    plot_title_nb_line,
     sep = "\n")
 
-
   #### plot interesting responses for all files
-  RasterPlotPathTemp1 = paste0(analysis$output_dir, "/rasterPlot_",
-    interval.for.raster[1], "_", interval.for.raster[2], "_",
-    well.for.raster)
-  if (show.bursts) {
-    RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_b")
+  raster_plot_path_temp1 <- paste0(analysis$output_dir, "/", "rasterPlot_",
+    interval_for_raster[1], "_", interval_for_raster[2], "_",
+    well_for_raster)
+  if (show_bursts) {
+    raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_b")
   }
-  if (show.burst.number) {
-    RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_bn")
+  if (show_burst_number) {
+    raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_bn")
   }
-  if (show.networkspikes) {
-    RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_ns")
+  if (show_networkspikes) {
+    raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_ns")
   }
-  if (show.ns.number) {
-    RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_nsN")
+  if (show_ns_number) {
+    raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_nsN")
   }
   if (show.nb) {
-    RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_nb")
-    if (!is.null(names(s[[1]]$nb_all[[well.for.raster]]))) {
-      RasterPlotPathTemp1 <- paste0(RasterPlotPathTemp1, "_", names(s[[1]]$nb_all[[well.for.raster]])[window.size.i])
+    raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_nb")
+    if (!is.null(names(s[[1]]$nb_all[[well_for_raster]]))) {
+      raster_plot_path_temp1 <- paste0(raster_plot_path_temp1, "_",
+                     names(s[[1]]$nb_all[[well_for_raster]])[window_size_i])
     }
   }
 
-  RasterPlotPath <- paste0(RasterPlotPathTemp1, ".pdf")
-  pdf(file = RasterPlotPath)
+  raster_plot_path <- paste0(raster_plot_path_temp1, ".pdf")
+  pdf(file = raster_plot_path)
 
 
   # +++++++++++++
   # Diana 11-29-2016: make 1 common panel function
-  panel.function <- function(raster.ns, raster.nb, show.ns.number=T) {
-    if (!is.null(raster.nb)) {
-      for (cur.lnb in 1:length(raster.nb[, 1 ])) {
-        lines(xy.coords(c(raster.nb[cur.lnb, "start_t"],
-          raster.nb[cur.lnb, "end_t"]),
-        c(- .02, - .02)) ,
-        col = "orange", lwd = 4, lend = "square") }
-    } # end is.null raster.nb
+  panel.function <- function(raster_ns, raster_nb, show_ns_number=T) {
+    if (!is.null(raster_nb)) {
+      for (cur.lnb in 1:length(raster_nb[, 1 ])) {
+        lines(xy.coords(c(raster_nb[cur.lnb, "start_t"],
+          raster_nb[cur.lnb, "end_t"]),
+        c(- .02, - .02)),
+        col = "orange", lwd = 4, lend = "square")
+      }
+    } # end is.null raster_nb
 
-    if (!is.null(raster.ns)) {
-      if (is.matrix(raster.ns)){
-        for (cur.l in 1:length(raster.ns[, "time"])) {
-          lines(xy.coords(c(raster.ns[cur.l, "time"], raster.ns[cur.l, "time"]),
-            c(0, .98)) ,
-          col = "green") }
-        if (show.ns.number) {
-          n.digits = sum(floor(raster.ns[, 3] / 10)) + length(raster.ns[, 3])
-          close.neighbors = which(c(raster.ns[- 1, 1], tail(raster.ns[- 1, 1] + 1.1, n = 1)) - raster.ns[, 1] < 1) + 1
-          for (i in 1:length(raster.ns[, 1])) {
-            x.coord = raster.ns[i, "time"]
+    if (!is.null(raster_ns)) {
+      if (is.matrix(raster_ns)){
+        for (cur.l in 1:length(raster_ns[, "time"])) {
+          lines(xy.coords(c(raster_ns[cur.l, "time"], raster_ns[cur.l, "time"]),
+            c(0, .98)),
+          col = "green")
+        }
+        if (show_ns_number) {
+          close.neighbors <- which(c(raster_ns[- 1, 1], tail(raster_ns[- 1, 1] +
+                                        1.1, n = 1)) - raster_ns[, 1] < 1) + 1
+          for (i in 1:length(raster_ns[, 1])) {
+            x.coord <- raster_ns[i, "time"]
             if (is.element(i, close.neighbors)) {
-              deltay_t = (interval.for.raster[2] - interval.for.raster[1]) / 75
-              x.coord = x.coord + deltay_t
+              deltay_t <- (interval_for_raster[2] - interval_for_raster[1]) / 75
+              x.coord <- x.coord + deltay_t
             }
 
             print(x.coord)
-            cur_peak_val = raster.ns[i, "peak_val"]
+            cur_peak_val <- raster_ns[i, "peak_val"]
             print(cur_peak_val)
-            text(x = x.coord, y = 1.02  ,
-              labels = cur_peak_val , pos = NULL, col = "green")
+            text(x <- x.coord, y <- 1.02,
+              labels = cur_peak_val, pos = NULL, col = "green")
           } # end of label for loop
-        } # end of if(show.ns.number)
+        } # end of if(show_ns_number)
         mtext(text = summary(s[[1]]), outer = T, side = 3)
-      } else if (is.vector(raster.ns)) {
-        lines(xy.coords(c(raster.ns["time"], raster.ns["time"]),
-          c(0, .98)) ,
+      } else if (is.vector(raster_ns)) {
+        lines(xy.coords(c(raster_ns["time"], raster_ns["time"]),
+          c(0, .98)),
         col = "green")
-        if (show.ns.number) {
+        if (show_ns_number) {
           # use vector indexing
-          x.coord = raster.ns["time"]
-          cur_peak_val = raster.ns["peak_val"]
-          text(x = x.coord, y = 1.02 ,
-            labels = cur_peak_val , pos = NULL, col = "green")
+          x.coord -> raster_ns["time"]
+          cur_peak_val -> raster_ns["peak_val"]
+          text(x = x.coord, y = 1.02,
+            labels = cur_peak_val, pos = NULL, col = "green")
         }
-
       }
-    } # end of if!is.null raster.nb
+    } # end of if!is.null raster_nb
 
 
 
@@ -372,35 +369,37 @@ generate.raster.plot <- function(RobjectFile=NULL,
 
 
 
-  .plot.spike.list(s[[1]], beg = interval.for.raster[1],
+  .plot_spike_list(s[[1]], beg = interval_for_raster[1],
     label.cells = T,
-    end = interval.for.raster[2] ,
-    show.bursts = show.bursts,
-    whichcells = well.for.raster ,
-    show.burst.number = show.burst.number,
+    end = interval_for_raster[2],
+    show_bursts = show_bursts,
+    whichcells = well_for_raster,
+    show_burst_number = show_burst_number,
     main = plot.title,
-    panel.first = panel.function(raster.ns = raster.ns, raster.nb = raster.nb,
-      show.ns.number = T))
+    panel.first = panel.function(raster_ns = raster_ns, raster_nb = raster_nb,
+      show_ns_number = T))
 
   dev.off()
   # pop open file
-  system(paste("open ", RasterPlotPath, sep = ""))
+  system(paste("open ", raster_plot_path, sep = ""))
 
 
 } # end of function
 
 
 
-.plot.spike.list <- function(s, whichcells = NULL, beg = min(unlist(s$spikes), na.rm = TRUE),
+.plot_spike_list <- function(s, whichcells = NULL, beg = min(unlist(s$spikes),
+                                                             na.rm = TRUE),
   end = max(unlist(s$spikes), na.rm = TRUE), label.cells = FALSE,
-  show.burst.number=F ,
-  use_names = TRUE, show.bursts = FALSE, main = NULL, ylab = "Unit",
+  show_burst_number=F,
+  use_names = TRUE, show_bursts = FALSE, main = NULL, ylab = "Unit",
   xlab = "Time (s)", for.figure = FALSE, show.episodes, episode.y = - 0.01,
   ...) {
   if (length(whichcells) > 0 && is.numeric(whichcells[1])) {
     }
   else {
-    whichcells = .names_to_indexes(names(s$spikes), whichcells, allow_na = TRUE)
+    whichcells <- .names_to_indexes(names(s$spikes), whichcells,
+                                    allow_na = TRUE)
   }
   if (is.null(main)) {
     main <- basename(s$file)
@@ -409,7 +408,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
   ticpercell <- 1 / N
   deltay <- ticpercell * 0.8
   yminadd <- ticpercell
-  if (show.bursts)
+  if (show_bursts)
     spikes <- s$spikes
     else spikes <- s$spikes
   if (for.figure) {
@@ -423,7 +422,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
       main = main, xlab = xlab, ylab = ylab, ...)
   }
   ymin <- 0
-  have.bursts <- ((length(s$allb) > 0) && show.bursts)
+  have.bursts <- ( (length(s$allb) > 0) && show_bursts)
   for (cell in whichcells) {
     ts <- spikes[[cell]]
     n <- length(ts)
@@ -443,7 +442,7 @@ generate.raster.plot <- function(RobjectFile=NULL,
           "len"] - 1]
           segments(start.burst, ys, end.burst, ys, col = "red",
             lwd = 2)
-          if (show.burst.number) {
+          if (show_burst_number) {
             text(start.burst, rep(ymin + deltay * 1.1,
               nbursts), labels = burst.times[, "len"],
             col = "blue")
