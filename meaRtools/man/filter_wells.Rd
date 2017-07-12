@@ -31,7 +31,7 @@ well_max_div_inactive_ratio = 0.5)
 	#data("parameters")
 	#s<-list(); s[[1]]<-S
 	# spike_features<-aggregate_features(s, feat_type="spike", parameters )
-	# nae = spike_features$nAE
+	# nae = spike_features$nae
   # filtered.spike.features = lapply(spike_features, function(x) filter_wells(x, nae))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

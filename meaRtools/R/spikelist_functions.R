@@ -26,7 +26,7 @@ load_spikelist <- function(spk_data_file) {
   s$size <- data$size
   s$units <- data$units
   s$well <- data$well
-  s <- get.num.AE(s)
+  s <- get_num_ae(s)
   s
 }
 
@@ -96,17 +96,17 @@ calculate_burst_features <- function(s) {
     s2$units <- s1$units
     s2$dose <- s1$dose
     s2$well <- s1$well
-    s2 <- get.num.AE(s2)
-    low <- which(s2$nAE < well_min_rate)
+    s2 <- get_num_ae(s2)
+    low <- which(s2$nae < well_min_rate)
     bad_wells <- names(low)
     bad_wells <- c("-", bad_wells)
     s <- remove_spikes(s2, bad_wells)
     s$treatment <- s1$treatment
     names(s$treatment) <- s1$well
     # remove from good wells analysis any wells without
-    #treatment and below min required nAE
+    #treatment and below min required nae
     s$goodwells <-
-    names(which(s2$nAE >= well_min_rate))[names(which(s2$nAE >= well_min_rate))
+    names(which(s2$nae >= well_min_rate))[names(which(s2$nae >= well_min_rate))
     %in% names(s$treatment[!is.na(s$treatment) & (s$treatment != "")])]
     s$size <- s1$size
     names(s$size) <- s1$well
@@ -115,7 +115,7 @@ calculate_burst_features <- function(s) {
     s$dose <- s1$dose
     names(s$dose) <- s1$well
     s$well <- s1$well
-    s <- get.num.AE(s)
+    s <- get_num_ae(s)
   }
   s
 }

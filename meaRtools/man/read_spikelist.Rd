@@ -32,7 +32,7 @@ Directory of r_object files
 chem.info.2}
 \examples{
 
-##masterChemFile<-paste0( system.file(package = "meaRtools"),
+##master_chem_file<-paste0( system.file(package = "meaRtools"),
 #"/data",
 #"/exampleRecording_1012016_plate1_expLog.csv" )
       
@@ -43,7 +43,7 @@ chem.info.2}
 ##title<-strsplit(basename(spike_list_file), ".csv")[[1]][1]
 # get plate chemical info for each file in the list
 
-##plate_chem_info<-chem_info_2( file=spike_list_file, masterChemFile = masterChemFile )
+##plate_chem_info<-chem_info_2( file=spike_list_file, master_chem_file = master_chem_file )
 
 ##r_object_file_name<-read_spikelist(key=title, 
 #                                                  spk_list_file=plate_chem_info, 
