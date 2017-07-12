@@ -73,7 +73,7 @@
   if (length(corr_breaks) == 1) {
     res$corr <- NULL
   } else {
-    res$corr <- .corr.index(res, corr_breaks)
+    res$corr <- .corr_index(res, corr_breaks)
   }
   res
 }
