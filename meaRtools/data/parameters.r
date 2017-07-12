@@ -64,7 +64,7 @@ burst_distribution_ISI = list(
   per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for number of spikes in burst distribution analysis
-burst_distribution_nSpikes = list(
+burst_distribution_nspikes = list(
   perform = 1,        # 0/1 - run this analysis ?
   min_cases = 5, # minimum number of bursts, below which electrode will be ingnored
   x_axis_lim =         200,  # x max limit for distribution plot
@@ -75,7 +75,7 @@ burst_distribution_nSpikes = list(
   per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for average spike frequency in burst distribution analysis
-burst_distribution_spikeFreq = list(
+burst_distribution_spike_freq = list(
   perform = 1,        # 0/1 - run this analysis ?
   min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
   x_axis_lim =         300,  # x max limit for distribution plot
