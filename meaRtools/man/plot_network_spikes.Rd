@@ -1,5 +1,5 @@
-\name{IGM.plot.network.spikes}
-\alias{IGM.plot.network.spikes}
+\name{plot_network_spikes}
+\alias{plot_network_spikes}
 \title{
 Generic method for plotting network spikes.
 }
@@ -7,7 +7,7 @@ Generic method for plotting network spikes.
 The generic plotting function for network spikes.
 }
 \usage{
-IGM.plot.network.spikes(ns, ...)
+plot_network_spikes(ns, ...)
 }
 \arguments{
   \item{ns}{
