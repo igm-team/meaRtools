@@ -47,7 +47,7 @@
 
     next_isi <- spikes[n] - spikes[n - 1]
     if (in_burst) {
-      if (next_isi > isi.low) {
+      if (next_isi > isi_low) {
         ## end of burst
         end <- n - 1; in_burst <- FALSE
 
@@ -62,7 +62,7 @@
       }
     } else {
       ## not yet in burst.
-      if (next_isi <= isi.low) {
+      if (next_isi <= isi_low) {
         ## Found the start of a new burst.
         beg <- n - 1; in_burst <- TRUE
       }
