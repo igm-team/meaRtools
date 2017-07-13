@@ -215,7 +215,7 @@ write_network_spikes_to_csv <- function(s, nspikes, outputdir) {
     p <- length(active_wells[[1]]$brief) +
       length(active_wells[[1]]$mean) + newcol
     nsdata <- matrix(0, length(s$well), p)
-    temp <- c() 
+    temp <- c()
     # Diana Hall 10-31-2014 change
     length_temp_mean <- length(active_wells[[1]]$mean)
     for (j in 1:length(s$well)) {
