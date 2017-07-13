@@ -250,7 +250,7 @@ get_experimental_log_file <- function(file, master_chem_file=master_chem_file) {
         sum$sd_ibis[j] <-
           round(sd(unlist(temp_ibis[incurrentwell]), na.rm = TRUE), 3)
         # cv IBI
-        sum$cv_ibis[j] <- round(sum$mean_IBIs[j] / sum$sd_IBIs[j], 3)
+        sum$cv_ibis[j] <- round(sum$mean_ibis[j] / sum$sd_ibis[j], 3)
 
       } else {
         sum$nspikes[j] <- NA
