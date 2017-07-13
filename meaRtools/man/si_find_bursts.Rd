@@ -29,7 +29,7 @@ Eytan and Marom (2006) J Neuroscience.
 \author{ Stephen Eglen }
 \examples{
 data("S")  
-allb <- lapply(S$spikes, si_find_bursts, S$parameters$s.min )
+allb <- lapply(S$spikes, si_find_bursts, S$parameters$s_min )
 }
 \keyword{poisson surprise}
 \keyword{burst}
