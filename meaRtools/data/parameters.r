@@ -14,11 +14,11 @@ well_min_rate=4,
 well_max_div_inactive_ratio=0.5,
 
 #parameters for max-interval burst detection
-mi.par = list(beg.isi =    0.1,
-               end.isi =    0.25,
-               min.ibi =    0.3,
-               min.durn =   0.05,
-               min.spikes = 5),
+mi_par = list(beg_isi =    0.1,
+               end_isi =    0.25,
+               min_ibi =    0.3,
+               min_durn =   0.05,
+               min_spikes = 5),
 
 ## Parameters for network.spikes
 ns_t = 0.01,    	#time in seconds
@@ -29,7 +29,7 @@ sur=100, # num. ms before and after spike to check I think, used in ms
 # Burst parameters for distribution analysis
 
 # Parameters for inter burst interval distribution analysis
-burst_distribution_IBI = list(
+burst_distribution_ibi = list(
   perform = 1,        # 0/1 - run this analysis ?
   min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
   # 900 is length of recording divided by 60 sec
@@ -53,7 +53,7 @@ burst_distribution_durn = list(
   per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for inter spike interval within burst distribution analysis
-burst_distribution_ISI = list(
+burst_distribution_isi = list(
   perform = 1,        # 0/1 - run this analysis ?
   min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
   x_axis_lim =         0.5,  # x max limit for distribution plot

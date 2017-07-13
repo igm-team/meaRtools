@@ -43,7 +43,7 @@
   active_wells <- .active_wells_network_spikes(nspikes)$ns_all
   if (length(active_wells) > 0) {
     newcol <- 3
-    # 2 to peak.min and peak.max
+    # 2 to peak_min and peak_max
     p <- length(active_wells[[1]]$brief) +
       length(active_wells[[1]]$mean) + newcol
     nsdata <- matrix(0, length(s$well), p)
@@ -73,7 +73,7 @@
     nsdata <- data.frame(nsdata)
     names(nsdata)[1:length(temp$brief)] <- names(active_wells[[1]]$brief)
     names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <-
-      c("peak.min", "peak.max", "treatment")
+      c("peak_min", "peak_max", "treatment")
 
     for (j in 1:(p - length(temp$brief) - newcol)) {
       names(nsdata)[j + newcol + length(temp$brief)] <- paste("t", j, sep = "")
@@ -261,7 +261,7 @@ filter_wells <- function(unfiltered_df, nae, min_electrodes = 4,
 
   num_div <- ncol(nae) - 1
 
-  inactive <- data.frame(num.inactive = rowSums(nae[, - 1] <
+  inactive <- data.frame(num_inactive = rowSums(nae[, - 1] <
            min_electrodes), total_div = num_div)
 
   inactive[is.na(inactive$num_inactive), "num_inactive"] <- 0

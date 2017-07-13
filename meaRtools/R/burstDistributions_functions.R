@@ -16,7 +16,7 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   # bins_in_sec:  how many bins to cut each of the segments. For example:
   # IBI analysis has 25 seconds as xlimit, to analyse in a 0.1 sec resolution
   # bins_in_sec should be set to 10, for 1 sec resolution set bins_in_sec to 1
-  # feature  :  what feature to analyze, options are "IBI", "ISI,
+  # feature  :  what feature to analyze, options are "ibi", "isi,
   # "nspikesInBurst", "duration", "spikesDensityInBurst"
   # filter_values_by_min:  should analysis disregard values with lower then
   # filter_values_by_min number of values ? (0/1, default is 0) for example, if
@@ -57,11 +57,11 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   treatments <- treatments[!nchar(treatments) == 0]
 
   f_vals <- NULL
-  if (feature == "IBI") {
+  if (feature == "ibi") {
     f_vals <- .calc_all_ibi(s, s$allb)
-  } else if (feature == "ISI") {
+  } else if (feature == "isi") {
     f_vals <- .calc_all_isi(s, s$allb)
-  } else if (feature == "nspikesInBurst") {
+  } else if (feature == "nspikes_in_burst") {
     for (j in 1:length(s$channels)) {
       ## Number of spikes in burst !
       f_vals[j] <- get_burst_info(s$allb[j], "len")
@@ -69,7 +69,7 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
     for (j in 1:length(s$channels)) {
       ## Duration of burst
       f_vals[j] <- get_burst_info(s$allb[j], "durn")
-    }} else if (feature == "spikesDensityInBurst") {
+    }} else if (feature == "spikes_density_in_burst") {
     for (j in 1:length(s$channels)) {
       if (length(get_burst_info(s$allb[j], "durn")[[1]]) > 1) {
         ## Number of spikes in burst divided by duration of burst

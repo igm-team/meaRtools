@@ -22,16 +22,16 @@ List of 20
  $ elec_min_rate               : num 0.0167
  $ elec_max_rate               : num 1000
  $ well_min_rate               : num 0
- $ mi.par                      :List of 5
-  ..$ beg.isi   : num 0.1
-  ..$ end.isi   : num 0.25
-  ..$ min.ibi   : num 0.8
-  ..$ min.durn  : num 0.05
-  ..$ min.spikes: num 5
+ $ mi_par                      :List of 5
+  ..$ beg_isi   : num 0.1
+  ..$ end_isi   : num 0.25
+  ..$ min_ibi   : num 0.8
+  ..$ min_durn  : num 0.05
+  ..$ min_spikes: num 5
  $ ns_t                        : num 0.01
  $ ns_n                        : num 3
  $ sur                         : num 100
- $ burst_distribution_IBI      :List of 7
+ $ burst_distribution_ibi      :List of 7
   ..$ perform      : num 1
   ..$ min_cases    : num 15
   ..$ x_axis_lim        : num 20
@@ -47,7 +47,7 @@ List of 20
   ..$ min_values   : num 0
   ..$ filter_by_min: num 0
   ..$ per_well     : num 0
- $ burst_distribution_ISI      :List of 7
+ $ burst_distribution_isi      :List of 7
   ..$ perform      : num 1
   ..$ min_cases    : num 15
   ..$ x_axis_lim        : num 0.5
