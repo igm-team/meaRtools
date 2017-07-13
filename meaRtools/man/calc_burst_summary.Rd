@@ -36,7 +36,7 @@ A data frame with the following columns:
 \item{sd_mean_isis}{sd}  
 \item{mean_ibis}{mean IBI}
 \item{sd_ibis}{sd}
-\item{cv_ibis}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
+\item{cv_ibis}{Coefficient of variation of IBI (= mean_ibi/sd_ibi)}
 }
 
 \examples{

@@ -13,10 +13,10 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
     # Add distribution plots
 
     # Perform IBI distribution analysis
-    if (parameters$burst_distribution_IBI$perform) {
+    if (parameters$burst_distribution_ibi$perform) {
 
-      feature <- "IBI"; print("Running IBI distribution analysis.")
-      params <- parameters$burst_distribution_IBI
+      feature <- "ibi"; print("Running IBI distribution analysis.")
+      params <- parameters$burst_distribution_ibi
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases,
                 xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec,
                 feature = feature, filter_values_by_min = params$filter_by_min,
@@ -26,10 +26,10 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
     }
 
     # Perform ISI distribution analysis
-    if (parameters$burst_distribution_ISI$perform) {
+    if (parameters$burst_distribution_isi$perform) {
 
-      feature <- "ISI"; print("Running ISI distribution analysis.")
-      params <- parameters$burst_distribution_ISI
+      feature <- "isi"; print("Running ISI distribution analysis.")
+      params <- parameters$burst_distribution_isi
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases,
               xlimit = params$x_axis_lim, bins_in_sec = params$bins_in_sec,
               feature = feature, filter_values_by_min = params$filter_by_min,
@@ -41,7 +41,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
     # Perform nSpikes distribution analysis
     if (parameters$burst_distribution_nspikes$perform) {
 
-      feature <- "nspikesInBurst"
+      feature <- "nspikes_in_burst"
       print("Running nSpikes in bursts distribution analysis.")
       params <- parameters$burst_distribution_nspikes
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases,
@@ -69,7 +69,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
     # Perform duration of bursts distribution analysis
     if (parameters$burst_distribution_spike_freq$perform) {
 
-      feature <- "spikesDensityInBurst"
+      feature <- "spikes_density_in_burst"
       print("Running spike density in bursts distribution analysis.")
       params <- parameters$burst_distribution_spike_freq
       p <- calc_burst_distributions(s[[i]], min_vals = params$min_cases,

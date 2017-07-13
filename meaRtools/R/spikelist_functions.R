@@ -63,7 +63,7 @@ calculate_burst_features <- function(s) {
         current$bs$burst_type <- "ps"
       } else {
         current$allb <-
-          lapply(current$spikes, mi.find.bursts, current$parameters$mi.par)
+          lapply(current$spikes, mi_find_bursts, current$parameters$mi_par)
         current$bs <- calc_burst_summary(current)
         current$bs$burst_type <- "mi"
       }

@@ -244,13 +244,13 @@ get_experimental_log_file <- function(file, master_chem_file=master_chem_file) {
         round(100 * (sum$total_spikes_in_burst[j] / sum$nspikes[j]), 3)
 
         # mean IBI
-        sum$mean_IBIs[j] <-
+        sum$mean_ibis[j] <-
           round(mean(unlist(temp_ibis[incurrentwell]), na.rm = TRUE), 3)
         # sd IBI
-        sum$sd_IBIs[j] <-
+        sum$sd_ibis[j] <-
           round(sd(unlist(temp_ibis[incurrentwell]), na.rm = TRUE), 3)
         # cv IBI
-        sum$cv_IBIs[j] <- round(sum$mean_IBIs[j] / sum$sd_IBIs[j], 3)
+        sum$cv_ibis[j] <- round(sum$mean_IBIs[j] / sum$sd_IBIs[j], 3)
 
       } else {
         sum$nspikes[j] <- NA
@@ -271,9 +271,9 @@ get_experimental_log_file <- function(file, master_chem_file=master_chem_file) {
         sum$sd_spikes_in_burst[j] <- NA
         sum$total_spikes_in_burst[j] <- NA
         sum$per_spikes_in_burst[j] <- NA
-        sum$mean_IBIs[j] <- NA
-        sum$sd_IBIs[j] <- NA
-        sum$cv_IBIs[j] <- NA
+        sum$mean_ibis[j] <- NA
+        sum$sd_ibis[j] <- NA
+        sum$cv_ibis[j] <- NA
 
       }
 
