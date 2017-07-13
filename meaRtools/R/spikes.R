@@ -16,7 +16,6 @@
          x
         },
       max = end)
-
   }
 
   if (is.null(beg)) {
@@ -154,7 +153,8 @@ calculate_isis <- function(s) {
   div <- NA
   t1 <- strsplit(s$file, split = "_", fixed = TRUE)
   for (i in t1[[1]]) {
-    if (nchar(i) > 2 && substr(i, 1, 3) == "div") {
+    i=toupper(i)
+    if (nchar(i) > 2 && substr(i, 1, 3) == "DIV" ) {
       if (nchar(i) > 5) {
         i <- unlist(strsplit(i, split = ".", fixed = T))[1]
       }
@@ -584,7 +584,7 @@ isi <- function(train) {
   s <- get_num_ae(s)
   s$timepoint <- s1$timepoint
   if (s$nspikes[1] > 0) {
-    s$allb <- lapply(s$spikes, mi.find.bursts, s$parameters$mi.par)
+    s$allb <- lapply(s$spikes, mi_find_bursts, s$parameters$mi_par)
     s$bs <- calc_burst_summary(s)
   }
 

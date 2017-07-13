@@ -180,7 +180,7 @@ We now have all the network spike features calculated and we can look at them ea
 
 ```{r}
 
-s[[i]]$ns_all$B5$en.brief
+s[[i]]$ns_all$B5$en_brief
 
 ```
 

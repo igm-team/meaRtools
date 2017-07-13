@@ -38,8 +38,8 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   ## sd_mean_isis: sd
   ## mean_ibis: mean IBI
   ## sd_ibis: sd
-  ## cv_ibis: Coefficient of variation of IBI (equals mean.IBI
-  ## devided by sd.IBI)
+  ## cv_ibis: Coefficient of variation of IBI (equals mean_ibi
+  ## divided by sd_ibi)
 
   allb <- s$allb
 
