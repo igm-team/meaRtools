@@ -4,7 +4,7 @@
 Prints bursting features
 }
 \description{
-The function reads the MEA data structure and uses the 'allb' list built using mi.find.bursts.  It then prints all bursting features summary per well and per channel in _bursts.csv and _well_bursts.csv}
+The function reads the MEA data structure and uses the 'allb' list built using mi_find_bursts.  It then prints all bursting features summary per well and per channel in _bursts.csv and _well_bursts.csv}
 \usage{
 write_plate_summary_for_bursts(s, outputdir)
 }
@@ -41,7 +41,7 @@ Output file _bursts.csv holds all features generated for bursts per well and per
 \item{sd_isis}{sd ISI within a burst}  
 \item{mean_ibis}{mean IBI}
 \item{sd_ibis}{sd of ibis}
-\item{cv_ibis}{Coefficient of variation of IBI (= mean.IBI/sd.IBI)}
+\item{cv_ibis}{Coefficient of variation of IBI (= mean_ibi/sd_ibi)}
 \item{file}{input recording file}
 }
 

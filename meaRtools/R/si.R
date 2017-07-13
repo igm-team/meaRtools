@@ -40,7 +40,7 @@
   ncells <- s$NCells
 
   if (method == "logisi") {
-    isi_low <- .logisi.compute(s)$Locmin
+    isi_low <- .logisi_compute(s)$locmin
     logisi_par$isi_low <- isi_low
   }
 
@@ -49,9 +49,9 @@
     spikes <- s$spikes[[train]]
 
     bursts <- switch(method,
-      "mi" = mi.find.bursts(spikes, s$parameters$mi.par),
+      "mi" = mi_find_bursts(spikes, s$parameters$mi_par),
       "si" = si_find_bursts(spikes, s$parameters$s_min),
-      "logisi" = .logisi.find.burst(spikes),
+      "logisi" = .logisi_find_burst(spikes),
       stop(method, " : no such method for burst analysis")
     )
 

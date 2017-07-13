@@ -190,7 +190,7 @@ get_wt <- function(s) {
   names(all_p_values)[1] <- paste("Treatment/Genotype")
 
   p_value_table <- gridExtra::tableGrob(all_p_values)
-  feature_plot <- .plot_feature(df, feature, platename)
+  feature_plot <- meaRtools:::.plot_feature(df, feature, platename)
 
   table_and_plot <- gridExtra::arrangeGrob(feature_plot,
                                            p_value_table, nrow = 2)

@@ -211,11 +211,11 @@ write_network_spikes_to_csv <- function(s, nspikes, outputdir) {
   if (length(active_wells) > 0) {
     # sahar 10292014 - add genotype column and change newcol from 2 to 3
     newcol <- 3
-    # 2 to peak.min and peak.max
+    # 2 to peak_min and peak_max
     p <- length(active_wells[[1]]$brief) +
       length(active_wells[[1]]$mean) + newcol
     nsdata <- matrix(0, length(s$well), p)
-    temp <- c() # Diana 10/2014
+    temp <- c() 
     # Diana Hall 10-31-2014 change
     length_temp_mean <- length(active_wells[[1]]$mean)
     for (j in 1:length(s$well)) {
@@ -242,7 +242,7 @@ write_network_spikes_to_csv <- function(s, nspikes, outputdir) {
     nsdata <- data.frame(nsdata)
     names(nsdata)[1:length(temp$brief)] <- names(active_wells[[1]]$brief)
     names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <-
-      c("peak.min", "peak.max", "treatment")
+      c("peak_min", "peak_max", "treatment")
 
     for (j in 1:(p - length(temp$brief) - newcol)) {
       names(nsdata)[j + newcol + length(temp$brief)] <- paste("t", j, sep = "")

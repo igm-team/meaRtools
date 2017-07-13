@@ -18,7 +18,7 @@ Returns a matrix of burst information for a specific channel.
 Matrix columns are:
 \item{beg}{the number of spike that is first in the burst}
 \item{end}{number of the last spike in the burst}
-\item{IBI}{time interval from previous burst }
+\item{ibi}{time interval from previous burst }
 \item{durn}{durarion of burst in seconds }
 \item{mean_isis}{average inter spike interval within the burst }
 \item{SI}{surprise index }
