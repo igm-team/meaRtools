@@ -20,7 +20,7 @@ max limit of values, for example: xlimit = 25 for IBI analysis means that IBIs l
 how many bins to cut each of the segments. For example: IBI analysis has 25 seconds as xlimit, to analyse in a 0.1 sec resolution bins_in_sec should be set to 10, for 1 sec resolution set bins_in_sec to 1
 }
   \item{feature}{
-what feature to analyze, options are "IBI", "ISI, "nspikesInBurst", "duration", "spikesDensityInBurst"}
+what feature to analyze, options are "ibi", "isi, "nspikes_in_burst", "duration", "spikes_density_in_burst"}
   \item{filter_values_by_min}{
 should analysis disregard values with lower then filter_values_by_min number of values ? (0/1, default is 0). For example, if set to 1 for duration analysis, should analysis consider also bursts shorter than filter_values_by_min ?}
   \item{min_values}{

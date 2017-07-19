@@ -4,7 +4,7 @@
 
 ######################################################################
 
-.burst_info <- c("beg", "len", "SI", "durn", "mean_isis")
+.burst_info <- c("beg", "len", "si", "durn", "mean_isis")
 .burst_info_len <- length(.burst_info)
 
 ##' Burst detection of MEA spike trains.
@@ -111,7 +111,7 @@ si_find_bursts <- function(spikes, s_min, burst_isi_max = NULL) {
     ibi <- c(ibi, spikes[end[cur.b]] - spikes[end[cur.b - 1]])
   }
   res2 <- cbind(res[, "beg"], end, ibi,
-    res[, "len"], res[, "durn"], res[, "mean_isis"], res[, "SI"])
+    res[, "len"], res[, "durn"], res[, "mean_isis"], res[, "si"])
   colnames(res2) <- c("beg", "end", "ibi", "len", "durn", "mean_isis", "SI")
 
   res2
