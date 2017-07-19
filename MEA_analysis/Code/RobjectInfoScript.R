@@ -50,11 +50,11 @@ rObjectInfo<-function(RobjectPath="no path sent"){
   }
   
   #ns
-  cat( paste("ns.all=", is.element("ns.all", names(S) ) ,"\n"  ) )
+  cat( paste("ns_all=", is.element("ns_all", names(S) ) ,"\n"  ) )
   if ( is.element("nb.all", names(S) ) ){
     
-    has.ns<-unlist( lapply(S$ns.all, function(x) x$brief["n"]>0) )
-    names(has.ns)<-names(S$ns.all)
+    has.ns<-unlist( lapply(S$ns_all, function(x) x$brief["n"]>0) )
+    names(has.ns)<-names(S$ns_all)
     cat(paste0("ns wells=", names(has.ns)[has.ns>0],"\n") )
     
   } 

@@ -21,7 +21,7 @@ Matrix columns are:
 \item{ibi}{time interval from previous burst }
 \item{durn}{durarion of burst in seconds }
 \item{mean_isis}{average inter spike interval within the burst }
-\item{SI}{surprise index }
+\item{si}{surprise index }
 }
 \references{
 Eytan and Marom (2006) J Neuroscience.

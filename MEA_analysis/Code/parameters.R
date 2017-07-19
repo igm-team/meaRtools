@@ -1,94 +1,93 @@
 parameters<- list( 
   # spikes
-  spike.csv=TRUE,
-  spike.plot=TRUE,
+  spike_csv=TRUE,
+  spike_plot=TRUE,
   
   
   # Burst 
-  burst.csv=TRUE,
-  burst.plot=TRUE,
+  burst_csv=TRUE,
+  burst_plot=TRUE,
   
   
   # network spikes 
-  ns.csv=TRUE,
-  ns.plot=TRUE,
+  ns_csv=TRUE,
+  ns_plot=TRUE,
   
-  burst.type="mi" ,
-  s.min=5 ,
-  perm.n =100,
+  burst_type="mi" ,
+  s_min=5 ,
+  perm_n =100,
   
-  elec.min.rate=0.016,
-  elec.max.rate=1000,
-  well.min.rate=4,
-  well.filter.maximum.DIV.inactive.ratio=0.5,
+  elec_min_rate=0.016,
+  elec_max_rate=1000,
+  well_min_rate=4,
+  well_max_div_inactive_ratio=0.5,
   
-  mi.par=list(beg.isi =0.1,
-              end.isi =0.25,
-              min.ibi =0.3,
-              min.durn =0.05,
-              min.spikes = 5),
-  
-  
-  ns.T=0.01,
-  ns.N=3,
+  mi_par = list(beg_isi =    0.1,
+                end_isi =    0.25,
+                min_ibi =    0.3,
+                min_durn =   0.05,
+                min_spikes = 5),
+
+  ns_t=0.01,
+  ns_n=3,
   sur=100,
   
   # Distributions IBI
-  burst.distribution.IBI=list(
+  burst_distribution_ibi = list(
     perform = 1,
-    min.cases = 15,
-    x.lim = 20,
-    bins.in.seg = 5,
-    min.values = 0,
-    filter.by.min = 0,
-    per.well = 0), 
+    min_cases = 15,
+    x_axis_lim = 20,
+    bins_in_sec = 5,
+    min_values = 0,
+    filter_by_min = 0,
+    per_well = 0), 
   
   # burst duration distribution parameters
-  burst.distribution.durn=list(
+  burst_distribution_durn=list(
     perform = 1,
-    min.cases = 15,
-    x.lim = 18,
-    bins.in.seg = 5,
-    min.values = 0,
-    filter.by.min = 0,
-    per.well = 0), 
+    min_cases = 15,
+    x_axis_lim = 18,
+    bins_in_sec = 5,
+    min_values = 0,
+    filter_by_min = 0,
+    per_well = 0), 
   
   # burst distribution ISI parameters
-  burst.distribution.ISI=list(
+  burst_distribution_isi=list(
     perform = 1,
-    min.cases = 15,
-    x.lim = 0.5,
-    bins.in.seg = 100,
-    min.values = 0,
-    filter.by.min = 0,
-    per.well = 0), 
+    min_cases = 15,
+    x_axis_lim = 0.5,
+    bins_in_sec = 100,
+    min_values = 0,
+    filter_by_min = 0,
+    per_well = 0), 
   
   # burst distribution nSpikes parameters
-  burst.distribution.nSpikes=list(
+  burst_distribution_nspikes=list(
     perform = 1,
-    min.cases = 5,
-    x.lim = 200,
-    bins.in.seg = 1,
-    min.values = 0,
-    filter.by.min = 0,
-    per.well = 0) ,
+    min_cases = 5,
+    x_axis_lim = 200,
+    bins_in_sec = 1,
+    min_values = 0,
+    filter_by_min = 0,
+    per_well = 0) ,
   
   # burst distribution spikeFreq parameters
-  burst.distribution.spikeFreq=list(
+  burst_distribution_spike_freq=list(
     perform = 1,
-    min.cases = 15,
-    x.lim = 300,
-    bins.in.seg = 1,
-    min.values = 0,
-    filter.by.min = 0,
-    per.well = 0), 
+    min_cases = 15,
+    x_axis_lim = 300,
+    bins_in_sec = 1,
+    min_values = 0,
+    filter_by_min = 0,
+    per_well = 0), 
   
   
-  want.nb=TRUE,
+  want_nb=TRUE,
   
   local_region_min_nAE= 0,
   min_electrodes = 5,
   Sigma= c(10,20,50),
   
-  timeStamp="DATE_TIME"
+  time_stamp="DATE_TIME"
 )
