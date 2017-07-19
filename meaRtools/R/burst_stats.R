@@ -64,7 +64,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   mean_dur <- round(sapply(durations, mean), 3)
   sd_dur <- round(sapply(durations, sd), 3)
 
-  isis <- meaRtools:::.calc_all_isi(s, allb)
+  isis <- .calc_all_isi(s, allb)
   mean_isis <- sapply(isis, mean)
   sd_isis <- unlist(sapply(isis, sd, na.rm = TRUE))
 
