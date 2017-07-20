@@ -75,7 +75,7 @@ calc_burst_summary <- function(s, bursty_threshold=1) {
   total_spikes_in_burst <- sapply(ns, sum)
   per_spikes_in_burst <- round(100 * (total_spikes_in_burst / spikes), 3)
 
-  si <- get_burst_info(allb, "SI")
+  si <- get_burst_info(allb, "si")
   mean_si <- round(sapply(si, mean), 3)
 
 
