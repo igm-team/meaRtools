@@ -243,7 +243,7 @@ if (length(s) > 0) {
   if ( length(burst.features)>0 ){
     suppressMessages(permute_features_and_plot(s, wt, parameters$perm_n, burst.features, "bursts", analysis$output.dir))
   }
-  if (parameters$want.nb){
+  if (parameters$want_nb){
     suppressMessages(permute_features_and_plot(s, wt, parameters$perm_n, nb.features, "nb", analysis$output.dir))
   }
 }
