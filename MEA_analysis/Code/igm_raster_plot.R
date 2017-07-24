@@ -2,9 +2,9 @@
 # Diana Hall
 # 02-18-2016
 
-library(IGM.MEA)
+library(meaRtools)
 
-generate.raster.plot()
+generate_raster_plot()
 
 
 

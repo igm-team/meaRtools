@@ -33,17 +33,17 @@ if ( !substring(java.r[1],1,12)=="java version" ){
     writeLines(paste('.libPaths("', lib, '")',sep = ""), fileConn)
     close(fileConn)
     
-    install.packages( "IGM.MEA",
+    install.packages( "meaRtools",
                       repos="http://cran.us.r-project.org", lib= lib, quiet = TRUE)
     
-    if (is.element(list.files(lib), "IGM.MEA" ) ){
-      if (is.element( file.path(lib,"IGM.MEA"),"DESCRIPTION") ){
-        cat("prepare.igm.mea message-> Installed IGM.MEA.", "\n")
+    if (is.element(list.files(lib), "meaRtools" ) ){
+      if (is.element( file.path(lib,"meaRtools"),"DESCRIPTION") ){
+        cat("prepare.igm.mea message-> Installed meaRtools.", "\n")
       } else {
-        cat("prepare.igm.mea message-> IGM.MEA Error", "\n")
+        cat("prepare.igm.mea message-> meaRtools Error", "\n")
       }
     } else {
-      cat("prepare.igm.mea message-> IGM.MEA Error", "\n")
+      cat("prepare.igm.mea message-> meaRtools Error", "\n")
       
     }
     
@@ -61,11 +61,11 @@ if ( !substring(java.r[1],1,12)=="java version" ){
     cat("prepare.igm.mea message-> Installed tkWidgets.", "\n")
     
     a<-installed.packages()
-    if (is.element( "IGM.MEA", a[,1] ) ){
-      version<- packageVersion("IGM.MEA")
-      tk_messageBox("ok", message=paste("you're using IGM.MEA v",version ) )
+    if (is.element( "meaRtools", a[,1] ) ){
+      version<- packageVersion("meaRtools")
+      tk_messageBox("ok", message=paste("you're using meaRtools v",version ) )
     } else {
-      tk_messageBox("error", message="IGM.MEA failed to install properly")
+      tk_messageBox("error", message="meaRtools failed to install properly")
     }
     
   
