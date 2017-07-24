@@ -147,19 +147,22 @@
     duration <- Tmax - Tmin
     
     first.spike <- c(0, cumsum(nspikes)[-n])
-    z <- .C("count_overlap_arr",
-            as.double(all.spikes),
-            as.integer(n),
-            as.integer(nspikes),
-            as.integer(first.spike),
-            as.integer(rates.ok),
-            as.integer(no.minimum),
-            as.double(duration),
-            as.double(dt),
-            res = double(n*n))
+    ## sjecpp
+    ## z <- .C("count_overlap_arr",
+    ##     as.double(all.spikes),
+    ##     as.integer(n),
+    ##     as.integer(nspikes),
+    ##     as.integer(first.spike),
+    ##     as.integer(rates.ok),
+    ##     as.integer(no.minimum),
+    ##     as.double(duration),
+    ##     as.double(dt),
+    ##     res = double(n*n))
 
-    ## return the result.
-    array(z$res, dim=c(n,n))
+    ## TODO - what to do about the correlation index?!?
+    ## array(z$res, dim=c(n,n))
+    array(NA, dim=c(n,n))
+    
   }
 }
 
@@ -233,18 +236,10 @@
   all.spikes <- unlist(s$spikes)
   nspikes <- sapply(s$spikes, length)
   first.spike <- c(0, cumsum(nspikes)[-n])
-  z <- .C("tiling_arr",
-          as.double(all.spikes),
-          as.integer(n),
-          as.integer(nspikes),
-          as.integer(first.spike),
-          as.double(s$rec.time),
-          as.double(dt),
-          res = double(n*n))
-  
-  ## return the result.
-  m <- array(z$res, dim=c(n,n))
-  m[lower.tri(m)] <- NA                 #we didn't do lower triangle, so ignore those.
+  ## sjecpp
+  m <- sttc_allspikes1(s$spikes,
+                       dt,
+                       s$rec.time[1], s$rec.time[2])
   m
 }
 
