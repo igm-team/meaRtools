@@ -1,6 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 ## Load in the shared object; this used to be done in zzz.R
-useDynLib("meaRtools", .registration = TRUE, .fixes = "C_")
+useDynLib("meaRtools")
 import("ggplot2","lattice","tcltk","emdist")
 importFrom("gtools","mixedorder")
 importFrom("reshape2","dcast","melt")
