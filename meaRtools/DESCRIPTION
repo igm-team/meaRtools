@@ -9,7 +9,9 @@ Description: Software tools for the characterization of neuronal networks as rec
 Depends:
     R (>= 3.2.2)
 Imports:
-    lattice,tcltk,emdist,ggplot2 (>= 2.0.0), gridExtra,reshape2,plyr, gtools
+    lattice,tcltk,emdist,ggplot2 (>= 2.0.0), gridExtra,reshape2,plyr,gtools, Rcpp (>= 0.12.11)
+LinkingTo: Rcpp
 License: GPL(>=3)
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1
