@@ -17,10 +17,6 @@ run_TMcpp <- function(dt, start, end, spike_times_1, spike_times_2) {
     .Call('_meaRtools_run_TMcpp', PACKAGE = 'meaRtools', dt, start, end, spike_times_1, spike_times_2)
 }
 
-tiling_arrcpp <- function(spikes, n, nspikes, first_spike, start, end, dt) {
-    .Call('_meaRtools_tiling_arrcpp', PACKAGE = 'meaRtools', spikes, n, nspikes, first_spike, start, end, dt)
-}
-
 tiling_correlogramcpp <- function(spikes, n, nspikes, first_spike, start, end, dt, tau_sep, tau_max) {
     .Call('_meaRtools_tiling_correlogramcpp', PACKAGE = 'meaRtools', spikes, n, nspikes, first_spike, start, end, dt, tau_sep, tau_max)
 }

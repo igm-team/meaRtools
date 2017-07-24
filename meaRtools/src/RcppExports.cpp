@@ -60,23 +60,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// tiling_arrcpp
-NumericVector tiling_arrcpp(NumericVector spikes, int n, IntegerVector nspikes, IntegerVector first_spike, double start, double end, double dt);
-RcppExport SEXP _meaRtools_tiling_arrcpp(SEXP spikesSEXP, SEXP nSEXP, SEXP nspikesSEXP, SEXP first_spikeSEXP, SEXP startSEXP, SEXP endSEXP, SEXP dtSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type spikes(spikesSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type nspikes(nspikesSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type first_spike(first_spikeSEXP);
-    Rcpp::traits::input_parameter< double >::type start(startSEXP);
-    Rcpp::traits::input_parameter< double >::type end(endSEXP);
-    Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
-    rcpp_result_gen = Rcpp::wrap(tiling_arrcpp(spikes, n, nspikes, first_spike, start, end, dt));
-    return rcpp_result_gen;
-END_RCPP
-}
 // tiling_correlogramcpp
 NumericVector tiling_correlogramcpp(NumericVector spikes, int n, IntegerVector nspikes, IntegerVector first_spike, double start, double end, /* recording time */                                     double dt, double tau_sep, double tau_max);
 RcppExport SEXP _meaRtools_tiling_correlogramcpp(SEXP spikesSEXP, SEXP nSEXP, SEXP nspikesSEXP, SEXP first_spikeSEXP, SEXP startSEXP, SEXP endSEXP, SEXP dtSEXP, SEXP tau_sepSEXP, SEXP tau_maxSEXP) {
@@ -154,7 +137,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_meaRtools_rcpp_hello_world2", (DL_FUNC) &_meaRtools_rcpp_hello_world2, 0},
     {"_meaRtools_frate_counts", (DL_FUNC) &_meaRtools_frate_counts, 5},
     {"_meaRtools_run_TMcpp", (DL_FUNC) &_meaRtools_run_TMcpp, 5},
-    {"_meaRtools_tiling_arrcpp", (DL_FUNC) &_meaRtools_tiling_arrcpp, 7},
     {"_meaRtools_tiling_correlogramcpp", (DL_FUNC) &_meaRtools_tiling_correlogramcpp, 9},
     {"_meaRtools_tiling_correlogramcpp_index", (DL_FUNC) &_meaRtools_tiling_correlogramcpp_index, 11},
     {"_meaRtools_sttc_allspikes1", (DL_FUNC) &_meaRtools_sttc_allspikes1, 4},
