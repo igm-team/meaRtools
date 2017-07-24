@@ -383,7 +383,7 @@ write.plate.summary.for.spikes<-function(s,outputdir) {
   if (is.null(end))  end <-  spikes.range[2]
   
   time.breaks <- seq(from=beg, to=end, by=time.interval)
-  if (time.breaks[length(time.breaks)] < end) {
+  if (time.breaks[length(time.breaks)] <= end) {
     ## extra time bin needs adding.
     ## e.g seq(1,6, by = 3) == 1 4, so we need to add 7 ourselves.
     time.breaks <- c(time.breaks,
@@ -391,16 +391,9 @@ write.plate.summary.for.spikes<-function(s,outputdir) {
   }
   nbins <- length(time.breaks) - 1
   
-  z <- .C("frate",
-          as.double(unlist(spikes)),
-          as.integer(nspikes),
-          as.integer(nelectrodes),
-          as.double(time.breaks[1]), as.double(time.breaks[nbins]),
-          as.double(time.interval),
-          as.integer(nbins),
-          counts = double(nbins*nelectrodes))
-  
-  rates <- matrix(z$counts, nrow=nbins, ncol=nelectrodes)
+  # sjecpp
+  rates = frate_counts(spikes, time.breaks[1], time.breaks[nbins], time.interval, nbins)
+  ##rates <- matrix(counts, nrow=nbins, ncol=nelectrodes)
   
   ## Check if there are any electrodes to process.
   if (nelectrodes > 0) {
