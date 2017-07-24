@@ -1,7 +1,7 @@
 # distribution_permutation_functions.R
 # Diana Hall
 # May 13, 2015
-# purpose: to add user imput functionality to distribution_Permutations.R
+# purpose: to add user input functionality to distribution_Permutations.R
 
 suppressMessages(library(tcltk))
 

@@ -44,32 +44,32 @@ make.distribution.plot<-function( distFiles=NULL,
       plotPath = paste(root.dir,"/",basename,"_",np,"perm_",type,"_",kotype,"_CDF_EMD.pdf",sep="")
       pdf(file=plotPath) 
       ptm <- proc.time()
-      result <- dist.perm(distFiles[i],np,type,kotype)
-      max=max(result$data.wt)
-      firstT=result$data.wt; firtstCol=typecol
-      secondT=result$data.ko;secondCol=kotypecol
-      if (max(result$data.ko)>max)
+      result <- dist_perm(distFiles[i],np,type,kotype)
+      max=max(result$data_wt)
+      firstT=result$data_wt; firtstCol=typecol
+      secondT=result$data_ko;secondCol=kotypecol
+      if (max(result$data_ko)>max)
       {
-        secondT=result$data.wt; secondCol=typecol
-        firstT=result$data.ko;firtstCol=kotypecol
+        secondT=result$data_wt; secondCol=typecol
+        firstT=result$data_ko;firtstCol=kotypecol
       }
-      plot(firstT,col=firtstCol,main=basename,type="l",lwd=3,xlab="Bin number (x.limit x bins.in.seg in burst properties)")
+      plot(firstT,col=firtstCol,main=basename,type="l",lwd=3,xlab="Bin number (x_axis_lim x bins_in_sec in burst properties)")
       points(secondT,col=secondCol,type="l",lwd=3)
       par(mfrow=c(1,1))  
       mtext(side = 1, at = 0, line = 4,
-            text = paste("P.value Max distance after ",np," permutations: ",format((1-result$perm.p), digits = 3),sep=""),col = "black",cex= 0.9,adj=0)    
-      max=max(result$data.wt.Original)
-      firstT=result$data.wt.Original; firtstCol=typecol
-      secondT=result$data.ko.Original;secondCol=kotypecol   
-      if (max(result$data.ko.Original)>max)
+            text = paste("P.value Max distance after ",np," permutations: ",format((1-result$perm_p), digits = 3),sep=""),col = "black",cex= 0.9,adj=0)    
+      max=max(result$data_wt_original)
+      firstT=result$data_wt_original; firtstCol=typecol
+      secondT=result$data_ko_original;secondCol=kotypecol   
+      if (max(result$data_ko_original)>max)
       {
-        secondT=result$data.wt.Original; secondCol=typecol
-        firstT=result$data.ko.Original;firtstCol=kotypecol
+        secondT=result$data_wt_original; secondCol=typecol
+        firstT=result$data_ko_original;firtstCol=kotypecol
       }
-      plot(firstT,col=firtstCol,main=basename,type="l",lwd=3,xlab="Bin number (x.limit x bins.in.seg in burst properties)")
+      plot(firstT,col=firtstCol,main=basename,type="l",lwd=3,xlab="Bin number (x_axis_lim x bins_in_sec in burst properties)")
       points(secondT,col=secondCol,type="l",lwd=3)
       mtext(side = 1, at = 0, line = 4,
-            text = paste("P.value EMD after ",np," permutations: ",format((1-result$perm.EMD), digits = 2),sep=""),col = "black",cex= 0.9,adj=0)    
+            text = paste("P.value EMD after ",np," permutations: ",format((1-result$perm_emd), digits = 2),sep=""),col = "black",cex= 0.9,adj=0)    
       graphics.off()
       proc.time() - ptm
       cat(paste("Permutation scheme finished successfully.\nOutput file printed to ",plotPath,"\n",sep=""))
@@ -81,7 +81,7 @@ make.distribution.plot<-function( distFiles=NULL,
 #parameters
 options(warn=-1)
 suppressWarnings(suppressMessages(library(tcltk)))
-suppressWarnings(suppressMessages(library(IGM.MEA)))
+suppressWarnings(suppressMessages(library(meaRtools)))
 
 args <- commandArgs(trailingOnly = FALSE)
 Path=dirname(strsplit(args[4], "=")[[1]][2])

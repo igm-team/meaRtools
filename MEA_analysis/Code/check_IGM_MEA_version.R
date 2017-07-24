@@ -22,12 +22,12 @@ getVersion<-function( javaPath=NULL ){
   }
     
     inst.pk=installed.packages(lib=lib )
-    if ( any("IGM.MEA"==inst.pk[,1]) ){
-      ind=which( "IGM.MEA"==inst.pk[,1] )
-      v.string=paste("Using IGM.MEA v.", inst.pk[ind,"Version"], 
+    if ( any("meaRtools"==inst.pk[,1]) ){
+      ind=which( "meaRtools"==inst.pk[,1] )
+      v.string=paste("Using meaRtools v.", inst.pk[ind,"Version"], 
                      "stored in libPath: ", lib )
     } else {
-      v.string= paste("IGM.MEA has NOT installed properly in lib", lib )
+      v.string= paste("meaRtools has NOT installed properly in lib", lib )
     }
     
     
@@ -39,7 +39,7 @@ loadSessionInfo<-function(){
   options(warn=-1)
   suppressWarnings(suppressMessages(library(ggplot2)))
   suppressWarnings(suppressMessages(library(plyr)))
-  suppressWarnings(suppressMessages(library(IGM.MEA)))
+  suppressWarnings(suppressMessages(library(meaRtools)))
   session<-sessionInfo() 
   pk<-cbind.data.frame( version=c( sapply(session$otherPkgs, function(x) x$Version),
      sapply(session$loadedOnly, function(x) x$Version)),

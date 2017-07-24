@@ -3,7 +3,7 @@
 # 10/18/2016 
 
 
-library( IGM.MEA )
+library( meaRtools )
 rObjectInfo<-function(RobjectPath="no path sent"){
   #RobjectPath="/Users/dh2744/Dropbox/Columbia/Software/github/mea/test/testData/Many_treatments/Analysis/R_Objects/WT_20160707_A32PEI_DIV8.RData"
   cat("\n")
