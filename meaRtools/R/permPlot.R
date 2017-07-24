@@ -197,7 +197,8 @@ get_wt <- function(s) {
   return(table_and_plot)
 }
 
-permute_features_and_plot <- function(s, wt, np, features_list, type, output_dir) {
+permute_features_and_plot <-
+  function(s, wt, np, features_list, type, output_dir) {
   # Calls .apply.perm.and.plot() and writes PDF--each page contains a plot and
   #       table of p-values
   #
