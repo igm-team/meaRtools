@@ -123,45 +123,6 @@ double run_TMcpp(double dt, double start, double end,
   return(sttc);
 }
 
-NumericVector tiling_arrcpp(NumericVector spikes,
-                            int n,
-                            IntegerVector nspikes,
-                            IntegerVector first_spike,
-                            double start, double end,
-                            double dt) {
-  
-  /* Compute all pairwise interactions, include self. */
-  /* Elements on lower diagonal are not touched, so those should remain NA. */
-  
-  int n1, n2, a, b, k, l;
-  int vec_size = n*n;
-  NumericVector corrs(vec_size);
-  
-  for (a=0; a<n; a++) {
-    n1 = nspikes[a];
-    NumericVector sa(n1);
-    
-    // I imagine there is a much neater way of doing this but
-    // I wasn't sure how without using std::vector .assign() etc. 
-    // which seemed to cause errors
-    
-    for (k=0; k<n1; k++){
-      sa[k] = spikes[first_spike[a]-1+k];
-    }
-    
-    for (b=a; b<n; b++) {
-      n2 = nspikes[b];
-      NumericVector sb(n2);
-      for (l=0; l<n2; l++){
-        sb[l] = spikes[first_spike[b]-1+l];
-      }
-      
-      corrs[(b*n)+a] = run_TMcpp(dt,start,end,sa,sb);
-    }
-  }
-  return corrs;
-}
-
 // [[Rcpp::export]]
 NumericVector tiling_correlogramcpp(NumericVector spikes,
                                     int n,
