@@ -5,296 +5,305 @@
 ###############################################################################
 
 # These functions take data from S object to make dataframes
-.write.spike.summary <- function(s){
-  # Creates a list of dataframes for spike features. Each df corresponds to 
+.write_spike_summary <- function(s) {
+  # Creates a list of dataframes for spike features. Each df corresponds to
   #     a single DIV and contains values for each feature
   #
   # Args:
   #   s object
-  #           
+  #
   # Returns:
   #   list of data frames containing spike data
-  
-  #initiate empty list to store dataframes
-  divs.df = list()
-  
-  # loop through DIVs in s object and create 1 df per DIV. Each df gets stored in divs.df
+
+  # initiate empty list to store dataframes
+  divs_df <- list()
+
+  # loop through DIVs in s object and create 1 df per DIV.
+  # Each df gets stored in divs_df
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get.div(s[[i]]), sep="")
-    
-    df <- .spike.summary.by.well(s[[i]])
-    df = cbind(rownames(df),df)
-    df = as.data.frame(unclass(df))  # convert strings to factors
-    
-    colnames(df)[1] <- "well" 
-    divs.df[[div]] = df
+    div <- paste("div", .get_div(s[[i]]), sep = "")
+
+    df <- .spike_summary_by_well(s[[i]])
+    df <- cbind(rownames(df), df)
+    df <- as.data.frame(unclass(df)) # convert strings to factors
+
+    colnames(df)[1] <- "well"
+    divs_df[[div]] <- df
   }
-  
-  divs.df <- do.call(rbind, lapply(names(divs.df), function(x) cbind(div = x, divs.df[[x]])))
-  return(divs.df)
+
+  divs_df <- do.call(rbind, lapply(names(divs_df),
+                                   function(x) cbind(div = x, divs_df[[x]])))
+  return(divs_df)
 }
 
-.compile.ns <-function(s,nspikes) {
+.compile_ns <- function(s, nspikes) {
   # Calculates network spikes
-  # Called from .write.network.spike.summary
-  
-  active.wells <- .active.wells.network.spikes(nspikes)$ns.all
-  if (length(active.wells) >0) {
-    newcol <-3
-    #2 to peak.min and peak.max
-    p <- length(active.wells[[1]]$brief) + length(active.wells[[1]]$mean) + newcol
-    nsdata <- matrix(0,length(s$well),p)
-    temp<-c() 
-    length.temp.mean<-length(active.wells[[1]]$mean)
+  # Called from .write_network_spike_summary
+
+  active_wells <- .active_wells_network_spikes(nspikes)$ns_all
+  if (length(active_wells) > 0) {
+    newcol <- 3
+    # 2 to peak_min and peak_max
+    p <- length(active_wells[[1]]$brief) +
+      length(active_wells[[1]]$mean) + newcol
+    nsdata <- matrix(0, length(s$well), p)
+    temp <- c()
+    length_temp_mean <- length(active_wells[[1]]$mean)
     for (j in 1:length(s$well)) {
-      cur.well<-s$well[j]
-      if ( is.element(cur.well, names(active.wells) ) ){
-        temp <- active.wells[[cur.well]]
-        nsdata[j,1:length(temp$brief)] <- temp$brief
-        nsdata[j,length(temp$brief)+1] <- min(temp$measures[,"peak.val"])
-        nsdata[j,length(temp$brief)+2] <- max(temp$measures[,"peak.val"])
-        nsdata[j,length(temp$brief)+3] <- s$treatment[cur.well]
-        nsdata[j,(length(temp$brief)+newcol+1):p] <- as.double(temp$mean)
-        
-      } else{
-        temp$brief<-c(0, rep(NA,4),0, NA, NA)
-        nsdata[j,1:length(temp$brief)] <- temp$brief
-        nsdata[j,length(temp$brief)+1] <- NA
-        nsdata[j,length(temp$brief)+2] <- NA
-        nsdata[j,length(temp$brief)+3] <- NA
-        nsdata[j,(length(temp$brief)+newcol+1):p] <- rep(0, length.temp.mean)
+      cur_well <- s$well[j]
+      if (is.element(cur_well, names(active_wells))){
+        temp <- active_wells[[cur_well]]
+        nsdata[j, 1:length(temp$brief)] <- temp$brief
+        nsdata[j, length(temp$brief) + 1] <- min(temp$measures[, "peak_val"])
+        nsdata[j, length(temp$brief) + 2] <- max(temp$measures[, "peak_val"])
+        nsdata[j, length(temp$brief) + 3] <- s$treatment[cur_well]
+        nsdata[j, (length(temp$brief) + newcol + 1):p] <- as.double(temp$mean)
+
+      } else {
+        temp$brief <- c(0, rep(NA, 4), 0, NA, NA)
+        nsdata[j, 1:length(temp$brief)] <- temp$brief
+        nsdata[j, length(temp$brief) + 1] <- NA
+        nsdata[j, length(temp$brief) + 2] <- NA
+        nsdata[j, length(temp$brief) + 3] <- NA
+        nsdata[j, (length(temp$brief) + newcol + 1):p] <-
+          rep(0, length_temp_mean)
       }
     }
-    
-    nsdata <- data.frame(nsdata)	
-    names(nsdata)[1:length(temp$brief)] <- names(active.wells[[1]]$brief)
-    names(nsdata)[(length(temp$brief)+1):(length(temp$brief)+newcol)] <- c("peak.min","peak.max","treatment")
-    
-    for (j in 1:(p-length(temp$brief)-newcol)) {
-      names(nsdata)[j+newcol+length(temp$brief)] = paste("t",j,sep = '')
+
+    nsdata <- data.frame(nsdata)
+    names(nsdata)[1:length(temp$brief)] <- names(active_wells[[1]]$brief)
+    names(nsdata)[(length(temp$brief) + 1):(length(temp$brief) + newcol)] <-
+      c("peak_min", "peak_max", "treatment")
+
+    for (j in 1:(p - length(temp$brief) - newcol)) {
+      names(nsdata)[j + newcol + length(temp$brief)] <- paste("t", j, sep = "")
     }
-    nsdata<- cbind(s$well,nsdata)
+    nsdata <- cbind(s$well, nsdata)
     names(nsdata)[1] <- "well"
-    
+
     return(nsdata)
   }
 }
-.write.network.spike.summary <- function(s,parameters){
-  # Creates a list of dataframes for network spike features. Each df corresponds to 
-  #     a single DIV and contains values for each feature
+.write_network_spike_summary <- function(s, parameters) {
+  # Creates a list of dataframes for network spike features.
+  # Each df corresponds to a single DIV and contains values for each feature
   #
   # Args:
   #   s object
-  #           
+  #
   # Returns:
   #   list of data frames containing spike data
-  
-  #initiate empty list to store dataframes
-  divs.df = list()
-  
+
+  # initiate empty list to store dataframes
+  divs_df <- list()
+
   # calculate network spikes
   for (i in 1:length(s)) {
-    div <- paste("DIV", .get.div(s[[i]]), sep="")
-    
-    nspikes.old <- calculate.network.spikes(s[[i]],parameters$sur, parameters$ns.N, parameters$ns.T)
-    nspikes <- summarize.network.spikes(s[[i]],nspikes.old,ns.E = 1, parameters$sur)
+    div <- paste("div", .get_div(s[[i]]), sep = "")
+
+    nspikes_old <- calculate_network_spikes(s[[i]], parameters$sur,
+                                            parameters$ns_n, parameters$ns_t)
+    nspikes <- summarize_network_spikes(s[[i]], nspikes_old,
+                                        ns_e = 1, parameters$sur)
     basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
-    
-    df = .compile.ns(s[[i]],nspikes)
-    df = as.data.frame(unclass(df))  # convert strings to factors
-    
-    df <- df[, -grep("^t[0-9]", colnames(df))]
-    
-    divs.df[[div]] = df
+
+    df <- .compile_ns(s[[i]], nspikes)
+    df <- as.data.frame(unclass(df)) # convert strings to factors
+
+    df <- df[, - grep("^t[0-9]", colnames(df))]
+
+    divs_df[[div]] <- df
   }
 
-  for (name in names(divs.df)){
+  for (name in names(divs_df)) {
     # If no data for DIV - remove the DIV
-    if (length(divs.df[[name]]) == 0) {
-      divs.df[[name]]<-NULL
+    if (length(divs_df[[name]]) == 0) {
+      divs_df[[name]] <- NULL
     }
   }
 
-  divs.df <- do.call(rbind, lapply(names(divs.df), function(x) cbind(div = x, divs.df[[x]])))
+  divs_df <- do.call(rbind, lapply(names(divs_df),
+                                   function(x) cbind(div = x, divs_df[[x]])))
 
-  return(divs.df)
+  return(divs_df)
 }
 
-.write.burst.summary <- function(s){
-  # Creates a list of dataframes for bursting  features. Each df corresponds to 
+.write_burst_summary <- function(s) {
+  # Creates a list of dataframes for bursting  features. Each df corresponds to
   #     a single DIV and contains values for each feature
   #
   # Args:
   #   s object
-  #           
+  #
   # Returns:
   #   list of data frames containing spike data
-  
-  masterSum<-.get.burst.info.averaged.over.well(s)
-  
-  divs.df = list()
-  for (i in 1:length(s)){
-    div <- paste("DIV", .get.div(s[[i]]), sep="")
-    basename <- get.file.basename(s[[i]]$file)
-    
-    ##########data frame summarized over well
-    #get number of object in masterSum[[1]] list
-    tempdf<-c(); tempcolnames<-c()
-    for (j in 2:length(masterSum[[i]])){
-      tempc<-unlist(masterSum[[i]][j])
-      tempdf<-cbind(tempdf,tempc)
-      tempcolnames<-c(tempcolnames,names(masterSum[[i]][j]) )
-    }#end of loop through masterSum list objects
-    
-    #need to switch around columns so first columns come first
-    if (dim(tempdf)[2] > 20) { #for now
+
+  master_sum <- .get_mean_burst_info_per_well(s)
+
+  divs_df <- list()
+  for (i in 1:length(s)) {
+    div <- paste("div", .get_div(s[[i]]), sep = "")
+
+    ########## data frame summarized over well
+    # get number of object in master_sum[[1]] list
+    tempdf <- c(); tempcolnames <- c()
+    for (j in 2:length(master_sum[[i]])) {
+      tempc <- unlist(master_sum[[i]][j])
+      tempdf <- cbind(tempdf, tempc)
+      tempcolnames <- c(tempcolnames, names(master_sum[[i]][j]))
+    } # end of loop through master_sum list objects
+
+    # need to switch around columns so first columns come first
+    if (dim(tempdf)[2] > 20) {
       if (dim(tempdf)[1] == 1) {
-        df<-cbind(t(tempdf[,21:25]),t(tempdf[,1:20]))
+        df <- cbind(t(tempdf[, 21:25]), t(tempdf[, 1:20]))
       } else {
-        df<-cbind(tempdf[,21:25],tempdf[,1:20])
+        df <- cbind(tempdf[, 21:25], tempdf[, 1:20])
       }
-      colnames<-c(tempcolnames[21:25],tempcolnames[1:20])
-      colnames(df)<-colnames
+      colnames <- c(tempcolnames[21:25], tempcolnames[1:20])
+      colnames(df) <- colnames
     }
-    
-    df = as.data.frame(unclass(df))  # convert strings to factors
-    df$file = NULL
-    row.names(df) = df$well
-    divs.df[[div]] = df
+
+    df <- as.data.frame(unclass(df)) # convert strings to factors
+    df$file <- NULL
+    row.names(df) <- df$well
+    divs_df[[div]] <- df
   }
-  
-  divs.df <- do.call(rbind, lapply(names(divs.df), function(x) cbind(div = x, divs.df[[x]])))
-  return(divs.df)
+
+  divs_df <- do.call(rbind, lapply(names(divs_df),
+                                   function(x) cbind(div = x, divs_df[[x]])))
+  return(divs_df)
 }
 
-.create.feat.df <- function(s, df, feature, all_feat_list){
-#   feat_df <- dcast(df, well+treatment~treatment, div, value.var = feature)
-#   all_feat_list[[feature]] = feat_df
-  
-  #test
-  df=df[!is.na(df$treatment)&df$treatment!="",]
-  x = data.frame(df$div, df$well, df$treatment, df[,feature])
-  colnames(x) = c("div", "well", "treatment", feature)
-  y <- dcast(x, well~div, value.var=feature)
-  wellToTrt=x[!duplicated(x$well),c("well","treatment")]
-  # reorder in case early wells show up in later DIVs
-  wellToTrt=wellToTrt[order(as.character(wellToTrt$well)),]
-  
+.create_feat_df <- function(s, df, feature, all_feat_list) {
 
-  ymerged=merge(x = y, y = wellToTrt, by=c("well"), all.x = TRUE)
-  ymerged=ymerged[order(as.character(ymerged$well)),]
-  y <- ymerged[c(1,dim(ymerged)[2],2:(dim(ymerged)[2]-1))]
-  
-   y <- .sort.df(y)
+  df <- df[!is.na(df$treatment) & df$treatment != "", ]
+  x <- data.frame(df$div, df$well, df$treatment, df[, feature])
+  colnames(x) <- c("div", "well", "treatment", feature)
+  y <- dcast(x, well~div, value.var = feature)
+  well_to_treatment <- x[!duplicated(x$well), c("well", "treatment")]
+  # reorder in case early wells show up in later DIVs
+  well_to_treatment <-
+    well_to_treatment[order(as.character(well_to_treatment$well)), ]
+
+  ymerged <- merge(x = y, y = well_to_treatment, by = c("well"), all.x = TRUE)
+  ymerged <- ymerged[order(as.character(ymerged$well)), ]
+  y <- ymerged[c(1, dim(ymerged)[2], 2:(dim(ymerged)[2] - 1))]
+
+  y <- .sort_df(y)
   return(y)
 }
 
-.sort.df <- function(df){
-  #natural order sorting
-  df.divs <- df[3:ncol(df)]
-  df.sorted <- df.divs[,mixedorder(names(df.divs)), drop=FALSE]
-  df.sorted = cbind(treatment = df$treatment, df.sorted)
-  df.sorted = cbind(well = df$well, df.sorted)
-  return(df.sorted)
+.sort_df <- function(df) {
+  # natural order sorting
+  df_divs <- df[3:ncol(df)]
+  df_sorted <- df_divs[, mixedorder(names(df_divs)), drop = FALSE]
+  df_sorted <- cbind(treatment = df$treatment, df_sorted)
+  df_sorted <- cbind(well = df$well, df_sorted)
+  return(df_sorted)
 }
 
-IGM.aggregate.features <- function(s, feat.type,parameters=list()){
+aggregate_features <- function(s, feat_type, parameters=list()) {
 
-  # Takes in s object and creates a dataframe for each feature. 
-  #     based on the feature type (spikes, ns, etc), it calls appropriate function
-  #     (e.g. .write.spike.summary if feat.type is "spikes")
+  # Takes in s object and creates a dataframe for each feature.
+  #     based on the feature type (spikes, ns, etc), it calls appropriate
+  #     function (e.g. .write_spike_summary if feat_type is "spikes")
   #
   # Args:
   #   s object
-  #   feat.type = "spike", "ns", or "burst"
-  #           
+  #   feat_type = "spike", "ns", or "burst"
+  #
   # Returns:
   #   list of data frames (one df per feature)
-  
-  platename <- get.project.plate.name(s[[1]]$file)
-  
+
   # write feature summaries (calls xxx.summary.by.well from meaRtools)
-  if (feat.type == "spike") {
-    divs.df = .write.spike.summary(s)
-  } else if (feat.type == "ns"){
-    divs.df = .write.network.spike.summary(s,parameters)
-  } else if (feat.type =="burst"){
-    divs.df = .write.burst.summary(s)
-    divs.df$size<-NULL;
-    divs.df$dose<-NULL;
+  if (feat_type == "spike") {
+    divs_df <- .write_spike_summary(s)
+  } else if (feat_type == "ns"){
+    divs_df <- .write_network_spike_summary(s, parameters)
+  } else if (feat_type == "burst") {
+    divs_df <- .write_burst_summary(s)
+    divs_df$size <- NULL;
+    divs_df$dose <- NULL;
   }
-  
-  
-  all.features = list()
-  
-  if(!is.null(divs.df)){
+
+  all_features <- list()
+
+  if (!is.null(divs_df)){
     # create list of dataframes (one dataframe per feature)
-    feature.names <- colnames(divs.df)
+    feature_names <- colnames(divs_df)
     remove <- c("div", "treatment", "well")
-    feature.names <- setdiff(feature.names, remove)
-    
-    #test
+    feature_names <- setdiff(feature_names, remove)
 
-    for (i in 1:length(feature.names)) {
-      df = .create.feat.df(s, divs.df, feature.names[i], all.features)
-      
-      all.features[[feature.names[i]]] = df}
+    # test
+
+    for (i in 1:length(feature_names)) {
+      df <- .create_feat_df(s, divs_df, feature_names[i], all_features)
+
+      all_features[[feature_names[i]]] <- df
+    }
   } else {
-    all.features=NULL
+    all_features <- NULL
   }
 
-  return(all.features)
+  return(all_features)
 }
 
-filter.wells <- function(unfiltered.df, nae, min.electrodes = 4, well.filter.maximum.DIV.inactive.ratio = 0.5){
-  # Filters out wells in which there are fewer than 4 active electrodes 
+filter_wells <- function(unfiltered_df, nae, min_electrodes = 4,
+                         well_max_div_inactive_ratio = 0.5) {
+  # Filters out wells in which there are fewer than 4 active electrodes
   #    at least 70% of the time
-  unfiltered.df=unfiltered.df[!(is.na(unfiltered.df$treatment) | unfiltered.df$treatment==""), ]  # remove wells w/o trt
-  
-  nae$treatment = NULL
-  nae[-1] <- sapply(nae[-1], as.numeric)
-  
-  num.div <- ncol(nae)-1
-  
-  inactive <- data.frame(num.inactive = rowSums(nae[, -1] < min.electrodes), total.div = num.div)
-  inactive[is.na(inactive$num.inactive),"num.inactive"]=0
-  inactive$fraction <- inactive$num.inactive/inactive$total.div
+  unfiltered_df <- unfiltered_df[!(is.na(unfiltered_df$treatment) |
+                      unfiltered_df$treatment == ""), ] # remove wells w/o trt
+
+  nae$treatment <- NULL
+  nae[- 1] <- sapply(nae[- 1], as.numeric)
+
+  num_div <- ncol(nae) - 1
+
+  inactive <- data.frame(num_inactive = rowSums(nae[, - 1] <
+           min_electrodes), total_div = num_div)
+
+  inactive[is.na(inactive$num_inactive), "num_inactive"] <- 0
+  inactive$fraction <- inactive$num_inactive / inactive$total_div
   inactive$well <- nae$well
-  
-  # grab only wells with inactive ratio < well.filter.maximum.DIV.inactive.ratio
-  active.wells <- with(inactive, {subset.data.frame(inactive, fraction < well.filter.maximum.DIV.inactive.ratio, select = well)})
-  
-  filtered.df = unfiltered.df[unfiltered.df$well %in% active.wells$well, ]
-  
-  if (nrow(filtered.df)!=0)
-  {
-    #replace na's with 0's
-    filtered.df[filtered.df == "NaN"] = NA  # first replace NaN with NA
-    filtered.df[is.na(filtered.df)] <- 0    # then replace NA's with 0
+
+  # grab only wells with inactive ratio < well_max_div_inactive_ratio
+  active_wells <- with(inactive, {
+          subset.data.frame(inactive, fraction <
+                              well_max_div_inactive_ratio, select = well)
+      })
+
+  filtered_df <- unfiltered_df[unfiltered_df$well %in% active_wells$well, ]
+
+  if (nrow(filtered_df) != 0) {
+    # replace na's with 0's
+    filtered_df[filtered_df == "NaN"] <- NA # first replace NaN with NA
+    filtered_df[is.na(filtered_df)] <- 0 # then replace NA's with 0
   }
 
-  return(filtered.df)
+  return(filtered_df)
 }
 
-write.features.to.files <- function(s, features.list, output.dir, type) {
-  # Takes in list of dataframes (one per feature) and writes out each 
+write_features_to_files <- function(s, features_list, output_dir, type) {
+  # Takes in list of dataframes (one per feature) and writes out each
   #     df to a csv file
   #
   # Args:
   #   s object
-  #   features.list = list of dataframes
-  #   output.dir = directory where files will be put (will make separate folders
-  #                  ns, spikes, and bursts) 
-  #           
+  #   features_list = list of dataframes
+  #   output_dir = directory where files will be put (will make separate folders
+  #                  ns, spikes, and bursts)
+  #
   # Returns:
   #   one csv per feature
-  
-  # change to create subdir for each file type
-  platename <- get.project.plate.name(s[[1]]$file)
-  out.folder <- paste0(output.dir,"/",type)
-  dir.create(out.folder, showWarnings = FALSE)
-  invisible(sapply(names(features.list), 
-                   function (x) write.csv(features.list[[x]], file=paste0(out.folder, "/", platename, "_", x, ".csv"), 
-                                          row.names = F)))
-}
 
+  # change to create subdir for each file type
+  platename <- get_project_plate_name(s[[1]]$file)
+  out_folder <- paste0(output_dir, "/", type)
+  dir.create(out_folder, showWarnings = FALSE)
+  invisible(sapply(names(features_list),
+    function(x) write.csv(features_list[[x]], file = paste0(out_folder, "/",
+                                  platename, "_", x, ".csv"),
+      row.names = F)))
+}
