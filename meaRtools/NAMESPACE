@@ -15,11 +15,6 @@ importFrom("graphics", "abline", "arrows", "axis", "curve", "hist",
 importFrom("stats", "aggregate", "approxfun", "cor", "dnorm", "embed",
            "filter", "ks.test", "lm", "na.omit", "ppois", "predict",
            "rnorm", "runif", "sd", "time", "ts", "uniroot", "var",
-<<<<<<< HEAD
            "wilcox.test")
 importFrom("utils", "read.csv", "tail", "write.csv", "write.table")
 importFrom(Rcpp, evalCpp)
-=======
-           "wilcox.test", "IQR", "median")
-importFrom("utils", "read.csv", "tail", "write.csv", "write.table")
->>>>>>> MI
