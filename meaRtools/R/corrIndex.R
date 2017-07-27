@@ -129,7 +129,6 @@
     ## create one long vector of spikes.
     all_spikes <- unlist(spikes)
     nspikes <- sapply(spikes, length)
-<<<<<<< HEAD
     duration <- Tmax - Tmin
     
     first.spike <- c(0, cumsum(nspikes)[-n])
@@ -149,24 +148,6 @@
     ## array(z$res, dim=c(n,n))
     array(NA, dim=c(n,n))
     
-=======
-    duration <- t_max - t_min
-
-    first_spike <- c(0, cumsum(nspikes)[- n])
-    z <- .C("count_overlap_arr",
-      as.double(all_spikes),
-      as.integer(n),
-      as.integer(nspikes),
-      as.integer(first_spike),
-      as.integer(rates_ok),
-      as.integer(no_minimum),
-      as.double(duration),
-      as.double(dt),
-      res = double(n * n))
-
-    ## return the result.
-    array(z$res, dim = c(n, n))
->>>>>>> MI
   }
 }
 
@@ -235,30 +216,9 @@
 ##' @return Upper triangular matrix of tiling coefficients.
 ##' @author Stephen Eglen
 .tiling_allpairwise <- function(s, dt=0.05) {
-  n <- length(s$spikes)
-
-  all_spikes <- unlist(s$spikes)
-  nspikes <- sapply(s$spikes, length)
-<<<<<<< HEAD
-  first.spike <- c(0, cumsum(nspikes)[-n])
   ## sjecpp
   m <- sttc_allspikes1(s$spikes,
                        dt,
                        s$rec.time[1], s$rec.time[2])
-=======
-  first_spike <- c(0, cumsum(nspikes)[- n])
-  z <- .C("tiling_arr",
-    as.double(all_spikes),
-    as.integer(n),
-    as.integer(nspikes),
-    as.integer(first_spike),
-    as.double(s$rec_time),
-    as.double(dt),
-    res = double(n * n))
-
-  ## return the result.
-  m <- array(z$res, dim = c(n, n))
-  m[lower.tri(m)] <- NA # we didn't do lower triangle, so ignore those.
->>>>>>> MI
   m
 }
