@@ -219,6 +219,6 @@
   ## sjecpp
   m <- sttc_allspikes1(s$spikes,
                        dt,
-                       s$rec.time[1], s$rec.time[2])
+                       s$rec_time[1], s$rec_time[2])
   m
 }
