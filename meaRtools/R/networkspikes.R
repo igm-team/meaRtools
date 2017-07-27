@@ -95,23 +95,11 @@
 
   nspikes <- sapply(spikes, length) # already computed elsewhere!
 
-<<<<<<< HEAD
   nspikes <- sapply(spikes, length)     #already computed elsewhere!
 
   ## sjecpp
-  counts = count_ns(spikes, beg, end, time.interval, nbins)
-  res <- ts(data=counts, start=beg, deltat=time.interval)
-=======
-  z <- .C("ns_count_activity",
-    as.double(unlist(spikes)),
-    as.integer(nspikes),
-    as.integer(length(nspikes)),
-    as.double(beg), as.double(end), as.double(time_interval),
-    as.integer(nbins),
-    counts = integer(nbins))
-  ## Return counts as a time series.
-  res <- ts(data = z$counts, start = beg, deltat = time_interval)
->>>>>>> MI
+  counts = count_ns(spikes, beg, end, time_interval, nbins)
+  res <- ts(data=counts, start=beg, deltat=time_interval)
 
   res
 }
