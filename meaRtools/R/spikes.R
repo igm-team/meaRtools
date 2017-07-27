@@ -419,16 +419,6 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
   nelectrodes <- length(nspikes)
 
   ## if clips is set to TRUE, firing rate is clipped within the
-<<<<<<< HEAD
-  ## values frate.min and frate.max.  This is problably not needed.
-  
-  spikes.range <- range(unlist(spikes))
-  if (is.null(beg))  beg <-  spikes.range[1]
-  if (is.null(end))  end <-  spikes.range[2]
-  
-  time.breaks <- seq(from=beg, to=end, by=time.interval)
-  if (time.breaks[length(time.breaks)] <= end) {
-=======
   ## values frate_min and frate_max.  This is problably not needed.
 
   spikes_range <- range(unlist(spikes))
@@ -436,34 +426,17 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
   if (is.null(end)) end <- spikes_range[2]
 
   time_breaks <- seq(from = beg, to = end, by = time_interval)
-  if (time_breaks[length(time_breaks)] < end) {
->>>>>>> MI
+  if (time_breaks[length(time_breaks)] <= end) {
     ## extra time bin needs adding.
     time_breaks <- c(time_breaks,
       time_breaks[length(time_breaks)] + time_interval)
   }
-<<<<<<< HEAD
-  nbins <- length(time.breaks) - 1
+  nbins <- length(time_breaks) - 1
   
   # sjecpp
-  rates = frate_counts(spikes, time.breaks[1], time.breaks[nbins], time.interval, nbins)
+  rates = frate_counts(spikes, time_breaks[1], time_breaks[nbins], time_interval, nbins)
   ##rates <- matrix(counts, nrow=nbins, ncol=nelectrodes)
   
-=======
-  nbins <- length(time_breaks) - 1
-
-  z <- .C("frate",
-    as.double(unlist(spikes)),
-    as.integer(nspikes),
-    as.integer(nelectrodes),
-    as.double(time_breaks[1]), as.double(time_breaks[nbins]),
-    as.double(time_interval),
-    as.integer(nbins),
-    counts = double(nbins * nelectrodes))
-
-  rates <- matrix(z$counts, nrow = nbins, ncol = nelectrodes)
-
->>>>>>> MI
   ## Check if there are any electrodes to process.
   if (nelectrodes > 0) {
     ## Now optionally set the upper and lower frame rates if clip is TRUE.
