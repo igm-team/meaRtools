@@ -112,7 +112,7 @@ si_find_bursts <- function(spikes, s_min, burst_isi_max = NULL) {
   }
   res2 <- cbind(res[, "beg"], end, ibi,
     res[, "len"], res[, "durn"], res[, "mean_isis"], res[, "si"])
-  colnames(res2) <- c("beg", "end", "ibi", "len", "durn", "mean_isis", "SI")
+  colnames(res2) <- c("beg", "end", "ibi", "len", "durn", "mean_isis", "si")
 
   res2
 }
