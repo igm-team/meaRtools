@@ -14,7 +14,7 @@
   min_ibi <- par$min_ibi
   min_durn <- par$min_durn
   min_spikes <- par$min_spikes
-#   isi low should be par isi low
+  isi_low <- par$isi_low
 
   nspikes <- length(spikes)
 
