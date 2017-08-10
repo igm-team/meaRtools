@@ -96,61 +96,6 @@
   res
 }
 
-.make_corr_indexes2 <- function(spikes, dt, min_rate=0) {
-  ## New version using the C routine for corr indexing.
-  ## Return the correlation index values for each pair of spikes.
-  ## The matrix returned is upper triangular.
-  ## SPIKES should be a list of length N, N is the number of electrodes.
-  ## "dt" is the maximum time for seeing whether two spikes are coincident.
-  ## This is defined in the 1991 Meister paper.
-  ## If MIN.RATE is bigger than 0, use the electrode if the firing rate is above
-  ## MIN.RATE.
-
-  n <- length(spikes)
-  if (n == 1) {
-    ## If only one spike train, cannot compute the cross corr indexes.
-    0;
-  } else {
-    t_max <- max(unlist(spikes)) # time of last spike.
-    t_min <- min(unlist(spikes)) # time of first spike.
-
-    no_minimum <- isTRUE(all.equal(min_rate, 0))
-
-    if (!no_minimum) {
-      ## precompute rates, and find which electrodes are okay.
-      rates <- sapply(spikes, length) / (t_max - t_min)
-      rates_ok <- rates > min_rate
-      cat(sprintf("Rejecting %d electrodes with firing rate below %.3f Hz\n",
-        n - sum(rates_ok), min_rate))
-    } else {
-      rates_ok <- rep(0, n) # need to pass to C anyway...
-    }
-
-    ## create one long vector of spikes.
-    all_spikes <- unlist(spikes)
-    nspikes <- sapply(spikes, length)
-    duration <- Tmax - Tmin
-    
-    first.spike <- c(0, cumsum(nspikes)[-n])
-    ## sjecpp
-    ## z <- .C("count_overlap_arr",
-    ##     as.double(all.spikes),
-    ##     as.integer(n),
-    ##     as.integer(nspikes),
-    ##     as.integer(first.spike),
-    ##     as.integer(rates.ok),
-    ##     as.integer(no.minimum),
-    ##     as.double(duration),
-    ##     as.double(dt),
-    ##     res = double(n*n))
-
-    ## TODO - what to do about the correlation index?!?
-    ## array(z$res, dim=c(n,n))
-    array(NA, dim=c(n,n))
-    
-  }
-}
-
 .corr_get_means <- function(id, mid) {
   ## mid contains the mid point of each bin.
   data_by_bin <- split(id[, "corr"], id[, "dist_bin"])
