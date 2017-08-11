@@ -138,7 +138,7 @@ NumericVector tiling_correlogramcpp(NumericVector spikes,
   
   /* Compute all pairwise interactions, include self. */
   /* Elements on lower diagonal are not touched, so those should remain NA. */
-  int n1, n2, a, b, k, l, i, j;
+  int n1, n2, a, b, k, l, i;
   // to find the length of (using R syntax) seq(-tau_max,tau_max,tau_sep)
   // round (2*tau_max/tau_sep) + 1 
   // there may be a nicer way of rounding but this seems to work
@@ -219,7 +219,7 @@ NumericVector tiling_correlogramcpp_index(NumericVector spikes,
 
   /* Compute all pairwise interactions, include self. */
   /* Elements on lower diagonal are not touched, so those should remain NA. */
-  int n1, n2, k, l, j, i;
+  int n1, n2, k, l, i;
   int tau_length = (int)((2*tau_max)/tau_sep+1.5);
   NumericVector corrs(tau_length);
   double start_tau, end_tau, tau;
@@ -333,7 +333,7 @@ NumericVector sttcp_ab(NumericVector a,
 		       double tau_sep,
 		       double tau_max) {
 
-  int n1, n2, k, l, j, i;
+  int i;
   int tau_length = (int)((2*tau_max)/tau_sep+1.5);
   NumericVector corrs(tau_length);
   double start_tau, end_tau, tau;
