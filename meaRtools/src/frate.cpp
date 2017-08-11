@@ -10,7 +10,7 @@ NumericMatrix frate_counts(List spikes, double beg, double end, double wid, int 
    * BEG, END = first and last spike time.
    * WID = duration of each network spike bin.
    */
-  int i, nspikes, b, skip, train;
+  int i, nspikes, b, skip=0, train;
   int ntrains = spikes.size();
   NumericMatrix counts(nbins, ntrains);
   
