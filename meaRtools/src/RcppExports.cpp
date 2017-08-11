@@ -20,16 +20,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world2
-List rcpp_hello_world2();
-RcppExport SEXP _meaRtools_rcpp_hello_world2() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world2());
-    return rcpp_result_gen;
-END_RCPP
-}
 // frate_counts
 NumericMatrix frate_counts(List spikes, double beg, double end, double wid, int nbins);
 RcppExport SEXP _meaRtools_frate_counts(SEXP spikesSEXP, SEXP begSEXP, SEXP endSEXP, SEXP widSEXP, SEXP nbinsSEXP) {
@@ -134,7 +124,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_meaRtools_count_ns", (DL_FUNC) &_meaRtools_count_ns, 5},
-    {"_meaRtools_rcpp_hello_world2", (DL_FUNC) &_meaRtools_rcpp_hello_world2, 0},
     {"_meaRtools_frate_counts", (DL_FUNC) &_meaRtools_frate_counts, 5},
     {"_meaRtools_run_TMcpp", (DL_FUNC) &_meaRtools_run_TMcpp, 5},
     {"_meaRtools_tiling_correlogramcpp", (DL_FUNC) &_meaRtools_tiling_correlogramcpp, 9},
