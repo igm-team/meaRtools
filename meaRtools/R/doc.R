@@ -57,3 +57,41 @@
 ##' @return The population firing rate (in Hz) for each bin.
 ##' @author Stephen Eglen
 "frate_counts"
+
+
+##' Compute all STTPs for a set of spike trains
+##'
+##' .. content for \details{} ..
+##' @title Compute all STTPs for a set of spike trains
+##' @param spikes Concatenated list of spike trains
+##' @param n number of spike trains
+##' @param nspikes Vector containing the number of spikes in each train
+##' @param first_spike Index to the first spike in each train.
+##' @param start Start time of recording in seconds
+##' @param end End time of recording in seconds
+##' @param dt Coincidence window for STTC
+##' @param tau_sep Step size for taus.
+##' @param tau_max Maximum absolute tau value.
+##' @return Pairwise STTPs for all spike trains
+##' @author Tom Edinburgh
+"tiling_correlogramcpp"
+
+##' .. content for \description{} (no empty lines) ..
+##'
+##' .. content for \details{} ..
+##' @title Compute STTPs for just two spike trains, A and B
+##' @param spikes Concatenated list of spike trains
+##' @param n number of spike trains
+##' @param nspikes Vector containing the number of spikes in each train
+##' @param first_spike Index to the first spike in each train.
+##' @param start Start time of recording in seconds
+##' @param end End time of recording in seconds
+##' @param dt Coincidence window for STTC
+##' @param tau_sep Step size for taus.
+##' @param tau_max Maximum absolute tau value.
+##' @param a Number of first spike train
+##' @param b Number of second spike train
+##' @return STTP for spike trains a and b
+##' @author Tom Edinburgh
+"tiling_correlogramcpp_index"
+
