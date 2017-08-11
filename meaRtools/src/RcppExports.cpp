@@ -5,21 +5,6 @@
 
 using namespace Rcpp;
 
-// count_ns
-NumericVector count_ns(List spikes, double beg, double end, double wid, double nbins);
-RcppExport SEXP _meaRtools_count_ns(SEXP spikesSEXP, SEXP begSEXP, SEXP endSEXP, SEXP widSEXP, SEXP nbinsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type spikes(spikesSEXP);
-    Rcpp::traits::input_parameter< double >::type beg(begSEXP);
-    Rcpp::traits::input_parameter< double >::type end(endSEXP);
-    Rcpp::traits::input_parameter< double >::type wid(widSEXP);
-    Rcpp::traits::input_parameter< double >::type nbins(nbinsSEXP);
-    rcpp_result_gen = Rcpp::wrap(count_ns(spikes, beg, end, wid, nbins));
-    return rcpp_result_gen;
-END_RCPP
-}
 // frate_counts
 NumericMatrix frate_counts(List spikes, double beg, double end, double wid, int nbins);
 RcppExport SEXP _meaRtools_frate_counts(SEXP spikesSEXP, SEXP begSEXP, SEXP endSEXP, SEXP widSEXP, SEXP nbinsSEXP) {
@@ -32,6 +17,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type wid(widSEXP);
     Rcpp::traits::input_parameter< int >::type nbins(nbinsSEXP);
     rcpp_result_gen = Rcpp::wrap(frate_counts(spikes, beg, end, wid, nbins));
+    return rcpp_result_gen;
+END_RCPP
+}
+// count_ns
+NumericVector count_ns(List spikes, double beg, double end, double wid, double nbins);
+RcppExport SEXP _meaRtools_count_ns(SEXP spikesSEXP, SEXP begSEXP, SEXP endSEXP, SEXP widSEXP, SEXP nbinsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type spikes(spikesSEXP);
+    Rcpp::traits::input_parameter< double >::type beg(begSEXP);
+    Rcpp::traits::input_parameter< double >::type end(endSEXP);
+    Rcpp::traits::input_parameter< double >::type wid(widSEXP);
+    Rcpp::traits::input_parameter< double >::type nbins(nbinsSEXP);
+    rcpp_result_gen = Rcpp::wrap(count_ns(spikes, beg, end, wid, nbins));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -123,8 +123,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_meaRtools_count_ns", (DL_FUNC) &_meaRtools_count_ns, 5},
     {"_meaRtools_frate_counts", (DL_FUNC) &_meaRtools_frate_counts, 5},
+    {"_meaRtools_count_ns", (DL_FUNC) &_meaRtools_count_ns, 5},
     {"_meaRtools_run_TMcpp", (DL_FUNC) &_meaRtools_run_TMcpp, 5},
     {"_meaRtools_tiling_correlogramcpp", (DL_FUNC) &_meaRtools_tiling_correlogramcpp, 9},
     {"_meaRtools_tiling_correlogramcpp_index", (DL_FUNC) &_meaRtools_tiling_correlogramcpp_index, 11},
