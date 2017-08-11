@@ -2,31 +2,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-List rcpp_hello_world() {
-
-    CharacterVector x = CharacterVector::create( "foo", "bar" )  ;
-    NumericVector y   = NumericVector::create( 0.0, 1.0 ) ;
-    List z            = List::create( x, y ) ;
-
-    return z ;
-}
-
-// [[Rcpp::export]]
-List rcpp_hello_world2() {
-
-  CharacterVector x = CharacterVector::create( "apple", "foo", "bar" )  ;
-  NumericVector y   = NumericVector::create( 2.0, 1.0 ) ;
-  List z            = List::create( x, y ) ;
-
-  return z ;
-}
-
-NumericMatrix make_mat(int r, int c) {
-  NumericMatrix m(r, c);
-  std::fill(m.begin(), m.end(), NA_REAL);
-  return m;
-}
-
 // [[Rcpp::export]]
 NumericMatrix frate_counts(List spikes, double beg, double end, double wid, int nbins)
 {
