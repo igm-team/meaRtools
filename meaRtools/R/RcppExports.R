@@ -5,10 +5,6 @@ count_ns <- function(spikes, beg, end, wid, nbins) {
     .Call('_meaRtools_count_ns', PACKAGE = 'meaRtools', spikes, beg, end, wid, nbins)
 }
 
-rcpp_hello_world2 <- function() {
-    .Call('_meaRtools_rcpp_hello_world2', PACKAGE = 'meaRtools')
-}
-
 frate_counts <- function(spikes, beg, end, wid, nbins) {
     .Call('_meaRtools_frate_counts', PACKAGE = 'meaRtools', spikes, beg, end, wid, nbins)
 }
