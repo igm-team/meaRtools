@@ -38,3 +38,22 @@
 ##' @return obj  An object of type "sttcp", containing the tau values and correlations.
 ##' @author Stephen Eglen
 "sttcp_ab"
+
+
+##' Estimate the population firing rate, averaging over all spikes.
+##'
+##' We compute the array-wide average activity for a list of spike
+##' trains.  The duration of the recording is given in seconds by BEG
+##' and END.  Time is divided up into NBINS bins, each of duration WID.  Each spike
+##' is then placed in the appropriate bin and then we return the average count in each bin.
+##' 
+##' 
+##' @title Estimate population firing rate using fixed-width time bins.
+##' @param spikes List of simultaneously recorded spike trains
+##' @param beg Start of the recording, in seconds.
+##' @param end The start time of  the last bin, in seconds.
+##' @param wid The duration of each bin
+##' @param nbins The number of bins to generate.  
+##' @return The population firing rate (in Hz) for each bin.
+##' @author Stephen Eglen
+"frate_counts"
