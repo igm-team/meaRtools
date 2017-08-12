@@ -33,7 +33,8 @@ Pairwise STTPs for all spike trains
 Compute all STTPs for a set of spike trains
 }
 \details{
-.. content for \details{} ..
+This computes all pairwise STTPs for spike trains.  (This may be of use
+for Tom's internal code, rather than for production use.)
 }
 \author{
 Tom Edinburgh

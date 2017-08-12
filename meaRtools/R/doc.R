@@ -61,7 +61,8 @@
 
 ##' Compute all STTPs for a set of spike trains
 ##'
-##' .. content for \details{} ..
+##' This computes all pairwise STTPs for spike trains.  (This may be of use
+##' for Tom's internal code, rather than for production use.)
 ##' @title Compute all STTPs for a set of spike trains
 ##' @param spikes Concatenated list of spike trains
 ##' @param n number of spike trains
@@ -76,9 +77,11 @@
 ##' @author Tom Edinburgh
 "tiling_correlogramcpp"
 
-##' .. content for \description{} (no empty lines) ..
+##' Compute STTP for just one pair of trains
 ##'
-##' .. content for \details{} ..
+##' If you have the spikes from an array in a flattened form, you can compute
+##' the STTP for just two of the spike trains, rather than computing all
+##' pairwise STTPs.
 ##' @title Compute STTPs for just two spike trains, A and B
 ##' @param spikes Concatenated list of spike trains
 ##' @param n number of spike trains

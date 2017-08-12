@@ -34,10 +34,12 @@ tiling_correlogramcpp_index(spikes, n, nspikes, first_spike, start, end, dt,
 STTP for spike trains a and b
 }
 \description{
-.. content for \description{} (no empty lines) ..
+Compute STTP for just one pair of trains
 }
 \details{
-.. content for \details{} ..
+If you have the spikes from an array in a flattened form, you can compute
+the STTP for just two of the spike trains, rather than computing all
+pairwise STTPs.
 }
 \author{
 Tom Edinburgh
