@@ -6,7 +6,7 @@
 .corr_index <- function(s, distance_breaks,
   dt = getOption("meaRtools_corr_dt", default = 0.05),
   min_rate = 0,
-  corr_method = getOption("meaRtools_corr_method", default = "CI")) {
+  corr_method = getOption("meaRtools_corr_method", default = "STTC")) {
   ## Make a correlation index object.
   ## MIN.RATE: if greater than zero, we analyse only spike trains whose
   ## firing rate is greater than this minimal rate.
@@ -21,7 +21,7 @@
       ##corr_indexes <- .make_corr_indexes2(spikes, dt, min_rate)
       stop("CI method is no longer supported; please use the STTC measure instead")
     }
-    if (corr_method == "Tiling") {
+    if (corr_method == "STTC") {
       corr_indexes <- .tiling_allpairwise(s, dt)
     }
     if (is.null(corr_method)) {
