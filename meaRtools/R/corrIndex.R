@@ -18,7 +18,8 @@
   if (length(spikes) > 1) {
     corr_indexes <- NULL
     if (corr_method == "CI") {
-      corr_indexes <- .make_corr_indexes2(spikes, dt, min_rate)
+      ##corr_indexes <- .make_corr_indexes2(spikes, dt, min_rate)
+      stop("CI method is no longer supported; please use the STTC measure instead")
     }
     if (corr_method == "Tiling") {
       corr_indexes <- .tiling_allpairwise(s, dt)
