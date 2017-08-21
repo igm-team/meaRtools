@@ -1,96 +1,96 @@
 parameters <- list(
 
-burst.type = "mi",
-s.min=5,
+burst_type = "mi",
+s_min=5,
   
-perm.n = 1000, ##Might want to specify in parameters or give user option?
+perm_n = 1000, ##Might want to specify in parameters or give user option?
 
-elec.min.rate = (1/60),
-elec.max.rate = 1000,
-# minimum nAE
-well.min.rate=4,
+elec_min_rate = (1/60),
+elec_max_rate = 1000,
+# minimum nae
+well_min_rate=4,
 # The maximum DIV inactive/active ratio (below which a well will be considered active
 # for a set of DIVs)
-well.filter.maximum.DIV.inactive.ratio=0.5,
+well_max_div_inactive_ratio=0.5,
 
 #parameters for max-interval burst detection
-mi.par = list(beg.isi =    0.1,
-               end.isi =    0.25,
-               min.ibi =    0.3,
-               min.durn =   0.05,
-               min.spikes = 5),
+mi_par = list(beg_isi =    0.1,
+               end_isi =    0.25,
+               min_ibi =    0.3,
+               min_durn =   0.05,
+               min_spikes = 5),
 
 ## Parameters for network.spikes
-ns.T = 0.01,    	#time in seconds
-ns.N = 3,        #how many coincident electrodes?
+ns_t = 0.01,    	#time in seconds
+ns_n = 3,        #how many coincident electrodes?
 sur=100, # num. ms before and after spike to check I think, used in ms
 
 #sahar -added for ver 2.0
 # Burst parameters for distribution analysis
 
 # Parameters for inter burst interval distribution analysis
-burst.distribution.IBI = list(
+burst_distribution_ibi = list(
   perform = 1,        # 0/1 - run this analysis ?
-  min.cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
+  min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
   # 900 is length of recording divided by 60 sec
-  x.lim =         20,  # x max limit for distribution plot
-  bins.in.seg =  5,   # how many values to be calculated in each segment of xLim 
-  # (overall values will be bins.in.seg * xlim)
-  min.values = 0,     # bursts with values below this threshold be ignored with filter.by.min=1
-  filter.by.min = 0,  # 0/1 ignore bursts with values below min.values
-  per.well = 0),       # 0/1 - perform analysis per well=1 or per electrode=0
+  x_axis_lim =         20,  # x max limit for distribution plot
+  bins_in_sec =  5,   # how many values to be calculated in each segment of xLim 
+  # (overall values will be bins_in_sec * xlim)
+  min_values = 0,     # bursts with values below this threshold be ignored with filter_by_min=1
+  filter_by_min = 0,  # 0/1 ignore bursts with values below min_values
+  per_well = 0),       # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for burst duration distribution analysis
-burst.distribution.durn = list(
+burst_distribution_durn = list(
   perform = 1,        # 0/1 - run this analysis ?
-  min.cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
+  min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
   # 900 is length of recording divided by 60 sec
-  x.lim =         18,  # x max limit for distribution plot
-  bins.in.seg =  10,   # how many values to be calculated in each segment of xLim 
-  # (overall values will be bins.in.seg * xlim)
-  min.values = 0,     # bursts with values below this threshold be ignored with filter.by.min=1
-  filter.by.min = 0,  # 0/1 ignore bursts with values below min.values
-  per.well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
+  x_axis_lim =         18,  # x max limit for distribution plot
+  bins_in_sec =  10,   # how many values to be calculated in each segment of xLim 
+  # (overall values will be bins_in_sec * xlim)
+  min_values = 0,     # bursts with values below this threshold be ignored with filter_by_min=1
+  filter_by_min = 0,  # 0/1 ignore bursts with values below min_values
+  per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for inter spike interval within burst distribution analysis
-burst.distribution.ISI = list(
+burst_distribution_isi = list(
   perform = 1,        # 0/1 - run this analysis ?
-  min.cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
-  x.lim =         0.5,  # x max limit for distribution plot
-  bins.in.seg =  100,   # how many values to be calculated in each segment of xLim 
-  # (overall values will be bins.in.seg * xlim)
-  min.values = 0,     # bursts with values below this threshold be ignored with filter.by.min=1
-  filter.by.min = 0,  # 0/1 ignore bursts with values below min.values
-  per.well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
+  min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
+  x_axis_lim =         0.5,  # x max limit for distribution plot
+  bins_in_sec =  100,   # how many values to be calculated in each segment of xLim 
+  # (overall values will be bins_in_sec * xlim)
+  min_values = 0,     # bursts with values below this threshold be ignored with filter_by_min=1
+  filter_by_min = 0,  # 0/1 ignore bursts with values below min_values
+  per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for number of spikes in burst distribution analysis
-burst.distribution.nSpikes = list(
+burst_distribution_nspikes = list(
   perform = 1,        # 0/1 - run this analysis ?
-  min.cases = 5, # minimum number of bursts, below which electrode will be ingnored
-  x.lim =         200,  # x max limit for distribution plot
-  bins.in.seg =  1,   # how many values to be calculated in each segment of xLim 
-  # (overall values will be bins.in.seg * xlim)
-  min.values = 0,     # bursts with values below this threshold be ignored with filter.by.min=1
-  filter.by.min = 0,  # 0/1 ignore bursts with values below min.values
-  per.well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
+  min_cases = 5, # minimum number of bursts, below which electrode will be ingnored
+  x_axis_lim =         200,  # x max limit for distribution plot
+  bins_in_sec =  1,   # how many values to be calculated in each segment of xLim 
+  # (overall values will be bins_in_sec * xlim)
+  min_values = 0,     # bursts with values below this threshold be ignored with filter_by_min=1
+  filter_by_min = 0,  # 0/1 ignore bursts with values below min_values
+  per_well = 0),      # 0/1 - perform analysis per well=1 or per electrode=0
 
 # Parameters for average spike frequency in burst distribution analysis
-burst.distribution.spikeFreq = list(
+burst_distribution_spike_freq = list(
   perform = 1,        # 0/1 - run this analysis ?
-  min.cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
-  x.lim =         300,  # x max limit for distribution plot
-  bins.in.seg =  1,   # how many values to be calculated in each segment of xLim 
-  # (overall values will be bins.in.seg * xlim)
-  min.values = 0,     # bursts with values below this threshold be ignored with filter.by.min=1
-  filter.by.min = 0,  # 0/1 ignore bursts with values below min.values
-  per.well = 0),     # 0/1 - perform analysis per well=1 or per electrode=0
+  min_cases = 900/60, # minimum number of bursts, below which electrode will be ingnored
+  x_axis_lim =         300,  # x max limit for distribution plot
+  bins_in_sec =  1,   # how many values to be calculated in each segment of xLim 
+  # (overall values will be bins_in_sec * xlim)
+  min_values = 0,     # bursts with values below this threshold be ignored with filter_by_min=1
+  filter_by_min = 0,  # 0/1 ignore bursts with values below min_values
+  per_well = 0),     # 0/1 - perform analysis per well=1 or per electrode=0
 
   #network burst parameters
-  local_region_min_nAE= 0, #do not change for now
+  local_region_min_nae= 0, #do not change for now
   min_electrodes= 4 ,
   Sigma= c(10,20,50) , # a list of window size to be considered 
 
-  timeStamp="DATE_TIME" # system time 
+  time_stamp="DATE_TIME" # system time 
 
 ) # end of parameters list
 
