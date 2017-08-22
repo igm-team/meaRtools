@@ -1,45 +1,39 @@
 \name{count_ns}
 \alias{count_ns}
 \title{
-The wrapper function for C++ implementaiton. (Stepthen, please add more here)
+Count number of spikes within evenly spaced time intervals(bins) from input spike trains. 
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Given a list of spike trains, this function creates evenly spaced bins and returns number of spikes from all spike trains for each bins.
 }
 \usage{
 count_ns(spikes, beg, end, wid, nbins)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{spikes}{
-%%     ~~Describe \code{spikes} here~~
+  The input list of spike trains.
 }
   \item{beg}{
-%%     ~~Describe \code{beg} here~~
+  Start time of recording in seconds.
 }
   \item{end}{
-%%     ~~Describe \code{end} here~~
+  End time of recording in seconds.
 }
   \item{wid}{
-%%     ~~Describe \code{wid} here~~
+  Bin width in seconds.
 }
   \item{nbins}{
-%%     ~~Describe \code{nbins} here~~
+  Number of evenly spaced bins for given time interval.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+   Return a vector of counts of spikes from all spike trains for user-defined, evenly spaced bins.
 }
 
-
-
+\author{
+Stephen Eglen
+}
 
 
 
