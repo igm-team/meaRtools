@@ -392,6 +392,7 @@ calculate_entropy_and_mi <- function(mea, treatments,
       vals <- c(vals, list_node[[name]])
     }
   }
+  names(vals) <- names(list_node)
   return(vals)
 }
 
