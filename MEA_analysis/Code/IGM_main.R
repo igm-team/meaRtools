@@ -182,6 +182,17 @@ if (parameters$want_nb) {
   }
 }
 
+## Calculate mutual information and entropy
+if (length(s) > 0) {
+  for (i in 1:length(s)){
+    basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
+    cat("\n")
+    cat(paste("Calculating mutual information for ", basename, "...\n"))
+    ent_mi_data <- calculate_entropy_and_mi(s[[i]], s[[i]]$treatment, mult_factor=1.5, bin_size=0.1)
+    s[[i]]$mutual_inf <- ent_mi_data[["data_dists"]][["MI"]]
+    s[[i]]$entropy <- ent_mi_data [["data_dists"]][["ENT"]]
+  }
+}
 
 #+++++++++++++++  save S object
 if (length(s) > 0) {
