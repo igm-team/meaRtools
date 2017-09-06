@@ -1,7 +1,6 @@
 rm(list = ls())
 library(meaRtools)
 
-# load MEA data from h5 file (can also be in form 'Rdata')
 data(S)
 mea <- filter_nonactive_spikes(S,spikes_per_minute_min=1)
 

@@ -145,7 +145,7 @@ if (length(s) > 0) {
     suppressWarnings(plot_plate_summary_for_bursts(s,
         analysis$output_per_div_dir, parameters))
   }
-  if (parameters$burst.csv){
+  if (parameters$burst_csv){
     suppressWarnings(write.plate.summary.for.bursts(s,
           analysis$output_per_div_dir))
   }
