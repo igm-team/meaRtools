@@ -146,7 +146,7 @@ if (length(s) > 0) {
         analysis$output_per_div_dir, parameters))
   }
   if (parameters$burst_csv){
-    suppressWarnings(write.plate.summary.for.bursts(s,
+    suppressWarnings(write_plate_summary_for_bursts(s,
           analysis$output_per_div_dir))
   }
 } else{
@@ -160,9 +160,9 @@ if (parameters$want_nb) {
   if (length(s) > 0) {
     cat("\n")
     cat("calculating network bursts...\n")
-    nb_list <- calculate_network_bursts(s, parameters$Sigma,
+    nb_list <- calculate_network_bursts(s, parameters$sigma,
                                        parameters$min_electrodes,
-                                       parameters$local_region_min_nAE)
+                                       parameters$local_region_min_nae)
 
     if (!is.null(nb_list$nb_features_merged)){
       nb_features <- nb_matrix_to_feature_dfs(nb_list$nb_features_merged)
