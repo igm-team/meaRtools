@@ -114,11 +114,19 @@ The parameters also hold the selected algorithm for burst detection: "mi" for Ma
 
 ```{r}
 
-# Select burst algorithm
-parameters$burst_type="ps"
-
 # Construct the 'spike.list' object and calculate spike features
 s<-calculate_spike_features(analysis$Robject, parameters)
+
+# As mutual information and entropy values are considered spike features, we will calculate them here
+# based on the spike data of each electrode
+for (i in 1:length(s)) {
+  ent_mi_data <- calculate_entropy_and_mi(s[[i]], s[[i]]$treatment, mult_factor=1.5, bin_size=0.1)
+  s[[i]]$mutual_inf <- ent_mi_data[["data_dists"]][["MI"]]
+  s[[i]]$entropy <- ent_mi_data [["data_dists"]][["ENT"]]
+}
+
+# Select burst algorithm
+parameters$burst_type="ps"
 
 # Detect bursts and calculate their feature statistics
 s<-calculate_burst_features(s)
@@ -344,7 +352,7 @@ At this point, we have extracted all features, combined the recordings, tested t
 - original maximum distance and EMD value
 The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist_perm returned object and plotted as follows:
 ```{r}
-result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
+result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"untreated","treatX"))
 
 plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
 points(result$data_ko_original,col="green",type="l",lwd=3)
