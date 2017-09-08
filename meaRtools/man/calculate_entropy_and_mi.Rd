@@ -32,11 +32,11 @@ A list object holding MI and Entropy for each treatment level.
 library(meaRtools)
 
 data(S)
-mea <- filter_nonactive_spikes(S,spikes_per_minute_min=1)
+S <- filter_nonactive_spikes(S,spikes_per_minute_min=1)
 
 treatments <- c("treatX", "treatY")
 ## compute entropies and MI's  
-ENT.MI <- calculate_entropy_and_mi(mea, treatments, mult_factor=1.5, bin_size=0.1)
+ENT.MI <- calculate_entropy_and_mi(S, treatments, mult_factor=1.5, bin_size=0.1)
 data_dists <- ENT.MI[["data_dists"]]
 norm_mis_per_well <- ENT.MI[["norm_mis_per_well"]]
 
