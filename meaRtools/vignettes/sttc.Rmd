@@ -17,18 +17,18 @@ require(meaRtools)
 ```
 
 ```{r}
-poisson.train <- function(n = 1000, rate = 1, beg = 0) {
+poisson_train <- function(n = 1000, rate = 1, beg = 0) {
   ## Generate a Poisson spike train with N spikes and firing rate RATE.
   ## BEG is time of start of recording
   ## Check that the histogram looks exponentially distributed.
-  ## hist( diff(poisson.train()))
+  ## hist( diff(poisson_train()))
   x <- runif(n)
   isi <- log(x) / rate
   spikes <- beg - cumsum(isi)
   spikes
 }
 
-a = poisson.train()
+a = poisson_train()
 b = sort(a + runif(length(a), -0.1, 0.1))
 c = b + 0.8
 allspikes = list(a=a, b=b, c=c)
