@@ -24,6 +24,7 @@ Compute STTC for a pair of spike trains
 \details{
 The Spike Time Tiling correlation (STTC) is computed for a pair
 of spike trains.  The method is defined in Cutts and Eglen (2014).
+We assume that the spike trains are ordered, smallest-time first.
 }
 \examples{
 a = c(1, 2, 3, 4, 5)
