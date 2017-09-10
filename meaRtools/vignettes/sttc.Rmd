@@ -66,10 +66,10 @@ a range of coincidence windows, dt:
 
 ```{r}
 par(mfrow=c(2,2), las=1)
-dt=1.0;  plot(sttcp(a, b, dt=dt, beg = beg, end = end), main=sprintf("a x b: dt=%.3f",dt))
-dt=0.5;  plot(sttcp(a, c, dt=dt, beg = beg, end = end), main=sprintf("a x c: dt=%.3f",dt))
-dt=0.1;  plot(sttcp(a, c, dt=dt, beg = beg, end = end), main=sprintf("a x c: dt=%.3f",dt))
-dt=0.05; plot(sttcp(a, c, dt=dt, beg = beg, end = end), main=sprintf("a x c: dt=%.3f",dt))
+dt = 1.0;  plot(sttcp(a, b, dt = dt, beg = beg, end = end), main=sprintf("a x b: dt = %.3f",dt))
+dt = 0.5;  plot(sttcp(a, c, dt = dt, beg = beg, end = end), main=sprintf("a x c: dt = %.3f",dt))
+dt = 0.1;  plot(sttcp(a, c, dt = dt, beg = beg, end = end), main=sprintf("a x c: dt = %.3f",dt))
+dt = 0.05; plot(sttcp(a, c, dt = dt, beg = beg, end = end), main=sprintf("a x c: dt = %.3f",dt))
 ```
 
 It clearly shows that a and c are ofset by about 0.8 seconds.  We also
