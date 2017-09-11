@@ -352,7 +352,7 @@ At this point, we have extracted all features, combined the recordings, tested t
 - original maximum distance and EMD value
 The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist_perm returned object and plotted as follows:
 ```{r}
-result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"untreated","treatX"))
+result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
 
 plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
 points(result$data_ko_original,col="green",type="l",lwd=3)
@@ -364,7 +364,7 @@ mtext(side = 1, at = 0, line = 4,
 And the cumulative distribution with it's corrsponding MD p-value can be extracted as follows:
     
 ```{r}
-suppressWarnings(result <- dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_IBI_distributions.csv"),1000,"untreated","treatX"))
+suppressWarnings(result <- dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
 
 plot(result$data_wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
 points(result$data_ko,col="green",type="l",lwd=3)
