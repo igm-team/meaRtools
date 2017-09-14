@@ -337,10 +337,10 @@ The example recordings have three treatments (groups): treatX, treatY and untrea
 
 ```{r}
 
-suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, spike_features, "spikes", analysis$output_dir))
-suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, burst_features, "bursts", analysis$output_dir))
-suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, ns_features, "ns", analysis$output_dir))
-suppressMessages(permute_features_and_plot(s, "untreated", parameters$perm_n, nb_features, "nb", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, spike_features, "spikes", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, burst_features, "bursts", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, ns_features, "ns", analysis$output_dir))
+suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, nb_features, "nb", analysis$output_dir))
 
 ```
 
