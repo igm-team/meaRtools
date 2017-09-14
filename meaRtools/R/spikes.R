@@ -144,7 +144,6 @@ calculate_isis <- function(s) {
       isis_all <- unlist(s$isis[icurrentwell])
       sum[s$goodwells[j], start_pos + 7] <- mean(isis_all)
       sum[s$goodwells[j], start_pos + 8] <- sd(isis_all)
-      nw=Reduce(c,s$mutual_inf)
       sum[s$goodwells[j], start_pos + 9] <- Reduce(c,s$mutual_inf)[well]
       sum[s$goodwells[j], start_pos + 10] <- Reduce(c,s$entropy)[well]
     }
