@@ -70,3 +70,34 @@ sttcp <- function(a, b, dt = 0.05, tau_max = 5, tau_step = 0.1,
 plot.sttcp <- function(x, ...) {
   plot(x$x, x$y, xlab="tau (s)", ylab='STTC', type='l', ...)
 }
+
+##' Compute the mean STTC averaged across all pairwise electrodes in well
+##'
+##' For each pair of electrodes, we calculate the STTC.  We then take
+##' the mean of these pairs, excluding autocorrelations.
+##'
+##' Warning: taking the mean over a well is useful only if you do not
+##' suspect distance-dependent correlations in your firing.  (For
+##' activity like retinal waves, we find that correlations are
+##' strongly dependent on the distance separating electrodes.)
+##' 
+##' 
+##' @title Compute the mean STTC averaged across all pairwise electrodes in well
+##' @param s structure storing the well information
+##' @param dt Time window for STTC (default = 0.05 secons)
+##' @param beg Start time in seconds (defaults to start of recording)
+##' @param end End time in secons (defatults to end of recording)
+##' @return the mean of all pairwise STTCs on a well.
+##' @author Stephen Eglen
+compute_mean_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
+  if (is.null(beg))
+    beg <- s$rec_time[1]
+
+  if (is.null(end))
+    end <- s$rec_time[2]
+
+  sttcs_mat = sttc_allspikes1(s$spikes, dt, beg, end)
+  v = sttcs_mat(upper.tri(sttcs_mat))   #excludes diagonal
+  mean(v)
+}
+  
