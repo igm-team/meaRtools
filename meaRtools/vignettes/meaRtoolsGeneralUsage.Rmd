@@ -222,6 +222,31 @@ local_region_min_nae - to tell the algorithm if we would like to use an adaptive
     
 ```
 
+## Computing spike train correlations
+
+To compute the nature of correlated activity, we can use the spike
+train tiling coefficient (STTC), proposed by Cutts and Eglen (2014, J
+Neuroscience).  For example here we calculate the mean pairwise STTC,
+averaged over all distinct pairs of electrodes in a well.  This is
+then stored as the `mean_sttc` in the well object.
+
+```{r}
+for (i in 1:length(s)) {
+  s[[i]]$mean_sttc <- compute_mean_sttc_by_well(s[[i]])
+}
+```
+
+For example, here are the mean correlations for all wells on the first
+plate (ignoring any wells that have 0 or 1 electrode):
+
+```{r}
+unlist(s[[1]]$mean_sttc)
+```
+
+For further information about the STTC measure, see the separate
+vignette, `sttc.Rmd`.
+
+
 ## Writing and plotting single recording data  
 
 At this point you might wonder how to produce burst feature distributions that meaRtools produces. The answer is that since the distributions derive from the burst features that were already calculated,  they are automatically constructed as part of the printing process of burst features. So, next we turn to printing the extracted features for each single recording. When printing burst features, we'll come back to producing burst feature distribution.
