@@ -1,3 +1,20 @@
+---
+title: "meaRtools: Basics of correlating spike trains"
+author: "Stephen J Eglen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{meaRtools: Basics of correlating spike trains}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r rsetup-knitr,eval=TRUE,include=FALSE}
+options(width=60)
+opts_chunk$set(cache=TRUE)
+```
+
+
 # Correlating spike trains
 
 We use the method proposed by (Cutts and Eglen, J Neurosci 2014) to
