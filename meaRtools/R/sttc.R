@@ -74,7 +74,8 @@ plot.sttcp <- function(x, ...) {
 ##' Compute the mean STTC averaged across all pairwise electrodes in well
 ##'
 ##' For each pair of electrodes, we calculate the STTC.  We then take
-##' the mean of these pairs, excluding autocorrelations.
+##' the mean of these pairs, excluding autocorrelations.  If a well has
+##' one (or no) electrodes, the value returned for that well is NULL.
 ##'
 ##' Warning: taking the mean over a well is useful only if you do not
 ##' suspect distance-dependent correlations in your firing.  (For
@@ -86,18 +87,35 @@ plot.sttcp <- function(x, ...) {
 ##' @param s structure storing the well information
 ##' @param dt Time window for STTC (default = 0.05 secons)
 ##' @param beg Start time in seconds (defaults to start of recording)
-##' @param end End time in secons (defatults to end of recording)
-##' @return the mean of all pairwise STTCs on a well.
+##' @param end End time in seconds (defaults to end of recording)
+##' @return A vector giving the mean of all pairwise STTCs on each well.
 ##' @author Stephen Eglen
 compute_mean_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
   if (is.null(beg))
     beg <- s$rec_time[1]
-
   if (is.null(end))
     end <- s$rec_time[2]
 
-  sttcs_mat = sttc_allspikes1(s$spikes, dt, beg, end)
-  v = sttcs_mat(upper.tri(sttcs_mat))   #excludes diagonal
-  mean(v)
+  plateinfo <- .plateinfo(s$layout$array)
+  wells <- plateinfo$wells
+  names(wells) <- wells # keep the names valid.
+  wells_layout <- plateinfo$layout
+
+  ## For each well, we extract the electrodes on that well, and as long
+  ## as there are 2+ electrodes, we compute all distinct STTCs.
+  sttc_all <- lapply(wells, function(well) {
+    indexes <- .names_to_indexes(names(s$spikes), well, allow_na = TRUE)
+    allspikes = s$spikes[indexes]
+    if (length(allspikes) > 2) {        #need at least two spike trains in well
+      sttcs_mat = sttc_allspikes1(allspikes, dt, beg, end)
+      v = sttcs_mat[upper.tri(sttcs_mat)]   #excludes diagonal
+      mean(v)
+    } else {
+      NULL                              #no recordings
+    }
+  })
+
+  ## Do we want to filter out the empty wells?
+  return(sttc_all)
 }
   
