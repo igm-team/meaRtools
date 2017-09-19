@@ -19,6 +19,11 @@ The meaRtools package is available for installation under the CRAN repository:
 #install.packages( "meaRtools",repos="http://cran.us.r-project.org")
 ```
 
+
+```{r rsetup-knitr,eval=TRUE,include=FALSE}
+opts_chunk$set(cache=TRUE)
+```
+
 ## Loading the package
 
 To load the package please load meaRtools and dependencies:
