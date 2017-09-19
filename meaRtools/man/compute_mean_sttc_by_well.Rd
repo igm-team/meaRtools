@@ -16,14 +16,15 @@ compute_mean_sttc_by_well(s, dt = 0.05, beg = NULL, end = NULL)
 \item{end}{End time in secons (defatults to end of recording)}
 }
 \value{
-the mean of all pairwise STTCs on a well.
+A vector giving the mean of all pairwise STTCs on each well.
 }
 \description{
 Compute the mean STTC averaged across all pairwise electrodes in well
 }
 \details{
 For each pair of electrodes, we calculate the STTC.  We then take
-the mean of these pairs, excluding autocorrelations.
+the mean of these pairs, excluding autocorrelations.  If a well has
+one (or no) electrodes, the value returned for that well is NULL.
 
 Warning: taking the mean over a well is useful only if you do not
 suspect distance-dependent correlations in your firing.  (For
