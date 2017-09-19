@@ -21,6 +21,7 @@ The meaRtools package is available for installation under the CRAN repository:
 
 
 ```{r rsetup-knitr,eval=TRUE,include=FALSE}
+require(knitr)
 opts_chunk$set(cache=TRUE)
 ```
 
