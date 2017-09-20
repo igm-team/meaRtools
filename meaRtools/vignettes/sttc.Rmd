@@ -82,7 +82,7 @@ sttcp.  In the following plot, we compare our spike trains when using
 a range of coincidence windows, dt:
 
 
-```{r}
+```{r, fig.width = 6, fig.height=6}
 par(mfrow=c(2,2), las=1)
 dt = 1.0;  plot(sttcp(a, b, dt = dt, beg = beg, end = end), main=sprintf("a x b: dt = %.3f",dt))
 dt = 0.5;  plot(sttcp(a, c, dt = dt, beg = beg, end = end), main=sprintf("a x c: dt = %.3f",dt))
