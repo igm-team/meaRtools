@@ -111,13 +111,13 @@ calculate_isis <- function(s) {
   wells <- sort(plate$wells)
   s$isis <- lapply(s$spikes, diff)
   start_pos <- 1
-  sum <- matrix(data = NA, nrow = length(wells), ncol = start_pos + 10)
+  sum <- matrix(data = NA, nrow = length(wells), ncol = start_pos + 11)
   colnames(sum) <- c("treatment", "nae", "nspikes_by_well",
                      "meanfiringrate_by_well",
                      "meanfiringrate_by_all_ectctordes",
                      "meanfiringrate_by_active_electordes",
                      "sdfiringrate_by_active_electordes",
-                     "meanisis", "sdisis","mutual_info","entropy")
+                     "meanisis", "sdisis","mutual_info","entropy","STTC")
   rownames(sum) <- wells
   nelectrodes <- plate$n_elec_r * plate$n_elec_c
   if (!is.null(s$goodwells)) {
@@ -146,6 +146,7 @@ calculate_isis <- function(s) {
       sum[s$goodwells[j], start_pos + 8] <- sd(isis_all)
       sum[s$goodwells[j], start_pos + 9] <- Reduce(c,s$mutual_inf)[well]
       sum[s$goodwells[j], start_pos + 10] <- Reduce(c,s$entropy)[well]
+      sum[s$goodwells[j], start_pos + 11] <- unlist(s$mean_sttc)[well]
     }
   }
   sum
