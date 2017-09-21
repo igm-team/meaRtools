@@ -13,7 +13,7 @@ compute_mean_sttc_by_well(s, dt = 0.05, beg = NULL, end = NULL)
 
 \item{beg}{Start time in seconds (defaults to start of recording)}
 
-\item{end}{End time in secons (defatults to end of recording)}
+\item{end}{End time in seconds (defaults to end of recording)}
 }
 \value{
 A vector giving the mean of all pairwise STTCs on each well.
