@@ -1,15 +1,17 @@
 Package: meaRtools
 Type: Package
 Title: R tools for MEA Analysis  
-Version: 1.0.0
-Date: 2017-05-13
-Author: Quanli Wang, Sahar Gelfman, Diana Hall, Ryan Dhindsa
+Version: 1.0.1
+Date: 2017-09-19
+Author: Quanli Wang, Sahar Gelfman, Diana Hall, Ryan Dhindsa, Matt Halvorsen, Ellese Cotterill, Tom Edinburgh and Stephen J. Eglen
 Maintainer: Sahar Gelfman <sg3261@columbia.edu>
 Description: Software tools for the characterization of neuronal networks as recorded on multi-electrode arrays.
 Depends:
     R (>= 3.2.2)
 Imports:
-    lattice,tcltk,emdist,ggplot2 (>= 2.0.0), gridExtra,reshape2,plyr, gtools
+    lattice,tcltk,emdist,ggplot2 (>= 2.0.0), gridExtra,reshape2,plyr,gtools, Rcpp (>= 0.12.11)
+LinkingTo: Rcpp
 License: GPL(>=3)
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1

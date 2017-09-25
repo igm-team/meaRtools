@@ -1,0 +1,44 @@
+[1] "ok"
+The libraries will be installed at  /Users/sg3261/github/mea/MEA_analysis/packages 
+prepare.igm.mea message-> IGM.MEA Error 
+
+The downloaded binary packages are in
+	/var/folders/mn/tjk6zsyd6cz3rxb5vwkyn0p80000gp/T//RtmpPvlBav/downloaded_packages
+prepare.igm.mea message-> sourced biocLite. 
+user lib is:/Users/sg3261/github/mea/MEA_analysis/packages 
+lib /Users/sg3261/github/mea/MEA_analysis/packages
+
+The downloaded binary packages are in
+	/var/folders/mn/tjk6zsyd6cz3rxb5vwkyn0p80000gp/T//RtmpPvlBav/downloaded_packages
+prepare.igm.mea message-> Installed tkWidgets. 
+[1] "ok"
+prepare.igm.mea message-> Installation complete. 
+Installing package into '/Users/sg3261/github/mea/MEA_analysis/packages'
+(as 'lib' is unspecified)
+trying URL 'https://bioconductor.org/packages/3.4/bioc/bin/macosx/mavericks/contrib/3.3/BiocInstaller_1.24.0.tgz'
+Content type 'application/x-gzip' length 56779 bytes (55 KB)
+==================================================
+downloaded 55 KB
+
+Bioconductor version 3.4 (BiocInstaller 1.24.0), ?biocLite for help
+BioC_mirror: https://bioconductor.org
+Using Bioconductor 3.4 (BiocInstaller 1.24.0), R 3.3.2 (2016-10-31).
+Installing package(s) 'tkWidgets'
+also installing the dependencies 'widgetTools', 'DynDoc'
+
+trying URL 'https://bioconductor.org/packages/3.4/bioc/bin/macosx/mavericks/contrib/3.3/widgetTools_1.52.0.tgz'
+Content type 'application/x-gzip' length 241692 bytes (236 KB)
+==================================================
+downloaded 236 KB
+
+trying URL 'https://bioconductor.org/packages/3.4/bioc/bin/macosx/mavericks/contrib/3.3/DynDoc_1.52.0.tgz'
+Content type 'application/x-gzip' length 115830 bytes (113 KB)
+==================================================
+downloaded 113 KB
+
+trying URL 'https://bioconductor.org/packages/3.4/bioc/bin/macosx/mavericks/contrib/3.3/tkWidgets_1.52.0.tgz'
+Content type 'application/x-gzip' length 397393 bytes (388 KB)
+==================================================
+downloaded 388 KB
+
+

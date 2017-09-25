@@ -1,3 +1,11 @@
 .Rproj.user
 .Rhistory
 .RData
+
+*.Rproj
+*~
+*.o
+
+*.so
+meaRtools/vignettes/cache/
+meaRtools/vignettes/figure/
