@@ -18,3 +18,4 @@ importFrom("stats", "aggregate", "approxfun", "cor", "dnorm", "embed",
            "wilcox.test","median","IQR")
 importFrom("utils", "read.csv", "tail", "write.csv", "write.table")
 importFrom(Rcpp, evalCpp)
+S3method(plot, sttcp)
