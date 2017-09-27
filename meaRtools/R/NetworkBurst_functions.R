@@ -54,8 +54,13 @@
   if (is.null(dim(well_data))) {
     dim(well_data) <- c(length(well_data), 1)
   }
-  if (length(well_data) > 0){
-    to_add_back <- min(well_data[well_data > 0])
+  if (length(well_data) > 0) {
+    well_data_postive <- well_data[well_data > 0]
+    if (all(is.na(well_data_postive))) {
+      to_add_back <- 0
+    } else {
+      to_add_back <- min(well_data[well_data > 0])
+    }
   } else {
     to_add_back <- 0
   }

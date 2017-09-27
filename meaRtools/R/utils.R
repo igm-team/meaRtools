@@ -32,39 +32,3 @@ get_project_plate_name <- function(file) {
   layout <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
   return(list(electrodes = electrodes, layout = layout))
 }
-
-
-igm_write_ui_to_log <- function(files=NULL, parameter_list, new_file=F) {
-
-  if (new_file) {
-    for (i in 1:length(files)) {
-      cur_file <- files[i]
-      write(file = files[i], " ", append = F)
-    } # end of for
-  }
-
-  if (!is.null(files)) {
-
-    for (i in 1:length(files)) {
-      cur_file <- files[i]
-
-      # write params
-      for (j in 1:length(parameter_list)) {
-        write(file = cur_file, " ", append = T)
-        if (length(parameter_list[[j]]) > 1){
-          write(file = cur_file, names(parameter_list)[j], append = T)
-          for (d in 1:length(parameter_list[[j]])) {
-            write(file = cur_file, paste(names(parameter_list[[j]])[d], " = ",
-              parameter_list[[j]][d]), append = T)
-          } # end for
-        } else {
-          write(file = cur_file, paste(names(parameter_list)[j], " = ",
-            parameter_list[j]), append = T)
-        }
-      } # end of for legnth param list
-
-
-    } # end of for lenght(files)
-
-  } # end of if(!is.null(files))
-} # end of igm_write_ui_to_log
