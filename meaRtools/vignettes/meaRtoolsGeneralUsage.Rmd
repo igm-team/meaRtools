@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-meaRtools was constructed to perform feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments. This vignette directs the package user on how to perform an analysis of an exemplary experiment that is made of three sequential recordings of the same plate.
+meaRtools was constructed to provide core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments. This vignette directs the package user on how to perform an analysis of an exemplary experiment that is made of three sequential recordings of the same plate.
 
 ## Installing the package
 
