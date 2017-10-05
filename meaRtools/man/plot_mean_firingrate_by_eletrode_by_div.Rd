@@ -21,7 +21,9 @@ plot_mean_firingrate_by_eletrode_by_div(s)
 data("S") 
 s<-list()
 s[[1]]<-S
-#plot.mean.firingrate.by.eletrode.by.div(s)
+\donttest{
+  plot.mean.firingrate.by.eletrode.by.div(s)
+}
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

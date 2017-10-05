@@ -25,8 +25,10 @@ The function also calls calc_burst_distributions to calculate and plot burst fea
 A _burst_plot.pdf is printed under the output directory
 }
 \examples{
-data("S")  
-#plot_plate_summary_for_bursts(S,"/Analysis")
+\donttest{
+  data("S")  
+  plot_plate_summary_for_bursts(S,"/Analysis")
+}
 }
 \keyword{ distribution }
 \keyword{ burst }

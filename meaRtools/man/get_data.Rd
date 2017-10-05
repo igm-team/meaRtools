@@ -24,7 +24,9 @@ Creates 2 directories:
 }
 
 \examples{
-## get_data(caption="Please select a spike-list file for analysis")
+\donttest{
+ get_data(caption="Please select a spike-list file for analysis")
+}
 }
 \keyword{ s-object }
 

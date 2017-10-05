@@ -34,7 +34,9 @@ A list containing results of two statistical tests for the input probability dis
 See https://redmine.igm.cumc.columbia.edu/projects/mea/wiki for further details
 }
 \examples{
-#    result <- dist_perm(distributionFilePath,10000,"WT","KO")
+\donttest{
+    result <- dist_perm(distributionFilePath,10000,"WT","KO")
+}
 }
 \keyword{ distribution }
 \keyword{ permutation }

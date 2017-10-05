@@ -48,8 +48,11 @@ Sahar Gelfman
 # Load exapmple of recording Robject (MEA data structure)
 data("S")  
 feature="ibi"; 
-#calc_burst_distributions(S, min_vals = 15, xlimit = 20, bins_in_sec = 5, 
-#feature = feature, per_well = 0, outputdir = "/Analysis")}
+\donttest{
+   calc_burst_distributions(S, min_vals = 15, xlimit = 20, bins_in_sec = 5, 
+           feature = feature, per_well = 0, outputdir = "/Analysis")
+}
+}
 
 \keyword{ distributions }
 \keyword{ IBI }
