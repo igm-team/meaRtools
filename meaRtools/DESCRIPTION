@@ -11,7 +11,7 @@ Authors@R: c(person("Quanli", "Wang", role = c("aut", "ctb")),
               person(c("Stephen", "J."), "Eglen", role = c("aut", "ctb", "ths"),email = "sje30@cam.ac.uk"))
 Version: 1.0.1
 Date: 2017-09-19
-Description: meaRtools provides core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments.
+Description: meaRtools provides core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments, published by Sahar Gelfman et al in 2017 at https://redmine.igm.cumc.columbia.edu/projects/mea/wiki/MEA_Analysis_guide.
 Depends:
     R (>= 3.2.2)
 Imports:
@@ -21,3 +21,13 @@ License: GPL(>=3)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+Author: Quanli Wang [aut, ctb],
+  Sahar Gelfman [aut, ctb, cre],
+  Diana Hall [aut, ctb],
+  Ryan Dhindsa [aut, ctb],
+  Matt Halvorsen [aut, ctb],
+  Ellese Cotterill [aut, ctb],
+  Tom Edinburgh [aut, ctb],
+  Stephen J. Eglen [aut, ctb, ths]
+Maintainer: Sahar Gelfman <sahar.gelfman@columbia.edu>
+
