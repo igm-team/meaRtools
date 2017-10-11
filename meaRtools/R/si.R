@@ -35,14 +35,8 @@
   ## Possible methods:
   ## "mi" - maxinterval
   ## "si" - .surprise index.
-  ## "logisi" - log of the ISI histogram
 
   ncells <- s$NCells
-
-  if (method == "logisi") {
-    isi_low <- .logisi_compute(s)$locmin
-    logisi_par$isi_low <- isi_low
-  }
 
   allb <- list()
   for (train in 1:ncells) {
@@ -51,7 +45,6 @@
     bursts <- switch(method,
       "mi" = mi_find_bursts(spikes, s$parameters$mi_par),
       "si" = si_find_bursts(spikes, s$parameters$s_min),
-      "logisi" = .logisi_find_burst(spikes),
       stop(method, " : no such method for burst analysis")
     )
 
