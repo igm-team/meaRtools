@@ -27,4 +27,4 @@ aggregate_features(s, feat_type, parameters)
 	burst_features = suppressWarnings( aggregate_features(s, "burst", parameters) )
 }
 \keyword{MEA}
-\keyword{Aggregate}% __ONLY ONE__ keyword per line
+\keyword{Aggregate}

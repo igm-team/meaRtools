@@ -28,10 +28,12 @@ xyplot_network_spikes
 data("S") 
 data('parameters')
 nspikes <- calculate_network_spikes( S, parameters$sur ,parameters$ns_n, parameters$ns_t )
-## pdf(file=NSPlotPath)
-## xyplot.network.spikes(nspikes)	
-## plot_active_wells_network_spikes(nspikes)
-## dev.off()
+\donttest{
+  pdf(file=NSPlotPath)
+  xyplot.network.spikes(nspikes)	
+  plot_active_wells_network_spikes(nspikes)
+  dev.off()
+}
 
 }
 \keyword{ network }

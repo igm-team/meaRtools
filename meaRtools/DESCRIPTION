@@ -1,11 +1,17 @@
 Package: meaRtools
 Type: Package
-Title: R Tools For MEA Analysis  
+Title: Micro-Electro Array (MEA) Analysis  
+Authors@R: c(person("Quanli", "Wang", role = c("aut", "ctb")),
+              person("Sahar", "Gelfman", role = c("aut", "ctb", "cre"),email = "sahar.gelfman@columbia.edu"),
+              person("Diana", "Hall", role = c("aut", "ctb")),
+              person("Ryan", "Dhindsa", role = c("aut", "ctb")),
+              person("Matt", "Halvorsen", role = c("aut", "ctb")),
+              person("Ellese", "Cotterill", role = c("aut", "ctb")),
+              person("Tom", "Edinburgh", role = c("aut", "ctb")),
+              person(c("Stephen", "J."), "Eglen", role = c("aut", "ctb", "ths"),email = "sje30@cam.ac.uk"))
 Version: 1.0.1
-Date: 2017-09-19
-Author: Quanli Wang, Sahar Gelfman, Diana Hall, Ryan Dhindsa, Matt Halvorsen, Ellese Cotterill, Tom Edinburgh and Stephen J. Eglen
-Maintainer: Sahar Gelfman <sg3261@columbia.edu>
-Description: Software tools for the characterization of neuronal networks as recorded on multi-electrode arrays.
+Date: 2017-10-11
+Description: Core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments, published by Gelfman et al (2017) at <https://github.com/igm-team/meaRtools/>.
 Depends:
     R (>= 3.2.2)
 Imports:
@@ -15,3 +21,5 @@ License: GPL(>=3)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+Maintainer: Sahar Gelfman <sahar.gelfman@columbia.edu>
+
