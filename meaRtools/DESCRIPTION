@@ -15,7 +15,7 @@ Description: Core algorithms for MEA spike train analysis, feature extraction, s
 Depends:
     R (>= 3.2.2)
 Imports:
-    lattice,tcltk,emdist,ggplot2 (>= 2.0.0), gridExtra,reshape2,plyr,gtools, Rcpp (>= 0.12.11)
+    lattice,tcltk,emdist,ggplot2 (>= 2.2.1), gridExtra,reshape2,plyr,gtools, Rcpp (>= 0.12.11)
 LinkingTo: Rcpp
 License: GPL(>=3)
 Suggests: knitr, rmarkdown, testthat
