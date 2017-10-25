@@ -1,0 +1,37 @@
+
+Setting directories.
+Total number of spikes: 117109
+Unique number of electrodes: 257
+Time range [0.010 40.622] (seconds)
+                                     nelectrodes nspikes time.min time.max
+exampleRecording_1012016_plate1_DIV1         257  117109     0.01   40.622
+ [1] "spikes"    "scount"    "epos"      "names"     "array"     "treatment"
+ [7] "dose"      "size"      "well"      "units"    
+
+Making R-objects....
+
+Calculating STTC and mutual information for  exampleRecording_1012016_plate1_DIV1 ...
+
+Calculating network spikes for  exampleRecording_1012016_plate1_DIV1 ...
+[1] "Running IBI distribution analysis."
+Arguments: min_vals=15; xlimit=20; bins_in_sec=5;per_well=0; duration=40.612; feature='ibi'; filter_values_by_min=0; min_values=0
+[1] "Running ISI distribution analysis."
+Arguments: min_vals=15; xlimit=0.5; bins_in_sec=100;per_well=0; duration=40.612; feature='isi'; filter_values_by_min=0; min_values=0
+[1] "Running nSpikes in bursts distribution analysis."
+Arguments: min_vals=5; xlimit=200; bins_in_sec=1;per_well=0; duration=40.612; feature='nspikes_in_burst'; filter_values_by_min=0; min_values=0
+[1] "Running duration of bursts distribution analysis."
+Arguments: min_vals=15; xlimit=18; bins_in_sec=5;per_well=0; duration=40.612; feature='duration'; filter_values_by_min=0; min_values=0
+[1] "Running spike density in bursts distribution analysis."
+Arguments: min_vals=15; xlimit=300; bins_in_sec=1;per_well=0; duration=40.612; feature='spikes_density_in_burst'; filter_values_by_min=0; min_values=0
+
+calculating network bursts...
+calculating network bursts for recording exampleRecording_1012016_plate1_DIV1.RData
+
+Saving file exampleRecording_1012016_plate1_DIV1...
+
+building feature table...
+
+calculating permutations, # permutaions 100...
+Error: could not find function "exist"
+Execution halted
+

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class SaveParameters {
     public static int saveParameters(
         String rootPath,
+        javax.swing.JComboBox getWTComboBox,
         javax.swing.JCheckBox spikeCsvCheckBox,  
         javax.swing.JCheckBox spikePlotCheckBox,
         javax.swing.JSpinner elecMinRateSpinner ,
@@ -84,6 +85,9 @@ public class SaveParameters {
             //try ( ObjectOutputStream save = new ObjectOutputStream(saveFile)) {
             try{
                 ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                //treatment selection
+                save.writeObject( getWTComboBox.getSelectedItem() );
+                
                 //spikes: output
                 save.writeObject( spikeCsvCheckBox.isSelected());       //boolean
                 save.writeObject( spikePlotCheckBox.isSelected());//boolean

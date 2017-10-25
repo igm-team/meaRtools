@@ -23,6 +23,7 @@ public class WriteParameterR {
         String rootPath,
         String[] spkCsvFile,
         String expLogFile,
+        javax.swing.JComboBox getWTComboBox,
         javax.swing.JCheckBox spikeCsvCheckBox,  
         javax.swing.JCheckBox spikePlotCheckBox,
         javax.swing.JSpinner elecMinRateSpinner ,
@@ -97,6 +98,7 @@ public class WriteParameterR {
             }
             
             //convert objects into values
+            String WTSelected = String.valueOf(getWTComboBox.getSelectedItem());
             // spikes
             //output
             Boolean wantSpikesCSV = new Boolean(spikeCsvCheckBox.isSelected());
@@ -332,6 +334,10 @@ public class WriteParameterR {
             f.write("\n");
 
             f.write("parameters<- list( ");
+            f.write("\n");
+            f.write("wt=\"");
+            f.write(WTSelected);
+            f.write("\",");
             f.write("\n");
             // ++++++++++++++++++++GUI switches 
             //spikes

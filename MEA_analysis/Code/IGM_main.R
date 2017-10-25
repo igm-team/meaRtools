@@ -260,7 +260,8 @@ if (length(s) > 0) {
   cat(paste0("calculating permutations, # permutaions ",
              parameters$perm_n, "...\n"))
   # mann whit/perm --> PDF
-  wt <- get_wt(s)
+  if ( !exists("wt") ){wt <- unique(s[[1]]$treatment[s[[1]]$treatment!=""])[1] }
+  
 
   suppressMessages(permute_features_and_plot(s, wt,
             parameters$perm_n, spike_features, "spikes", analysis$output_dir))

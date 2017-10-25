@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Vector;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,6 +33,7 @@ public class CheckSpkListExpLog {
         //Vector<String> logResult = new Vector<>();
         // to do java 1.6 compatibility
         Vector<String> logResult = new Vector<String>();
+        Vector<String> trtInfo = new Vector<String>();
         
         //experimental log
         try {
@@ -349,6 +354,43 @@ public class CheckSpkListExpLog {
                             exitValue = -1;
                             errorLog = true;
                         }
+                        
+                        
+                        //get treatments
+                        System.out.println("line.isEmpty() " + 
+                                line.isEmpty() );
+                        System.out.println("line.toString()" + line.toString() );
+                        while ((line = bufferedReader.readLine()) != null ) {
+                            
+                                    System.out.println(line);
+
+                                    country = line.split(",");
+
+                                    //Project,Experiment Date,Plate SN,DIV,Well,Treatment,Size,Dose,Units
+                                    if (country.length>5 ){
+                                        System.out.println("Project " + country[0]
+                                            + " , Exp Date=" + country[1]
+                                            + " , Plate SN=" + country[2]
+                                            + " , DIV= " + country[3]
+                                            + " , Well=" + country[4]
+                                            + " , trt=" + country[5]);
+                                        trtInfo.add(country[5]);
+                                        System.out.println("trt= " + country[5] );
+                                        
+                                    } else{
+                                       System.out.println("Project " + country[0]
+                                            + " , Exp Date=" + country[1]
+                                            + " , Plate SN=" + country[2]
+                                            + " , DIV= " + country[3]
+                                            + " , Well=" + country[4] ); 
+                                    }
+
+                            
+
+                           
+                        } //end of while loop through exp Log File
+                        PrintToTextArea.printToTextArea(trtInfo , outputTextArea);
+                        System.out.println("done with getting treatment ");
 
                         // Always close files.
                         bufferedReader.close();
@@ -386,6 +428,10 @@ public class CheckSpkListExpLog {
 
                 System.out.println("NUMER OF TIMES THROUGH LOOP :  " + j + 1);
             } //end of loop through spike list files
+            
+            // get the treatments out of the files
+            
+            
 
 
 
@@ -410,5 +456,164 @@ public class CheckSpkListExpLog {
             PrintToTextArea.printToTextArea(logResult , outputTextArea);
         }
         return(exitValue);
-    }
+    }//end of checkSpkListExpLog
+    
+    
+    public static int checkExpLog(
+            javax.swing.JTextField expLogFileField,
+            javax.swing.JTextArea outputTextArea,
+            javax.swing.JComboBox getWTComboBox) {
+        // getWTComboBox
+        int exitValue = 0;
+        
+        Boolean errorLog = false;
+        //Vector<String> logResult = new Vector<>();
+        // to do java 1.6 compatibility
+        Vector<String> logResult = new Vector<String>();
+        Vector<String> trtInfo = new Vector<String>();
+        
+        //experimental log
+        try {
+            //read in Experimental log
+           String csvFile = expLogFileField.getText();
+           
+           String[] csvCheck1 = csvFile.split("\\.");
+           String csvText1 = "csv";
+           System.out.println(csvCheck1[csvCheck1.length - 1]);
+           System.out.println(csvCheck1[csvCheck1.length - 1].equals("csv"));
+           if (!(csvCheck1[csvCheck1.length - 1].equals("csv"))) {
+               logResult.add( "Exp log file chosen is not a csv file"  );
+
+               ErrorHandler.errorPanel("Exp log file chosen " + '\n'
+                       + csvFile + '\n'
+                       + "Is not a csv file.");
+               exitValue = -1;
+               errorLog = true;
+           }
+
+           // This will reference one line at a time
+           String line = null;
+           Boolean expLogGood = true;
+
+            try {
+                // FileReader reads text files in the default encoding.
+                FileReader fileReader = new FileReader(csvFile);
+
+                // Always wrap FileReader in BufferedReader.
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                line = bufferedReader.readLine();
+                String[] expLogParts = line.split(",");
+                if (!expLogParts[0].toUpperCase().equals("PROJECT")) {
+                    logResult.add( "Error reading in expLog File"  );
+                    logResult.add("Exp log file lacks Project column." );
+                    ErrorHandler.errorPanel("Exp log file lacks Project column "
+                            + '\n'
+                            + "Please re-enter exp log file");
+                    errorLog = true;
+                    expLogGood = false;
+                    exitValue = -1;
+                } else if (!expLogParts[1].toUpperCase().equals("EXPERIMENT DATE")) {
+                        logResult.add( "Error reading in expLog File"  );
+                        logResult.add("Exp log file lacks Experiment column." );
+                    ErrorHandler.errorPanel("Exp log file lacks Experiment column "
+                            + '\n'
+                            + "Please re-enter exp log file");
+                    errorLog = true;
+                    expLogGood = false;
+                    exitValue = -1;
+                } else {
+                    LineNumberReader lnr = null;
+                    line = bufferedReader.readLine();
+                    Integer i = 1;
+                    line = bufferedReader.readLine();
+                    String[] country = line.split(",");
+                    System.out.println("Start while loop");
+                    //get treatments
+                        System.out.println("line.isEmpty() " + 
+                                line.isEmpty() );
+                        System.out.println("line.toString()" + line.toString() );
+                        while ((line = bufferedReader.readLine()) != null ) {
+                            
+                                    System.out.println(line);
+
+                                    country = line.split(",");
+
+                                    //Project,Experiment Date,Plate SN,DIV,Well,Treatment,Size,Dose,Units
+                                    if (country.length>5 ){
+                                        System.out.println("Project " + country[0]
+                                            + " , Exp Date=" + country[1]
+                                            + " , Plate SN=" + country[2]
+                                            + " , DIV= " + country[3]
+                                            + " , Well=" + country[4]
+                                            + " , trt=" + country[5]);
+                                        trtInfo.add(country[5]);
+                                        System.out.println("trt= " + country[5] );
+                                        
+                                    } else{
+                                       System.out.println("Project " + country[0]
+                                            + " , Exp Date=" + country[1]
+                                            + " , Plate SN=" + country[2]
+                                            + " , DIV= " + country[3]
+                                            + " , Well=" + country[4] ); 
+                                    }
+
+                            
+
+                           
+                        } //end of while loop through exp Log File
+                        Vector<String> uniqueTrt = new Vector<String>(new HashSet<String>(trtInfo));
+                        getWTComboBox.setModel(new javax.swing.DefaultComboBoxModel(uniqueTrt));
+                        
+                        PrintToTextArea.printToTextArea(uniqueTrt , outputTextArea);
+                        System.out.println("done with getting treatment ");
+
+                        
+                        
+                        
+                    // Always close files.
+                    bufferedReader.close();
+                } //end of if-else
+
+            } catch (FileNotFoundException ex) {
+                logResult.add( "ExpLog File not found"  );
+
+                System.out.println(
+                        "Unable to open file '"
+                        + csvFile + "'");
+                errorLog = true;
+                exitValue = -1;
+                expLogGood = false;
+            } catch (IOException ex) {
+                        logResult.add( "Error reading in expLog File"  );
+                        logResult.add("IOException." );
+                System.out.println(
+                        "Error reading file '"
+                        + csvFile + "'");
+                errorLog = true;
+                expLogGood = false;
+                exitValue = -1;
+
+            }
+            System.out.println("expLogGood :  " + expLogGood);
+
+            
+
+        } catch (Exception e) {
+            logResult.add("Try at getting treatments failed");
+            logResult.add(" ");
+            logResult.add(" ");
+            e.printStackTrace();
+            exitValue = -1;
+            PrintToTextArea.printToTextArea(logResult , outputTextArea);
+        }
+        return(exitValue);
+
+    }//end of checkExpLog
+    
+    
+    
+    
+    
+    
 }
