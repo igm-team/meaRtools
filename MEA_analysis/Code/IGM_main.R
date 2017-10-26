@@ -159,7 +159,7 @@ if (length(s) > 0) {
         analysis$output_per_div_dir, parameters))
   }
   if (parameters$burst_csv){
-    suppressWarnings(write.plate.summary.for.bursts(s,
+    suppressWarnings(write_plate_summary_for_bursts(s,
           analysis$output_per_div_dir))
   }
 } else{
