@@ -97,7 +97,6 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         chooseExpLogFileButton = new javax.swing.JButton();
         expLogFileField = new javax.swing.JTextField();
         expLogLabel = new javax.swing.JLabel();
-        getWTComboBox = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         basicPanel = new javax.swing.JPanel();
         spikesPanel = new javax.swing.JPanel();
@@ -376,10 +375,6 @@ public class IGM_MEA_main extends javax.swing.JFrame {
 
         expLogLabel.setText("Experiment Log");
 
-        getWTComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "trt 1", "trt 2" }));
-
-        jLabel4.setText("Wild Type");
-
         javax.swing.GroupLayout getWTLabelLayout = new javax.swing.GroupLayout(getWTLabel);
         getWTLabel.setLayout(getWTLabelLayout);
         getWTLabelLayout.setHorizontalGroup(
@@ -395,28 +390,24 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(getWTLabelLayout.createSequentialGroup()
-                .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(expLogLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(spikeListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
                 .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(expLogFileField, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
-                            .addComponent(spikeListField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(chooseExpLogFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spikeListChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                    .addComponent(getWTComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(getWTLabelLayout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(expLogLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(getWTLabelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(spikeListLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(expLogFileField, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(spikeListField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(chooseExpLogFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spikeListChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
         );
 
         getWTLabelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, runButton});
@@ -432,31 +423,24 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                     .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(spikeListField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(spikeListChooseFileButton)))
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(expLogLabel))
-                    .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(expLogFileField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(chooseExpLogFileButton)))
-                .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addGap(239, 239, 239)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 45, Short.MAX_VALUE))
-                    .addGroup(getWTLabelLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(getWTComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, getWTLabelLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runButton)
-                            .addComponent(cancelButton))
-                        .addGap(0, 16, Short.MAX_VALUE))))
+                        .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(expLogFileField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chooseExpLogFileButton))
+                            .addComponent(expLogLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(getWTLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(runButton)
+                    .addComponent(cancelButton))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         BurstPanel.addTab("Data", getWTLabel);
@@ -1835,7 +1819,6 @@ public class IGM_MEA_main extends javax.swing.JFrame {
             
             SaveParameters.saveParameters( 
                     rootPath,
-                    getWTComboBox,
                     spikeCsvCheckBox,  
                     spikePlotCheckBox,
                     elecMinRateSpinner ,
@@ -1898,7 +1881,6 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                     rootPath,
                     spkCsvFile,
                     expLogFile,
-                    getWTComboBox,
                     spikeCsvCheckBox,  
                     spikePlotCheckBox,
                     elecMinRateSpinner ,
@@ -2080,16 +2062,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
             String expLogFileName = expLogFile.getAbsolutePath();
             expLogFileField.setText(expLogFileName);
         }
-        int expLogCheck=CheckSpkListExpLog.checkExpLog(
-                expLogFileField,
-                outputTextArea,
-                getWTComboBox);
         
-        if (expLogCheck!=0){
-
-         outputTextArea.setText("error in Experimental Log");
-         
-        }
         
 
     }//GEN-LAST:event_chooseExpLogFileButtonActionPerformed
@@ -2854,7 +2827,6 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JLabel expLogLabel;
     private javax.swing.JLabel firstNBWindowLabel;
     private javax.swing.JSpinner firstNBWindowSpinner;
-    private javax.swing.JComboBox getWTComboBox;
     private javax.swing.JPanel getWTLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
