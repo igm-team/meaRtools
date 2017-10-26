@@ -375,9 +375,11 @@ generate_raster_plot <- function(r_object_file=NULL,
     show_bursts = show_bursts,
     whichcells = well_for_raster,
     show_burst_number = show_burst_number,
-    main = plot.title,
-    panel_first = panel_function(raster_ns = raster_ns, raster_nb = raster_nb,
-      show_ns_number = T))
+    main = plot.title)
+   if ( show_networkspikes || show_nb  ){
+     panel_first = panel_function(raster_ns = raster_ns, raster_nb = raster_nb,
+                                  show_ns_number = show_ns_number)
+   }
 
   dev.off()
   # pop open file
