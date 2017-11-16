@@ -355,7 +355,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         spikeListField.setMaximumSize(new java.awt.Dimension(240, 80));
         spikeListField.setMinimumSize(new java.awt.Dimension(240, 80));
 
-        spikeListLabel.setText("Spike List");
+        spikeListLabel.setText("  Spike List");
 
         chooseExpLogFileButton.setText("Choose File");
         chooseExpLogFileButton.addActionListener(new java.awt.event.ActionListener() {

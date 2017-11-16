@@ -281,7 +281,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="spikeListLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Spike List"/>
+                <Property name="text" type="java.lang.String" value="  Spike List"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="chooseExpLogFileButton">
