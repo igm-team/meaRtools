@@ -32,7 +32,9 @@ Diana Hall
 data("S") 
 s<-list()
 s[[1]]<-S
-## plot.plate.summary.for.spikes(s, outputdir="/Desktop")
+\donttest{
+  plot.plate.summary.for.spikes(s, outputdir="/Desktop")
+}
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

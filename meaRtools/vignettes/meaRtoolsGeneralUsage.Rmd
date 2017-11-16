@@ -9,26 +9,27 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 meaRtools was constructed to provide core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments. This vignette directs the package user on how to perform an analysis of an exemplary experiment that is made of three sequential recordings of the same plate.
 
 ## Installing the package
 
 The meaRtools package is available for installation under the CRAN repository:
 
-```{r}
+```{r install}
 #install.packages( "meaRtools",repos="http://cran.us.r-project.org")
 ```
 
 
 ```{r rsetup-knitr,eval=TRUE,include=FALSE}
 require(knitr)
-opts_chunk$set(cache=TRUE)
+opts_chunk$set(cache=FALSE)
 ```
 
 ## Loading the package
 
 To load the package please load meaRtools and dependencies:
-```{r}
+```{r library}
 library(meaRtools)
 library(plyr)
 library(ggplot2)
@@ -40,7 +41,7 @@ library(reshape2)
 
 Before we can perform the analysis we need to locate the recording spikeList.csv files. For this purpose we will choose three recording .csv files and a plate layout .csv file that come with the meaRtools package under /meaRtools/extdata/ :
 
-```{r}
+```{r readdata}
 
 # set path to "_spike_list.csv" files from the file path in 'filesPath'
 spk_list_files<-c(system.file("extdata","exampleRecording_1012016_plate1_DIV1_spike_list.csv.gz",package = "meaRtools"),
@@ -56,7 +57,7 @@ experimental_log_file <- system.file("extdata","exampleRecording_1012016_plate1_
 
 Before starting the actual loading of the data, lets also set  input and output directories
 
-```{r}
+```{r set-dir}
 # The next command will get the directory of the csv files
 data_dir<-dirname(spk_list_files[1])
 
@@ -84,7 +85,7 @@ analysis<-list(spikeFiles = spk_list_files, output_dir = output_dir,
 
 Now let's load the recordings and create the 'spike.list' class R object
 
-```{r}
+```{r spike-list}
 # A loop to go over all three recording files
 for (i in 1:length(spk_list_files)){
   #save title for output file name
@@ -103,7 +104,7 @@ Now we have the information from each spike list file  in a new 'spike.list' R o
 The next step will be to construct a list of the objects for each recording and extract the features.
 But first, let's load the default parameters that come with the package, each one can be set by the user. This file contains default parameters for all the functions, and we'll mention some of them here.
 
-```{r}
+```{r parameters}
 data("parameters")
 ```
 
@@ -118,7 +119,7 @@ We now set the defaults for an active electrode as in the parameters object, set
 
 The parameters also hold the selected algorithm for burst detection: "mi" for Maximum Interval and "si" for the Poisson Surprise algorithm in parameters$burst_type. To extract burst features we use calculate_burst_features.  For this example let's use the "ps" algorithm, so we have to set it before calling the object initializing function.
 
-```{r}
+```{r spike-features}
 
 # Construct the 'spike.list' object and calculate spike features
 s<-calculate_spike_features(analysis$Robject, parameters)
@@ -149,13 +150,13 @@ for (i in 1:length(s)) {
 That's it, basic spike and burst features are now stored in the 'spike.list' object (s) for each of the recordings.
 We can now view them by looking into the object. For example, to view spikes for electrode B3_41 in the first recording, try the following:
 
-```{r}
+```{r B3_41}
 s[[1]]$spikes$B3_41
 ```
 
 To view burst information for bursts calculated for electrode E7_42 of the 2nd recording, try the following:
 
-```{r}
+```{r E7_42}
 s[[2]]$allb$E7_42
 ```
 beg and end stand for the sequential spike  that begins and ends the burst. IBI is the inter burst interval from the previous burst. len is the number of spikes in the burst. durn is the burst duration in seconds. mean_isis is the average inter spike intervals within this burst and SI is the surprise index, only relevant when running the poisson surprise algorithm.
@@ -174,7 +175,7 @@ ns_t - the time window for calling a network spike (10ms).
 
 For extracting the features into the 'spike.list' object, we use IGM.summary.network.spikes and provide it with the 'spike.list' object, the calculated network spikes data, the minimum number of spikes in each electrode that we wish to consider (default is 1) and agaiun the 'sur' parameter from above.
 
-```{r}
+```{r all-features}
 
 # Iterate through all the recordings
 for (i in 1:length(s)) {
@@ -192,7 +193,7 @@ for (i in 1:length(s)) {
 
 We now have all the network spike features calculated and we can look at them easily. Try running the following to see the features extracted for well B5 :
 
-```{r}
+```{r en_brief}
 
 s[[i]]$ns_all$B5$en_brief
 
@@ -207,7 +208,7 @@ min_electrodes - the minimum electrodes to call a network burst
 
 local_region_min_nae - to tell the algorithm if we would like to use an adaptive threshold (default is 0).
 
-```{r}
+```{r nb}
 
    nb.list <- calculate_network_bursts(s,parameters$Sigma,
                                        parameters$min_electrodes,
@@ -231,7 +232,7 @@ Neuroscience).  For example here we calculate the mean pairwise STTC,
 averaged over all distinct pairs of electrodes in a well.  This is
 then stored as the `mean_sttc` in the well object.
 
-```{r}
+```{r sttc}
 for (i in 1:length(s)) {
   s[[i]]$mean_sttc <- compute_mean_sttc_by_well(s[[i]])
 }
@@ -240,7 +241,7 @@ for (i in 1:length(s)) {
 For example, here are the mean correlations for all wells on the first
 plate (ignoring any wells that have 0 or 1 electrode):
 
-```{r}
+```{r unlist}
 unlist(s[[1]]$mean_sttc)
 ```
 
@@ -254,7 +255,7 @@ At this point you might wonder how to produce burst feature distributions that m
 
 ### printing spike data
 
-```{r}
+```{r plot-summary}
 
 # print spikes graphs (pdf format) for each recording
 plot_plate_summary_for_spikes(s,analysis$output_perDIV_dir)
@@ -281,7 +282,7 @@ per_well - a binary argument, 1: the algorithm will group electrodes by well, an
 
 perform - a binary argument meant to decide whether this distribution analysis should be performed at all. While   the default is to perform all five distributions, in this example we perform only the IBI distribution analysis    for all three recordings.
 
-```{r}
+```{r pdfs}
 # plot burst pdfs for each recording
 suppressWarnings(plot_plate_summary_for_bursts(s,analysis$output_perDIV_dir,parameters))
 
@@ -293,7 +294,7 @@ write_plate_summary_for_bursts(s,analysis$output_perDIV_dir)
 
 The commands below print single recording ns data. Here they are printed for the first of the three recordings
 
-```{r}
+```{r ns}
 i=1 
 # Get plate name
 basename <- strsplit(basename(s[[i]]$file), "[.]")[[1]][1]
@@ -315,7 +316,7 @@ write_network_spikes_to_csv(s[[i]],nspikes,analysis$output_perDIV_dir)
 
 One of the strong advantages of meaRtools is it's ability to combine the information from all the loaded recordings and use all of it when comparing between treatments. The following commands aggregate the data for spikes, bursts and network spikes. Network burst features were already aggregated automatically when we ran nb_matrix_to_feature_dfs.
 
-```{r}
+```{r aggregate}
 spike_features = aggregate_features(s, "spike",parameters)
 ns_features = aggregate_features(s, "ns",parameters)
 burst_features = aggregate_features(s, "burst",parameters)
@@ -329,7 +330,7 @@ spike_features$nae
 ## Filtering inactive wells
 The next step is optional, it allows the user to discard from the analysis wells that were not active in at least X% of the recordings. This percentage is also a default parameter, currently set to 50%. Thus, any well that is not considered active (at least 4 active electrodes) in at least 2 out of the 3 loaded recordings will be ignored when comparing the treatments throughout the recordings. In this example we perform the filter on spike and NB features.
 
-```{r}
+```{r filtering}
 
 # All uncalculated aEs were set previously to NA, convert all those to 0 aE before the filter
 nae <- spike_features$nae
@@ -354,7 +355,7 @@ After the filter we can observe the spike features dataframe and find that well 
 
 We can now easily print all the aggregated tables of all the extracted features using one command for each attribute, These files are printed into a designated directory by the name of each activity attribute (spikes, bursts, ns, nb) under the output Analysis folder.
 
-```{r}
+```{r csvs}
 #write csvs 
 write_features_to_files(s, spike_features, analysis$output_dir, "spikes")
 write_features_to_files(s, burst_features, analysis$output_dir, "bursts")
@@ -366,7 +367,7 @@ write_features_to_files(s, nb_features, analysis$output_dir, "nb")
 
 The example recordings have three treatments (groups): treatX, treatY and untreated. to perform MW-tests, permutate the data and plot, we first need to decide which treatment we would like to compare to all the others. Here we use 'untreated' as that treatment that will be tested against treatX and treatY. However, you can also use the get_wt(s) function and it will open a tcltk window with the treatments available on the plate and will let you choose the one you're interested in, to use as argument to the testing scheme.
 
-```{r}
+```{r permute}
 
 suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, spike_features, "spikes", analysis$output_dir))
 suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, burst_features, "bursts", analysis$output_dir))
@@ -382,7 +383,7 @@ At this point, we have extracted all features, combined the recordings, tested t
 - permutation p-values for each distribution
 - original maximum distance and EMD value
 The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist_perm returned object and plotted as follows:
-```{r}
+```{r dist_perm}
 result <- suppressWarnings(dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
 
 plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
@@ -394,7 +395,7 @@ mtext(side = 1, at = 0, line = 4,
 
 And the cumulative distribution with it's corrsponding MD p-value can be extracted as follows:
     
-```{r}
+```{r dist_perm2}
 suppressWarnings(result <- dist_perm(paste0(dirname(spk_list_files[1]),"/Analysis/outputPerDIV/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
 
 plot(result$data_wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
