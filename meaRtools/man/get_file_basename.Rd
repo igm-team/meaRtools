@@ -23,7 +23,6 @@ filename must have file extension '.RData'.
 Returns the first 4 character strings separated by '_' from from a file path to a .RData object.
 }
 \author{
-%%  ~~who you are~~
 Diana Hall
 }
 \examples{

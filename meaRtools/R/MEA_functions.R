@@ -114,9 +114,7 @@ get_experimental_log_file <- function(file, master_chem_file=master_chem_file) {
     well_names <- paste(rep(LETTERS[6:1], each = 8), rep(1:8, 6), sep = "")
     treatment_size <-
       paste(c(s$treatment[41:48], s$treatment[33:40], s$treatment[25:32],
-      s$treatment[17:24], s$treatment[9:16], s$treatment[1:8]),
-    c(s$size[41:48], s$size[33:40], s$size[25:32],
-      s$size[17:24], s$size[9:16], s$size[1:8]), sep = " ")
+      s$treatment[17:24], s$treatment[9:16], s$treatment[1:8]), sep = " ")
     names(well_names) <-
       paste(paste(rep(LETTERS[6:1], each = 8), rep(1:8, 6), sep = ""),
       treatment_size, sep = "=")

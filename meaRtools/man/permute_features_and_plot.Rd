@@ -22,12 +22,14 @@ Ryan Dhindsa
 }
 
 \examples{
+\donttest{
 	data("S")
-	#spike_features<-aggregate_features(S, feat_type="spike" )
-	#wt <- "untreated"
-	#output_dir = getwd()
-	#permute_features_and_plot(S, wt, np, spike_features, "spikes", output_dir)}
-
+	spike_features<-aggregate_features(S, feat_type="spike" )
+	wt <- "untreated"
+	output_dir = getwd()
+	permute_features_and_plot(S, wt, np, spike_features, "spikes", output_dir)
+}
+}
 \keyword{MEA}
 \keyword{analysis}
 \keyword{PDF}
