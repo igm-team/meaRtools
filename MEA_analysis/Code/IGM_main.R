@@ -173,9 +173,9 @@ if (parameters$want_nb) {
   if (length(s) > 0) {
     cat("\n")
     cat("calculating network bursts...\n")
-    nb_list <- calculate_network_bursts(s, parameters$Sigma,
+    nb_list <- calculate_network_bursts(s, parameters$sigma,
                                        parameters$min_electrodes,
-                                       parameters$local_region_min_nAE)
+                                       parameters$local_region_min_nae)
 
     if (!is.null(nb_list$nb_features_merged)){
       nb_features <- nb_matrix_to_feature_dfs(nb_list$nb_features_merged)
