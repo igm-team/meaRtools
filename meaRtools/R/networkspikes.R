@@ -14,7 +14,7 @@
 ##' To see the mean network spikes after they have computed, just look at the
 ##' mean object.
 ##'
-##' If you wish to see the individual network spikes, try .show.ns(ns, ...)
+##' If you wish to see the individual network spikes, try .show_ns(ns, ...)
 ##' where the remaining args are passed to the plot function.
 ##'
 ##' @aliases .compute_ns
@@ -28,7 +28,7 @@
 ##' @param plot Set to TRUE to plot network spikes.
 ##' @param ns A network spike data structure, returned by
 ##' \code{\link{.compute_ns}}
-##' @param ... Other plot arguments to pass to \code{\link{.show.ns}}
+##' @param ... Other plot arguments to pass to \code{\link{.show_ns}}
 ##' @return A list with the following elements: \item{counts}{vector giving the
 ##' number of active electrodes in each bin; this can be very long!}
 ##' \item{ns_n}{The value of ns_n used.} \item{ns_t}{the value of ns_t used.}
@@ -88,7 +88,7 @@
   ## range of spike times else you get an error from hist().  The
   ## default anyway is to do all the spikes within a data file.
   ##
-  ## C version, which should replace spikes.to.count
+  ## C version, which should replace spikes_to_count
   ## Returns a time series object.
 
   nbins <- ceiling((end - beg) / time_interval)
