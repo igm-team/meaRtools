@@ -32,7 +32,7 @@ perm_n =100,
 elec_min_rate=0.016,
 elec_max_rate=1000,
 well_min_rate=4,
-well_filter_maximum_div_inactive_ratio=0.5,
+well_max_div_inactive_ratio=0.5,
 
 mi_par=list(beg_isi =0.1,
 end_isi =0.25,
