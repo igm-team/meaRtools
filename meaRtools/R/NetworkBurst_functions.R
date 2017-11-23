@@ -145,8 +145,8 @@
       stat[3] <- stat[2] / stat[1]
     }
   }
-  colnames(stat) <- c("n.active.electrodes",
-                      "mfr.per.well", "mfr.per.active.electode")
+  colnames(stat) <- c("n_active_electrodes",
+                      "mfr_per_well", "mfr_per_active_electode")
   stat
 }
 .nb_get_burst_stats_intensities <-
@@ -155,17 +155,30 @@
   # bin_size is set to 0.002 based on sample rate of 12500/s
   n <- length(f)
   stat <- matrix(NA, 11, n)
-  rownames(stat) <- c("mean.NB.time.per.sec",
-    "total.spikes.in.all.NBs",
-    "percent.of.spikes.in.NBs",
-    "spike.intensity",
-    "spike.intensity.by.aEs",
-    "total.spikes.in.all.NBs,nNB",
-    "[total.spikes.in.all.NBs,nNB],nae",
-    "mean[spikes.in.NB,nae]",
-    "mean[spikes.in.NB,nae,NB.duration]",
-    "mean[spikes.in.NB]",
-    "total.number.of.NBs")
+  
+  #rownames(stat) <- c("mean.NB.time.per.sec",
+  #                    "total.spikes.in.all.NBs",
+  #                    "percent.of.spikes.in.NBs",
+  #                    "spike.intensity",
+  #                    "spike.intensity.by.aEs",
+  #                    "total.spikes.in.all.NBs,nNB",
+  #                    "[total.spikes.in.all.NBs,nNB],nae",
+  #                    "mean[spikes.in.NB,nae]",
+  #                    "mean[spikes.in.NB,nae,NB.duration]",
+  #                    "mean[spikes.in.NB]",
+  #                    "total.number.of.NBs")
+  
+  rownames(stat) <- c("mean_NB_time_per_sec",
+    "total_spikes_in_all_NBs",
+    "percent_of_spikes_in_NBs",
+    "spike_intensity",
+    "spike_intensity_by_aEs",
+    "total_spikes_in_all_NBs_d_nNB",
+    "total_spikes_in_all_NBs_d_nNB_d_nae",
+    "mean_spikes_in_NB_d_nae",
+    "mean_spikes_in_NB_d_nae_d_NB_duration",
+    "mean_spikes_in_NB",
+    "total_number_of_NBs")
   colnames(stat) <- rep("NA", n)
   for (current in 1:n) {
     # not all have names
