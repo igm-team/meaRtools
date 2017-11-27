@@ -415,7 +415,7 @@ public class WriteParameterR {
             f.write(",");
             
             f.write("\n");
-            f.write("well_filter_maximum_div_inactive_ratio=");
+            f.write("well_max_div_inactive_ratio=");
             f.write(wellFilterMaxDIVInactiveRatioChar);
             f.write(",");
 
