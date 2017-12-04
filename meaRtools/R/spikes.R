@@ -114,7 +114,7 @@ calculate_isis <- function(s) {
   sum <- matrix(data = NA, nrow = length(wells), ncol = start_pos + 11)
   colnames(sum) <- c("treatment", "nae", "nspikes_by_well",
                      "meanfiringrate_by_well",
-                     "meanfiringrate_by_all_ectctordes",
+                     "meanfiringrate_by_all_electrodes",
                      "meanfiringrate_by_active_electordes",
                      "sdfiringrate_by_active_electordes",
                      "meanisis", "sdisis","mutual_info","entropy","STTC")
@@ -479,23 +479,24 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
 
 .plot_mealayout <- function(x, use_names=TRUE, ...) {
 
-  rows <- .plateinfo(x$array)$n_well_r
-  columns <- .plateinfo(x$array)$n_well_c
+  rows <- meaRtools:::.plateinfo(x$array)$n_well_r
+  columns <- meaRtools:::.plateinfo(x$array)$n_well_c
   row_names <- chartr("123456789", "ABCDEFGHI", 1:rows)
   ## Plot the MEA layout.
   pos <- x$pos
   electrodes_only <- sapply(strsplit(rownames(pos),"_"), "[", 2) 
   p<-plot(NA, xaxs="i",#asp = 1,xaxs="i",
-    xlim = x$xlim-200, ylim = x$ylim-200,
-    bty = "n",
+          #xlim = c(x$xlim[1]-100,x$xlim[2]+200), ylim = c(x$ylim[1],x$ylim[2]+200),
+          xlim = x$xlim, ylim = x$ylim,
+          bty = "n",
     xlab = "Plate layout", ylab = "", type = "n",xaxt="n",yaxt="n",cex.lab=1.4)
   if (use_names)
     text(pos[, 1], pos[, 2], electrodes_only, ...)
   else
     text(pos[, 1], pos[, 2], ...)
-  axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-1.3,tick = F)
-  axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),line=-1,las=1,cex.axis=1.4,tick = F)
-  abline(h=seq( x$ylim[2]-200, x$ylim[1]-200,length.out = rows+1),v=seq( x$xlim[2]-200, x$xlim[1]-100,length.out = columns+1), col=c("grey"))
+  axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-2,tick = F)
+  axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),las=1,cex.axis=1.4,tick = F)
+  abline(h=seq( max(x$pos[,"y"])+200, x$ylim[1]-200,length.out = rows+1),v=seq( x$xlim[2]-100, x$xlim[1]-100,length.out = columns+1), col=c("grey"))
 }
 
 .summary_spike_list <- function(object, ...) {

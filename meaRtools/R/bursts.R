@@ -5,7 +5,7 @@ plot_plate_summary_for_bursts <- function(s, outputdir, parameters) {
                             sep = "")
     pdf(file = burst_plot_path)
     # layout
-    p <- .plot_mealayout(s[[i]]$layout, use_names = T, cex = 0.25)
+    p <- .plot_mealayout(s[[i]]$layout, use_names = T, cex = 0.48)
     title(main = paste(paste("Electrode Layout"),
       paste("file= ", strsplit(basename(s[[i]]$file), ".RData")[[1]][1],
             sep = ""), sep = "\n"))

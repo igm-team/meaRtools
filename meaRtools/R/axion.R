@@ -141,14 +141,19 @@
   pos <- data$epos;  rownames(pos) <- data$names
   array <- data$array
 
-  if (any(grep("^Axion", array))) {
+  if (any(grep("^Axion 48", array))) {
     ## e.g. Neurotox ongoing project.
-    xlim <- c(0, 8000)
+    xlim <- c(-100, 7900)
     ylim <- c(0, 6000)
     spacing <- 200
-    corr_breaks <- 0 # TODO; by default, do no breaks!
+    corr_breaks <- 0 
+  } else if (any(grep("^Axion 12", array))) {
+    xlim <- c(-100, 7200)
+    ylim <- c(0, 5400)
+    spacing <- 200
+    corr_breaks <- 0 
   }
-
+  
   array <- as.character(array)
   layout <- list(xlim = xlim, ylim = ylim, spacing = spacing,
     pos = pos, array = array)
