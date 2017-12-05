@@ -1,8 +1,8 @@
-# executed : 2017-10-26-03_13_18
+# executed : 2017-11-27-06_45_55
 analysis<-list();
 spk_list_files<-c();
-analysis$spk_list_files[1]<-'/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/test/exampleRecording/exampleRecording_1012016_plate1_DIV1_spike_list.csv';
-spk_list_files[1]<-'/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/test/exampleRecording/exampleRecording_1012016_plate1_DIV1_spike_list.csv';
+analysis$spk_list_files[1]<-'/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/test/exampleRecording/exampleRecording_1012016_plate1_DIV3_spike_list.csv';
+spk_list_files[1]<-'/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/test/exampleRecording/exampleRecording_1012016_plate1_DIV3_spike_list.csv';
 
 experimental_log_file<-'/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/test/exampleRecording/exampleRecording_1012016_plate1_expLog.csv';
 
@@ -102,6 +102,6 @@ local_region_min_nae= 0,
 min_electrodes = 5,
 sigma = c(10,20,50)
 
-,timeStamp='2017-10-26-03_13_18'
+,timeStamp='2017-11-27-06_45_55'
 )
 
