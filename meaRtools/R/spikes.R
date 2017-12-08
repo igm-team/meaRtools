@@ -479,8 +479,8 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
 
 .plot_mealayout <- function(x, use_names=TRUE, ...) {
 
-  rows <- meaRtools:::.plateinfo(x$array)$n_well_r
-  columns <- meaRtools:::.plateinfo(x$array)$n_well_c
+  rows <- .plateinfo(x$array)$n_well_r
+  columns <- .plateinfo(x$array)$n_well_c
   row_names <- chartr("123456789", "ABCDEFGHI", 1:rows)
   ## Plot the MEA layout.
   pos <- x$pos
