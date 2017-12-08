@@ -15,7 +15,7 @@ importFrom("graphics", "abline", "arrows", "axis", "curve", "hist",
 importFrom("stats", "aggregate", "approxfun", "cor", "dnorm", "embed",
            "filter", "ks.test", "lm", "na.omit", "ppois", "predict",
            "rnorm", "runif", "sd", "time", "ts", "uniroot", "var",
-           "wilcox.test","median","IQR")
+           "wilcox.test","median","IQR","quantile")
 importFrom("utils", "read.csv", "tail", "write.csv", "write.table")
 importFrom(Rcpp, evalCpp)
 S3method(plot, sttcp)
