@@ -1,5 +1,10 @@
 # Note: Tcl/Tk is part of the standard R 3.1.2 installation.
 library(tcltk)
+
+tk_messageBox("ok", message=paste("Please wait while R packages install" ) )
+
+
+
 if (!interactive()){
   args = commandArgs(trailingOnly=TRUE)
   if (length(args)==0) {
@@ -36,7 +41,7 @@ if ( !substring(java.r[1],1,12)=="java version" ){
 }
 
   
-    tk_messageBox("ok", message=paste("Please wait while R packages install" ) )
+    
     
     options(download.file.method="libcurl", url.method="libcurl")
     
