@@ -52,11 +52,24 @@ public class CheckSystemsPath {
         System.out.println( "errorEnvVar "+ errorEnvVar.toString() );
         
         
-        // get prepare.igm.mea.R
+        // get prepare.igm.mea.R with added library location
+        String meaRtoolsLibInstallPath = rootPath2Slash + File.separator+ File.separator +
+                "packages";
+        String meaRtoolsmeaRtoolsPath = rootPath2Slash + File.separator+ File.separator +
+                "packages/meaRtools";
+        File meaRtoolsmeaRtoolsPathFile = new File (meaRtoolsmeaRtoolsPath);
+        System.out.println("meaRtoolsPrepareFile "+ meaRtoolsmeaRtoolsPathFile.toString() );
+        
+        
+        
+        
         String meaRtoolsPrepareString = rootPath2Slash + File.separator+ File.separator +
-                "Code"+ File.separator+ File.separator + "prepare.meaRtools.R";
+                "Code"+ File.separator+ File.separator + "prepare.meaRtools.R ";
         File meaRtoolsPrepareFile = new File (meaRtoolsPrepareString);
         System.out.println("meaRtoolsPrepareFile "+ meaRtoolsPrepareFile.toString() );
+        
+        
+        
 
         try {
             if (errorEnvVar){
@@ -100,8 +113,11 @@ public class CheckSystemsPath {
                 //call prepare.igm.mea
                 String cmd0 = RscriptString.get(0).toString() + " " + 
                         meaRtoolsPrepareFile.toString() + " 2>&1";
-                
+                System.out.println( "prepare.meaRtools with lib location " + cmd0 );
+                System.out.println( "/n "  );
+                System.out.println( "/n "  );
                 System.out.println( "cmd0 " + cmd0 );
+                System.out.println( "/n "  );
                 Vector<String> output = SystemCall.systemCall2(cmd0);
                 
                 // print to a log file
@@ -149,6 +165,7 @@ public class CheckSystemsPath {
             } else{
                 
                 RscriptString.add(  envVars.get(0).toString() );
+                
                 System.out.println("RscriptString.get(0)"+ RscriptString.get(0));
             }
             
@@ -158,6 +175,9 @@ public class CheckSystemsPath {
             RscriptString.add( "error" );
             //print some error message
         }
+        
+        
+        
         return( RscriptString );
     }
     
