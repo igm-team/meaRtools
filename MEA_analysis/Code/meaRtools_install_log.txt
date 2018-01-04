@@ -1,2 +1,0 @@
-Fatal error: cannot open file '/Users/dh2744/Dropbox/Columbia/Software/github/meaRtools/MEA_analysis/Code/prepare.meaRtools.R': No such file or directory
-

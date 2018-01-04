@@ -60,14 +60,21 @@ public class CheckSystemsPath {
         File meaRtoolsmeaRtoolsPathFile = new File (meaRtoolsmeaRtoolsPath);
         System.out.println("meaRtoolsPrepareFile "+ meaRtoolsmeaRtoolsPathFile.toString() );
         
+       
         
-        
-        
+        // simple meaRtools prepare
         String meaRtoolsPrepareString = rootPath2Slash + File.separator+ File.separator +
                 "Code"+ File.separator+ File.separator + "prepare.meaRtools.R ";
         File meaRtoolsPrepareFile = new File (meaRtoolsPrepareString);
         System.out.println("meaRtoolsPrepareFile "+ meaRtoolsPrepareFile.toString() );
         
+        
+        //  prepare.meaRtools.R with library location in call
+        String meaRtoolsPrepareStringWithLib = rootPath2Slash + File.separator+ File.separator +
+                "Code"+ File.separator+ File.separator + "prepare.meaRtools.R "+
+                meaRtoolsLibInstallPath;
+        
+        System.out.println("meaRtoolsPrepareStringWithLib "+ meaRtoolsPrepareStringWithLib );
         
         
 
@@ -98,27 +105,34 @@ public class CheckSystemsPath {
                     
                     System.out.println("systemPathsFile "+ RscriptString.get(0) );
 
-                    //FileWriter t = null;
-                    //t= new FileWriter("/Users/dh2744/Dropbox/Columbia/Software/github/mea/MEA_analysis/Code/systemPaths_2.txt");
-                    //t.write( RscriptString.get(0).toString() );
-                    //t.write("\n");
-                    //t.write( "Hellow pancake" );
-                    //t.close(); 
-                    
                 
                 
             
                 System.out.println(" After write systemPathsFile.txt " );
                 
                 //call prepare.igm.mea
+                if (2<1){
+                    String cmd0 = RscriptString.get(0).toString() + " " + 
+                            meaRtoolsPrepareFile.toString() + " 2>&1";
+                    System.out.println( "prepare.meaRtools with lib location " + cmd0 );
+                    System.out.println( " "  );
+                    System.out.println( " "  );
+                    System.out.println( "cmd0 " + cmd0 );
+                    System.out.println( " "  );
+                    Vector<String> output = SystemCall.systemCall2(cmd0);
+                }
+                // call prepare.igm.mea with library location
                 String cmd0 = RscriptString.get(0).toString() + " " + 
-                        meaRtoolsPrepareFile.toString() + " 2>&1";
-                System.out.println( "prepare.meaRtools with lib location " + cmd0 );
-                System.out.println( "/n "  );
-                System.out.println( "/n "  );
-                System.out.println( "cmd0 " + cmd0 );
-                System.out.println( "/n "  );
-                Vector<String> output = SystemCall.systemCall2(cmd0);
+                            meaRtoolsPrepareFile.toString() + meaRtoolsLibInstallPath + " 2>&1";
+                    System.out.println( "prepare.meaRtools with lib location " + cmd0 );
+                    System.out.println( " "  );
+                    System.out.println( " "  );
+                    System.out.println( "cmd0 " + cmd0 );
+                    System.out.println( " "  );
+                    Vector<String> output = SystemCall.systemCall2(cmd0);
+                
+                
+                
                 
                 // print to a log file
                 String installLogString = rootPath2Slash + File.separator+ File.separator +
