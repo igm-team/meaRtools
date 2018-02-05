@@ -51,7 +51,7 @@ rObjectInfo<-function(RobjectPath="no path sent"){
   
   #ns
   cat( paste("ns_all=", is.element("ns_all", names(S) ) ,"\n"  ) )
-  if ( is.element("nb.all", names(S) ) ){
+  if ( is.element("nb_all", names(S) ) ){
     
     has.ns<-unlist( lapply(S$ns_all, function(x) x$brief["n"]>0) )
     names(has.ns)<-names(S$ns_all)
@@ -60,13 +60,13 @@ rObjectInfo<-function(RobjectPath="no path sent"){
   } 
   
   # nb
-  cat( paste0("nb.all=", is.element("nb.all", names(S) ) ,"\n"  ) )
-  if (is.element("nb.all", names(S) ) ){
+  cat( paste0("nb_all=", is.element("nb_all", names(S) ) ,"\n"  ) )
+  if (is.element("nb_all", names(S) ) ){
     
     #get window sizes
-    window.sizes<-names(S$nb.all[[1]])
+    window.sizes<-names(S$nb_all[[1]])
     cat(paste0("window sizes=", window.sizes,"\n"))
-    has.nb<- unlist( lapply( S$nb.all, function(x) nrow(x[[1]] ) ) ) 
+    has.nb<- unlist( lapply( S$nb_all, function(x) nrow(x[[1]] ) ) ) 
     cat(paste0("nb wells=", names(has.nb)[has.nb>0],"\n") )
   } 
   
