@@ -246,6 +246,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         featurePlotFileLable = new javax.swing.JLabel();
         normPlotChooseFileButton = new javax.swing.JButton();
         plotDistTreatmentColumnLabel1 = new javax.swing.JLabel();
+        normWTSpinner = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IGM MEA Analysis v1.3");
@@ -1281,7 +1282,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        BurstPanel.addTab("Distribution", distributionAllPanel);
+        BurstPanel.addTab("Dist", distributionAllPanel);
 
         RasterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Raster Tool"));
 
@@ -1640,6 +1641,13 @@ public class IGM_MEA_main extends javax.swing.JFrame {
 
         plotDistTreatmentColumnLabel1.setText("Wild Type");
 
+        normWTSpinner.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WT", "Treatment 1", "Treatment 2", " " }));
+        normWTSpinner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                normWTSpinnerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1648,25 +1656,29 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(featurePlotFileLable, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(plotDistTreatmentColumnLabel1)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(normPlotFileField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(plotDistTreatmentColumnLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(normPlotChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(normWTSpinner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(normPlotFileField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(normPlotChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(normPlotFileField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(featurePlotFileLable)
                     .addComponent(normPlotChooseFileButton))
-                .addGap(18, 18, 18)
-                .addComponent(plotDistTreatmentColumnLabel1)
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(plotDistTreatmentColumnLabel1)
+                    .addComponent(normWTSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -2806,7 +2818,15 @@ public class IGM_MEA_main extends javax.swing.JFrame {
 
     private void normPlotChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotChooseFileButtonActionPerformed
         // TODO add your handling code here:
+        
+        
+        
+        
     }//GEN-LAST:event_normPlotChooseFileButtonActionPerformed
+
+    private void normWTSpinnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normWTSpinnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_normWTSpinnerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2962,6 +2982,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JPanel networkEventPanel;
     private javax.swing.JButton normPlotChooseFileButton;
     private javax.swing.JTextField normPlotFileField;
+    private javax.swing.JComboBox normWTSpinner;
     private javax.swing.JCheckBox nsCsvCheckBox;
     private javax.swing.JSpinner nsNSpinner;
     private javax.swing.JPanel nsPanel;
