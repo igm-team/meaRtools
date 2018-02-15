@@ -84,13 +84,23 @@ suppressWarnings(suppressMessages(library(tcltk)))
 suppressWarnings(suppressMessages(library(meaRtools)))
 
 args <- commandArgs(trailingOnly = FALSE)
+
+# Diana Hall Feb 2018 change for bug in distTool produced by treatments with " " (spaces)
+# need to concatenate the args to handle cases where arguments contain spaces and
+# consequently aren't parsed properly
+all.args<-paste( args[7:length(args)], collapse=" ")
+#cat("all.args= ");cat(all.args); cat("\n")
+
+
 Path=dirname(strsplit(args[4], "=")[[1]][2])
-distFiles=distFilePath=strsplit(args[6], "=")[[1]][2]
-kotype<-strsplit(args[7], "=")[[1]][2]
-type<-strsplit(args[8], "=")[[1]][2]
-kotypecol<-strsplit(args[9], "=")[[1]][2]
-typecol<-strsplit(args[10], "=")[[1]][2]
-np<-strsplit(args[11], "=")[[1]][2]
+distFiles=distFilePath=strsplit(args[6], "=", fixed=T)[[1]][2]
+kotype<-strsplit(all.args, "*", fixed=T)[[1]][2]
+type<-strsplit(all.args, "$", fixed=T)[[1]][2]
+kotypecol<-strsplit(all.args, "^", fixed=T)[[1]][2]
+typecol<-strsplit(all.args, "%", fixed=T)[[1]][2]
+np<-strsplit(all.args, "#", fixed=T)[[1]][2]
+
+
 
 cat("Path= ");cat(Path);cat("\n")
 cat("distFiles= ");cat(distFiles); cat("\n")

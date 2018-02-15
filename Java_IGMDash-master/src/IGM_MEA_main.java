@@ -2632,7 +2632,8 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void plotDistrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotDistrButtonActionPerformed
-         
+        
+        
         Integer errorTreatments=0; //check Rscript path error
         //check that treatments 1 and treatment 2 equal
         if ( plotDistTreatmentOneSpinner.getSelectedItem().toString().equals( 
@@ -2679,14 +2680,15 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                 System.out.println(" right before SystemCall.systemCall(cmd1 )  " );
                 String Path=envVars.get(0).toString() + " " + rootPath2Slash + 
                         File.separator + File.separator + "Code";
+                // use symbols * etc below to parse arguments containing spaces in R
                 String cmd1 =  Path +File.separator + 
                         File.separator +"distribution_Permutations2.R" +
-                        " distFiles="+ distPlotFile1[0].toString().trim() +
-                        " type="+ plotDistTreatmentOneSpinner.getSelectedItem().toString().trim() +
-                        " kotype=" + plotDistTreatmentTwoSpinner.getSelectedItem().toString().trim() + 
-                        " typecol=" + plotDistColorOneComboBox.getSelectedItem().toString().trim() + 
-                        " kotypecol="+ plotDistColorTwoComboBox.getSelectedItem().toString().trim() +
-                        " np=" + distPlotNPermSpinner.getValue();
+                        " distFiles=" + distPlotFile1[0].toString().trim()  +
+                        " type=" + "*" + plotDistTreatmentOneSpinner.getSelectedItem().toString().trim()+ "*" +
+                        " kotype=" + "$" + plotDistTreatmentTwoSpinner.getSelectedItem().toString().trim() + "$" +
+                        " typecol=" + "^"+ plotDistColorOneComboBox.getSelectedItem().toString().trim() + "^" + 
+                        " kotypecol="+  "%"+  plotDistColorTwoComboBox.getSelectedItem().toString().trim()  + "%" +
+                        " np=" + "#"+ distPlotNPermSpinner.getValue() + "#";
                 System.out.println( "cmd1 " + cmd1 );
                 SystemCall.systemCall(cmd1, distPlotTextArea );
                 System.out.println(" after distributions   " );
@@ -2777,6 +2779,14 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                 }
 
 
+            //Feb 13, 2018 debug
+        
+            
+        System.out.println( " type=" + "'" + plotDistTreatmentOneSpinner.getSelectedItem().toString().trim()+ "'"  );
+        System.out.println( " kotype=" + "'" + plotDistTreatmentTwoSpinner.getSelectedItem().toString().trim() + "'"  );
+        System.out.println(" typecol=" + plotDistColorOneComboBox.getSelectedItem().toString().trim() );
+        System.out.println(" kotypecol="+ plotDistColorTwoComboBox.getSelectedItem().toString().trim() );
+        System.out.println( " np=" + distPlotNPermSpinner.getValue() );
 
             
             
