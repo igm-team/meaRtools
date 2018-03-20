@@ -443,6 +443,7 @@ generate_raster_plot <- function(r_object_file=NULL,
           start_burst <- ts[burst_times[, "beg"]]
           end_burst <- ts[burst_times[, "beg"] + burst_times[,
           "len"] - 1]
+          par(lend=1)
           segments(start_burst, ys, end_burst, ys, col = "red",
             lwd = 2)
           if (show_burst_number) {
