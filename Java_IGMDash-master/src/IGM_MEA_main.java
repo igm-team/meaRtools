@@ -245,8 +245,19 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         normPlotFileField = new javax.swing.JTextField();
         featurePlotFileLable = new javax.swing.JLabel();
         normPlotChooseFileButton = new javax.swing.JButton();
-        plotDistTreatmentColumnLabel1 = new javax.swing.JLabel();
+        normPlotWTLabel = new javax.swing.JLabel();
         normWTSpinner = new javax.swing.JComboBox();
+        normPlotTitleField = new javax.swing.JTextField();
+        plotTitleNormLabel = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        normMethodComboBox = new javax.swing.JComboBox();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        normPlotTextArea = new javax.swing.JTextArea();
+        normPlotButton = new javax.swing.JButton();
+        normPlotDIVStartLabel = new javax.swing.JLabel();
+        normPlotDIVStartComboBox = new javax.swing.JComboBox();
+        normPlotDIVEndLabel = new javax.swing.JLabel();
+        normPlotDIVEndComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IGM MEA Analysis v1.3");
@@ -1629,8 +1640,13 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         normPlotFileField.setFocusable(false);
         normPlotFileField.setMaximumSize(new java.awt.Dimension(240, 80));
         normPlotFileField.setMinimumSize(new java.awt.Dimension(240, 80));
+        normPlotFileField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                normPlotFileFieldActionPerformed(evt);
+            }
+        });
 
-        featurePlotFileLable.setText("Feature csv file");
+        featurePlotFileLable.setText("csv file");
 
         normPlotChooseFileButton.setText("Choose File");
         normPlotChooseFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1639,7 +1655,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
             }
         });
 
-        plotDistTreatmentColumnLabel1.setText("Wild Type");
+        normPlotWTLabel.setText("Wild Type");
 
         normWTSpinner.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WT", "Treatment 1", "Treatment 2", " " }));
         normWTSpinner.addActionListener(new java.awt.event.ActionListener() {
@@ -1648,23 +1664,84 @@ public class IGM_MEA_main extends javax.swing.JFrame {
             }
         });
 
+        plotTitleNormLabel.setText("Plot Title");
+
+        jLabel11.setText("norm method");
+        jLabel11.setToolTipText("choose normalization method\n  WT = normalize each plate by WT avg/DIV/plate and then average\n  ALL_WT = normalize each plate by WT avg/DIV combining WT from all plates\n  all = normalize each plate by avg firing/DIV then average\n  none = average values per DIV per treatment for all plates with no normalization");
+
+        normMethodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WT (by WT avg/DIV/plate and then average)", "All WT ( by WT avg/DIV combining WT from all plates)", "all (by avg firing/DIV then average)", "none (average values per DIV per treatment for all plates)", " " }));
+
+        normPlotTextArea.setColumns(20);
+        normPlotTextArea.setRows(5);
+        jScrollPane4.setViewportView(normPlotTextArea);
+
+        normPlotButton.setText("Plot Norm");
+        normPlotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                normPlotButtonActionPerformed(evt);
+            }
+        });
+
+        normPlotDIVStartLabel.setText("Start DIV");
+
+        normPlotDIVStartComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DIV1", "DIV2", "DIV4", " " }));
+        normPlotDIVStartComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                normPlotDIVStartComboBoxActionPerformed(evt);
+            }
+        });
+
+        normPlotDIVEndLabel.setText("End DIV");
+
+        normPlotDIVEndComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DIV1", "DIV2", "DIV4", " " }));
+        normPlotDIVEndComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                normPlotDIVEndComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(featurePlotFileLable, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(plotDistTreatmentColumnLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(normWTSpinner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(normPlotFileField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(normPlotChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(normPlotWTLabel)
+                                    .addComponent(featurePlotFileLable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(plotTitleNormLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(normPlotFileField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(normPlotTitleField))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(normPlotChooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(normWTSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(normPlotDIVStartLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(normPlotDIVStartComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(normPlotDIVEndLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(normPlotDIVEndComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 9, Short.MAX_VALUE))))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(normMethodComboBox, 0, 1, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(normPlotButton)))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1676,9 +1753,24 @@ public class IGM_MEA_main extends javax.swing.JFrame {
                     .addComponent(normPlotChooseFileButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(plotDistTreatmentColumnLabel1)
-                    .addComponent(normWTSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(245, Short.MAX_VALUE))
+                    .addComponent(plotTitleNormLabel)
+                    .addComponent(normPlotTitleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(normPlotWTLabel)
+                    .addComponent(normWTSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(normPlotDIVStartLabel)
+                    .addComponent(normPlotDIVStartComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(normPlotDIVEndLabel)
+                    .addComponent(normPlotDIVEndComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(normMethodComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(normPlotButton))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1692,10 +1784,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         BurstPanel.addTab("Norm", jPanel1);
@@ -2829,6 +2918,136 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private void normPlotChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotChooseFileButtonActionPerformed
         // TODO add your handling code here:
         
+            JFileChooser chooser = new JFileChooser();
+            File fileWD = new File(System.getProperty("java.class.path"));
+            File workingDirectory = fileWD.getAbsoluteFile().getParentFile();
+            chooser.setCurrentDirectory(workingDirectory);
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(null);
+            File[] normFile = chooser.getSelectedFiles();
+            String[] normFileName = new String[normFile.length];
+            Arrays.fill(normFileName, "");
+            for (int i = 0; normFile.length <= i; i++) {
+                normFileName[i] = normFile[i].getAbsolutePath();
+            }
+
+            normPlotFileField.setText(Arrays.toString(normFile));
+            normPlotFileField.setColumns(25); 
+            
+            // check for file errors
+            int errorDistFile=CheckField.checkNormFile(normPlotFileField,
+                    normPlotButton,
+                    normPlotTextArea);
+            
+            if ( (errorDistFile>-1) ){
+            normPlotButton.setEnabled(1>0);
+
+
+            // parse toolTextArea
+            String toParse=normPlotTextArea.getText();
+
+            // treatment      +++++++++++++++++++++++++++++
+            if (toParse.contains("treatments=") ){
+                String[] plotNormTreatmentsTemp =  toParse.split("treatments=") ;
+
+                String[] tempTrt=plotNormTreatmentsTemp[plotNormTreatmentsTemp.length-1].split("\n");
+                String[] plotNormTreatments=new String[ ( plotNormTreatmentsTemp.length-1) ];
+                plotNormTreatmentsTemp[plotNormTreatmentsTemp.length-1]=tempTrt[0];
+                System.out.println("tempTrt "+ tempTrt[0] );
+
+                String[] plotNormTreatments2=new String[plotNormTreatments.length];
+                for (int i=1; i<(plotNormTreatmentsTemp.length); i++  ){
+                    plotNormTreatments[i-1] =  plotNormTreatmentsTemp[i];
+                    plotNormTreatments2[i-1] = plotNormTreatmentsTemp[i];
+                    System.out.println("plotNormTreatments["+(i-1)+"]" + 
+                            plotNormTreatments[i-1].toString() );
+                }
+                //make a second string to initialize second treatment
+                
+                if (plotNormTreatments.length>1){
+                    plotNormTreatments2[0]=plotNormTreatments[1];
+                    plotNormTreatments2[1]=plotNormTreatments[0];
+                }
+                // check that there are at least 2 different 
+                    if (plotNormTreatments.length<=1){
+
+                        System.out.println("plotNormTreatments.length<=1 ");
+                        ErrorHandler.errorPanel("File has only 1 treatment " + '\n'
+                                + plotNormTreatments[0] + '\n'
+                                + " Minimum 2 Treatments are needed");
+                        normPlotButton.setEnabled(false);
+                        normWTSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotNormTreatments));
+                        
+
+                    } else{
+                        normWTSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotNormTreatments));
+                    }
+                
+                }
+            // DIVS +++++++++++++++++++++++++++++++++++++++++++
+            if (toParse.contains("DIV=") ){
+                String[] normPlotDIVTemp =  toParse.split("DIV=") ;
+
+                String[] tempDIV=normPlotDIVTemp[normPlotDIVTemp.length-1].split("\n");
+                String[] normPlotDIVs=new String[ ( normPlotDIVTemp.length-1) ];
+                normPlotDIVTemp[normPlotDIVTemp.length-1]=tempDIV[0];
+                System.out.println("tempDIV "+ tempDIV[0] );
+
+                String[] normPlotDIV2=new String[normPlotDIVs.length];
+                for (int i=1; i<(normPlotDIVTemp.length); i++  ){
+                    normPlotDIVs[i-1] =  normPlotDIVTemp[i];
+                    normPlotDIV2[i-1] = normPlotDIVTemp[i];
+                    System.out.println("normPlotDIVs["+(i-1)+"]" + 
+                            normPlotDIVs[i-1].toString() );
+                }
+                // make string to save in reverse order
+               
+                
+                System.out.println("you have reached 3007" );
+                String[] normPlotDIVReverse=new String[ ( normPlotDIVs.length) ];
+                normPlotDIVReverse[ 0 ] = normPlotDIVs[ normPlotDIVs.length-1 ];
+                for (int i=1; i<(normPlotDIVs.length-1); i++  ){
+                    normPlotDIVReverse[i] =  normPlotDIVs[ normPlotDIVs.length-i-1 ];
+                    System.out.println("normPlotDIVReverse["+(i)+"]" + 
+                            normPlotDIVReverse[i].toString() );
+                }
+                
+                //make a second string to initialize second treatment
+                
+                if (normPlotDIVs.length>1){
+                    normPlotDIV2[0]=normPlotDIVs[1];
+                    normPlotDIV2[1]=normPlotDIVs[0];
+                }
+                // check that there are at least 2 DIVs 
+                    if (normPlotDIVs.length<=1){
+
+                        System.out.println("normPlotDIVs.length<=1 ");
+                        ErrorHandler.errorPanel("File has only 1 DIV " + '\n'
+                                + normPlotDIVs[0] + '\n'
+                                + " Minimum 2 DIVs are needed");
+                        normPlotButton.setEnabled(false);
+                        normPlotDIVStartComboBox.setModel(new javax.swing.DefaultComboBoxModel( normPlotDIVs ));
+                        normPlotDIVEndComboBox.setModel(new javax.swing.DefaultComboBoxModel(normPlotDIVs));
+
+                    } else{
+                        normPlotDIVStartComboBox.setModel(new javax.swing.DefaultComboBoxModel(normPlotDIVs));
+                        normPlotDIVEndComboBox.setModel(new javax.swing.DefaultComboBoxModel(normPlotDIVReverse));
+                        normPlotButton.setEnabled(true);
+                    }
+                
+                }
+
+
+            
+        
+            
+        System.out.println( "normPlotDIVStartComboBox =" + "'" + normPlotDIVStartComboBox.getSelectedItem().toString().trim()+ "'"  );
+        System.out.println( "normPlotDIVEndComboBox =" + "'" + normPlotDIVEndComboBox.getSelectedItem().toString().trim()+ "'"  );
+            
+            
+            
+        }//end of if no error
+        
         
         
         
@@ -2837,6 +3056,113 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private void normWTSpinnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normWTSpinnerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_normWTSpinnerActionPerformed
+
+    private void normPlotFileFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotFileFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_normPlotFileFieldActionPerformed
+
+    private void normPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotButtonActionPerformed
+        // TODO add your handling code here:
+        
+            JFileChooser chooser = new JFileChooser();
+            File fileWD = new File(System.getProperty("java.class.path"));
+            File workingDirectory = fileWD.getAbsoluteFile().getParentFile();
+            chooser.setCurrentDirectory(workingDirectory);
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(null);
+            File[] normFile = chooser.getSelectedFiles();
+            String[] normFileName = new String[normFile.length];
+            Arrays.fill(normFileName, "");
+            for (int i = 0; normFile.length <= i; i++) {
+                normFileName[i] = normFile[i].getAbsolutePath();
+            }
+
+            normPlotFileField.setText(Arrays.toString(normFile));
+            normPlotFileField.setColumns(25); 
+            
+            // check for file errors
+            int errorDistFile=CheckField.checkNormFile(
+                    normPlotFileField,
+                    normPlotButton,
+                    normPlotTextArea);
+            
+            if ( (errorDistFile>-1) ){
+             normPlotButton.setEnabled(1>0);
+
+
+            // parse toolTextArea
+            String toParse=normPlotTextArea.getText();
+
+            // start time+++++++++++++++++++++++++++++
+            if (toParse.contains("treatments=") ){
+                String[] plotDistTreatmentsTemp =  toParse.split("treatments=") ;
+
+                String[] tempTrt=plotDistTreatmentsTemp[plotDistTreatmentsTemp.length-1].split("\n");
+                String[] plotDistTreatments=new String[ ( plotDistTreatmentsTemp.length-1) ];
+                plotDistTreatmentsTemp[plotDistTreatmentsTemp.length-1]=tempTrt[0];
+                System.out.println("tempTrt "+ tempTrt[0] );
+
+                String[] plotDistTreatments2=new String[plotDistTreatments.length];
+                for (int i=1; i<(plotDistTreatmentsTemp.length); i++  ){
+                    plotDistTreatments[i-1] =  plotDistTreatmentsTemp[i];
+                    plotDistTreatments2[i-1] = plotDistTreatmentsTemp[i];
+                    System.out.println("plotDistTreatments["+(i-1)+"]" + 
+                            plotDistTreatments[i-1].toString() );
+                }
+                //make a second string to initialize second treatment
+                
+                if (plotDistTreatments.length>1){
+                    plotDistTreatments2[0]=plotDistTreatments[1];
+                    plotDistTreatments2[1]=plotDistTreatments[0];
+                }
+                // check that there are at least 2 different 
+                    if (plotDistTreatments.length<=1){
+
+                        System.out.println("plotDistTreatments.length<=1 ");
+                        ErrorHandler.errorPanel("File has only 1 treatment " + '\n'
+                                + plotDistTreatments[0] + '\n'
+                                + " Minimum 2 Treatments are needed");
+                        plotDistrButton.setEnabled(false);
+                        plotDistTreatmentOneSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotDistTreatments));
+                        plotDistTreatmentTwoSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotDistTreatments2));
+
+                    } else{
+                        plotDistTreatmentOneSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotDistTreatments));
+                        plotDistTreatmentTwoSpinner.setModel(new javax.swing.DefaultComboBoxModel(plotDistTreatments2));
+                    }
+                
+                }
+
+
+            //Feb 13, 2018 debug
+        
+            
+        System.out.println( " type=" + "'" + plotDistTreatmentOneSpinner.getSelectedItem().toString().trim()+ "'"  );
+        System.out.println( " kotype=" + "'" + plotDistTreatmentTwoSpinner.getSelectedItem().toString().trim() + "'"  );
+        System.out.println(" typecol=" + plotDistColorOneComboBox.getSelectedItem().toString().trim() );
+        System.out.println(" kotypecol="+ plotDistColorTwoComboBox.getSelectedItem().toString().trim() );
+        System.out.println( " np=" + distPlotNPermSpinner.getValue() );
+
+            
+            
+            
+        }//end of if no error
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_normPlotButtonActionPerformed
+
+    private void normPlotDIVStartComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotDIVStartComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_normPlotDIVStartComboBoxActionPerformed
+
+    private void normPlotDIVEndComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_normPlotDIVEndComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_normPlotDIVEndComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2937,6 +3263,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JPanel getWTLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -2968,6 +3295,7 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton makeRasterButton;
     private javax.swing.JRadioButton maxIntMethodRadioButton;
@@ -2990,8 +3318,17 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JCheckBox nSpikesPerWellCheckBox;
     private javax.swing.JCheckBox networkBurstCheckBox;
     private javax.swing.JPanel networkEventPanel;
+    private javax.swing.JComboBox normMethodComboBox;
+    private javax.swing.JButton normPlotButton;
     private javax.swing.JButton normPlotChooseFileButton;
+    private javax.swing.JComboBox normPlotDIVEndComboBox;
+    private javax.swing.JLabel normPlotDIVEndLabel;
+    private javax.swing.JComboBox normPlotDIVStartComboBox;
+    private javax.swing.JLabel normPlotDIVStartLabel;
     private javax.swing.JTextField normPlotFileField;
+    private javax.swing.JTextArea normPlotTextArea;
+    private javax.swing.JTextField normPlotTitleField;
+    private javax.swing.JLabel normPlotWTLabel;
     private javax.swing.JComboBox normWTSpinner;
     private javax.swing.JCheckBox nsCsvCheckBox;
     private javax.swing.JSpinner nsNSpinner;
@@ -3011,12 +3348,12 @@ public class IGM_MEA_main extends javax.swing.JFrame {
     private javax.swing.JComboBox plotDistColorOneComboBox;
     private javax.swing.JComboBox plotDistColorTwoComboBox;
     private javax.swing.JLabel plotDistTreatmentColumnLabel;
-    private javax.swing.JLabel plotDistTreatmentColumnLabel1;
     private javax.swing.JLabel plotDistTreatmentOneLabel;
     private javax.swing.JComboBox plotDistTreatmentOneSpinner;
     private javax.swing.JLabel plotDistTreatmentTwoLabel;
     private javax.swing.JComboBox plotDistTreatmentTwoSpinner;
     private javax.swing.JButton plotDistrButton;
+    private javax.swing.JLabel plotTitleNormLabel;
     private javax.swing.JRadioButton poissonSurpriseRadioButton;
     private javax.swing.JButton rasterChooseFileButton;
     private javax.swing.JLabel rasterEndTimeLabel;

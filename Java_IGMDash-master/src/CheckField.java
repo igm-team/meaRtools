@@ -657,6 +657,109 @@ public class CheckField {
         }
         return(exitValue);
     }
+      
+      
+      
+      
+       public static int checkNormFile(
+            javax.swing.JTextField normPlotFileField,
+            javax.swing.JButton normRunButton,
+            javax.swing.JTextArea normPlotTextArea) {
+        
+        int exitValue = 0;
+        normRunButton.setEnabled(false);
+        Boolean errorLog = false;
+        //Vector<String> logResult = new Vector<>();
+        // to do java 1.6 compatibility
+        Vector<String> logResult = new Vector<String>();
+        
+        //check Robject
+        try {
+            //check extension
+           
+           String[] normPlotFile1=RemoveSqBrackets.removeSqBrackets( normPlotFileField );
+           String[] normPlotFileCheck1 = normPlotFile1[0].split("\\.");
+           String normPlotFileText1 = "csv";
+                    
+           
+           System.out.println( normPlotFile1[0] + " (-1) end in .csv? : " );
+           System.out.println(normPlotFileCheck1[normPlotFileCheck1.length-1 ].equals("csv"));
+           
+           System.out.println(normPlotFileCheck1[normPlotFileCheck1.length-1 ] + 
+                   " =distPlotFileCheck1[distPlotFileCheck1.length-1 ]" );
+           //System.out.println(rObjectCheck1[rObjectCheck1.length ].equals("RData"));
+           
+           
+           //two ifs for whether string ends in "]" or not
+           if ( !normPlotFileCheck1[normPlotFileCheck1.length-1 ].equals("csv")  ) {
+                System.out.println("in if statement");
+                ErrorHandler.errorPanel("Distribution file chosen " + '\n'
+                        + normPlotFile1[0] + '\n'
+                        + "Is not a distribution file  of .csv extension");
+                exitValue = -1;
+                errorLog = true;
+                return exitValue;
+                
+            } 
+
+           // This will reference one line at a time
+           String line = null;
+           Boolean expLogGood = true;
+
+            try {
+                // Query R for what's in the Robject
+                System.out.println(" right before SystemCall.systemCall(cmd0, normPlotTextArea )  " );
+                
+                Vector<String> envVars = new Vector<String>();
+                File fileWD = new File(System.getProperty("java.class.path"));
+                File dashDir = fileWD.getAbsoluteFile().getParentFile();
+
+                System.out.println("Dash dir " + dashDir.toString());
+                File systemPaths = new File( dashDir.toString() +File.separator+"Code" +
+                        File.separator+"systemPaths.txt");
+                
+                File javaClassPath = new File(System.getProperty("java.class.path"));
+                File rootPath1 = javaClassPath.getAbsoluteFile().getParentFile();
+
+                String rootPath2Slash = rootPath1.toString();
+                rootPath2Slash = rootPath2Slash.replace("\\", "\\\\");
+
+                envVars=GetEnvVars.getEnvVars( systemPaths, normPlotTextArea  );
+                
+                String cmd0 = envVars.get(0).toString() + " " + rootPath2Slash + 
+                File.separator +"Code"+ File.separator + "normFileInfoScript.R "+
+                        "normFilePath="+normPlotFile1[0].toString();
+                
+                
+                
+                System.out.println( "cmd0 " + cmd0 );
+                SystemCall.systemCall(cmd0, normPlotTextArea );
+
+                System.out.println("After SystemCall in normPlot  " );
+
+
+
+                /// here we need code to populate raster parameter object
+            } catch (Exception i){
+                logResult.add("Try at running normPlotFileInfo.R");
+                logResult.add(" ");
+                logResult.add(" ");
+                i.printStackTrace();
+                exitValue = -1;
+                PrintToTextArea.printToTextArea(logResult , normPlotTextArea );
+            }
+ 
+
+        } catch (Exception e) {
+            logResult.add("Try at reading the Robject file failed");
+            logResult.add(" ");
+            logResult.add(" ");
+            e.printStackTrace();
+            exitValue = -1;
+            PrintToTextArea.printToTextArea(logResult , normPlotTextArea );
+        }
+        return(exitValue);
+    }
     
     
 }

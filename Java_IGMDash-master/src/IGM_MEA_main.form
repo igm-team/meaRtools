@@ -2396,11 +2396,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel6" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -2417,21 +2413,55 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="featurePlotFileLable" min="-2" pref="98" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="plotDistTreatmentColumnLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="normWTSpinner" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="normPlotWTLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="featurePlotFileLable" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="plotTitleNormLabel" alignment="0" pref="67" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="normPlotFileField" max="32767" attributes="0"/>
+                                                      <Component id="normPlotTitleField" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="normPlotChooseFileButton" min="-2" pref="121" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="normWTSpinner" min="-2" pref="109" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                                  <Component id="normPlotDIVStartLabel" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="normPlotDIVStartComboBox" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="normPlotDIVEndLabel" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="normPlotDIVEndComboBox" min="-2" pref="80" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel11" min="-2" pref="100" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="normMethodComboBox" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <Component id="normPlotFileField" min="-2" pref="287" max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="normPlotButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="normPlotChooseFileButton" min="-2" pref="121" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2446,10 +2476,27 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="plotDistTreatmentColumnLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="normWTSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="plotTitleNormLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normPlotTitleField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="245" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="normPlotWTLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normWTSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normPlotDIVStartLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normPlotDIVStartComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normPlotDIVEndLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normPlotDIVEndComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="normMethodComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane4" min="-2" pref="140" max="-2" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
+                          <Component id="normPlotButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2466,10 +2513,13 @@
                       <Dimension value="[240, 80]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normPlotFileFieldActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="featurePlotFileLable">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Feature csv file"/>
+                    <Property name="text" type="java.lang.String" value="csv file"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="normPlotChooseFileButton">
@@ -2480,7 +2530,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normPlotChooseFileButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="plotDistTreatmentColumnLabel1">
+                <Component class="javax.swing.JLabel" name="normPlotWTLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Wild Type"/>
                   </Properties>
@@ -2498,6 +2548,95 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normWTSpinnerActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="normPlotTitleField">
+                </Component>
+                <Component class="javax.swing.JLabel" name="plotTitleNormLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Plot Title"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel11">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="norm method"/>
+                    <Property name="toolTipText" type="java.lang.String" value="choose normalization method&#xa;  WT = normalize each plate by WT avg/DIV/plate and then average&#xa;  ALL_WT = normalize each plate by WT avg/DIV combining WT from all plates&#xa;  all = normalize each plate by avg firing/DIV then average&#xa;  none = average values per DIV per treatment for all plates with no normalization"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="normMethodComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="5">
+                        <StringItem index="0" value="WT (by WT avg/DIV/plate and then average)"/>
+                        <StringItem index="1" value="All WT ( by WT avg/DIV combining WT from all plates)"/>
+                        <StringItem index="2" value="all (by avg firing/DIV then average)"/>
+                        <StringItem index="3" value="none (average values per DIV per treatment for all plates)"/>
+                        <StringItem index="4" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="normPlotTextArea">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="rows" type="int" value="5"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JButton" name="normPlotButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Plot Norm"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normPlotButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="normPlotDIVStartLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Start DIV"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="normPlotDIVStartComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="DIV1"/>
+                        <StringItem index="1" value="DIV2"/>
+                        <StringItem index="2" value="DIV4"/>
+                        <StringItem index="3" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normPlotDIVStartComboBoxActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="normPlotDIVEndLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="End DIV"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="normPlotDIVEndComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="DIV1"/>
+                        <StringItem index="1" value="DIV2"/>
+                        <StringItem index="2" value="DIV4"/>
+                        <StringItem index="3" value=" "/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="normPlotDIVEndComboBoxActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
