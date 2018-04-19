@@ -32,10 +32,11 @@ Directory of r_object files
 chem.info.2}
 \examples{
 \donttest{
-master_chem_file<-paste0( system.file(package = "meaRtools"),"/data",
+temp_path=tempdir()
+master_chem_file<-paste0( temp_path,"/data",
    "/exampleRecording_1012016_plate1_expLog.csv" )
       
-spike_list_file<-paste0( system.file(package = "meaRtools"),"/data",
+spike_list_file<-paste0( temp_path,"/data",
 "/exampleRecording_1012016_plate1_DIV1_spike_list.csv" )
 
 title<-strsplit(basename(spike_list_file), ".csv")[[1]][1]

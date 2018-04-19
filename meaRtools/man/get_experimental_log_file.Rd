@@ -33,11 +33,12 @@ See http://www.axionbiosystems.com/products/software/ for details on spike-list 
 }
 \examples{
 \donttest{
-master_chem_file<-paste0( system.file(package = "meaRtools"),"/data",
-        "/exampleRecording_1012016_plate1_expLog.csv" )
+temp_path=tempdir()
+master_chem_file<-paste0( temp_path,"/data",
+   "/exampleRecording_1012016_plate1_expLog.csv" )
       
-spike.list.file<-paste0( system.file(package = "meaRtools"),"/data",
-        "/exampleRecording_1012016_plate1_DIV1_spike_list.csv" )
+spike_list_file<-paste0( temp_path,"/data",
+"/exampleRecording_1012016_plate1_DIV1_spike_list.csv" )
 
 plate.data<-getxperimental.log.file( file=spike.list.file, master_chem_file = master_chem_file )
 }

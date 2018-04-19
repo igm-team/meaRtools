@@ -26,7 +26,8 @@ Ryan Dhindsa
 	data("S")
 	spike_features<-aggregate_features(S, feat_type="spike" )
 	wt <- "untreated"
-	output_dir = getwd()
+	output_dir = tempdir()
+  print(paste0("Creating output folders under ",output_dir))
 	permute_features_and_plot(S, wt, np, spike_features, "spikes", output_dir)
 }
 }
