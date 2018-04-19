@@ -1,7 +1,7 @@
 
 calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   feature="non", filter_values_by_min=0, min_values=0,
-  per_well=0, outputdir=getwd(), min_electrodes=4,
+  per_well=0, outputdir=tempdir(), min_electrodes=4,
   time_stamp="DATE_TIME") {
   # Plot distributions of selected bursting features and print csv
   # output for stats
