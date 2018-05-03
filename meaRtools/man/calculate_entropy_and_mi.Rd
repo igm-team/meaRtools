@@ -55,9 +55,10 @@ mi.MUT <- mean(mi[[treatments[2]]])
 mi.res <- wilcox.test(mi[[treatments[1]]], mi[[treatments[2]]])
 cat("mutual info means (WT / MUT) :", mi.WT, "/", mi.MUT, "\n") 
 print(mi.res)
-
-#plot(density(mi[[treatments[1]]]))
-#lines(density(mi[[treatments[2]]]), col="red")
+\donttest{
+  plot(density(mi[[treatments[1]]]))
+  lines(density(mi[[treatments[2]]]), col="red")
+}
 
 }
 

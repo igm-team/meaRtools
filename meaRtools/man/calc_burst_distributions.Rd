@@ -6,7 +6,7 @@ The function calculates normalized distributions of selected bursting features a
 \usage{
 calc_burst_distributions(s, min_vals = 1, xlimit = 25, bins_in_sec = 5, 
 feature = "non", filter_values_by_min = 0, min_values = 0, per_well = 0, 
-outputdir = getwd(), min_electrodes = 4, time_stamp = "DATE_TIME")
+outputdir = tempdir(), min_electrodes = 4, time_stamp = "DATE_TIME")
 }
 \arguments{
   \item{s}{
@@ -48,8 +48,11 @@ Sahar Gelfman
 # Load exapmple of recording Robject (MEA data structure)
 data("S")  
 feature="ibi"; 
-#calc_burst_distributions(S, min_vals = 15, xlimit = 20, bins_in_sec = 5, 
-#feature = feature, per_well = 0, outputdir = "/Analysis")}
+\donttest{
+   calc_burst_distributions(S, min_vals = 15, xlimit = 20, bins_in_sec = 5, 
+           feature = feature, per_well = 0, outputdir = "/Analysis")
+}
+}
 
 \keyword{ distributions }
 \keyword{ IBI }

@@ -22,8 +22,9 @@ write_features_to_files(s, features_list, output_dir, type)
 	s<-list()
 	s[[1]]<-S
   spike_features = aggregate_features(s, "spike")
-
-#  write_features_to_files(s, spike_features, analysis$output_dir, "spikes")
+  \donttest{
+    write_features_to_files(s, spike_features, analysis$output_dir, "spikes")
+  }
 }
 \keyword{spikes}
 \keyword{bursts}

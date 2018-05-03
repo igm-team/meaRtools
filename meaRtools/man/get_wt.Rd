@@ -17,7 +17,9 @@ get_wt(s)
 	data("S")
 	s<-list()
 	s[[1]]<-S
-	##wt <- get_wt(s)
+	\donttest{
+	wt <- get_wt(s)
+	}
 }
 \keyword{ wt }
 \keyword{ treatment }% __ONLY ONE__ keyword per line

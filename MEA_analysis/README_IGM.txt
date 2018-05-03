@@ -1,6 +1,6 @@
-GENERAL REMARKS FOR IGM_MEA analysis tool Version 1.0
+GENERAL REMARKS FOR IGM_MEA analysis tool Version 0.3.5
 
-1- The analysis tool is a java user interface (UI) that interacts with an R package. The tool installs the latest meaRtools R package from the public CRAN server (currently meaRtools version 1.0). The tool allows changing parameters for the different analyses and integrates tools for downstream analysis such as raster plots and permutation analyses. The actual analysis pipeline is performed by the R package and runs automatically through the main tab of the tool.
+1- The analysis tool is a java user interface (UI) that interacts with an R package. The tool installs the latest meaRtools R package from the public CRAN server (currently meaRtools version 1.0.1). The tool allows changing parameters for the different analyses and integrates tools for downstream analysis such as raster plots and permutation analyses. The actual analysis pipeline is performed by the R package and runs automatically through the main tab of the tool.
 
 2- Mac and windows compatibility - the tool and R package fit both environments and should be installed the same. Both users would use the same IGM_MEA_Analysis.jar file to run the tool.
 
@@ -43,9 +43,8 @@ WHAT’S IN THE ZIP FILE:
 
 The zip opens to an MEA_analysis directory, the directory holds the following: 
 1- IGM_MEA_Analysis.jar - the file that executes the IGM MEA analysis tool.
-2- csvFiles/ directory with example input recording files and experimental log file.
-3- lib/ and Code/ directories with R and Java scripts that are used by the java UI.  
-4- this README.txt file
+2- lib/ and Code/ directories with R and Java scripts that are used by the java UI.  
+3- this README.txt file
 
 				    
 How to install:

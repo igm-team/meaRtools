@@ -28,7 +28,9 @@ Diana Hall
 data("S") 
 s<-list()
 s[[1]]<-S
-#plot.mean.firingrate.by.well.by.div(s)
+\donttest{
+  plot.mean.firingrate.by.well.by.div(s)
+}
 
 }
 \keyword{ firing }

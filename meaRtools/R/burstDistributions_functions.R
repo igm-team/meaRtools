@@ -1,7 +1,7 @@
 
 calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   feature="non", filter_values_by_min=0, min_values=0,
-  per_well=0, outputdir=getwd(), min_electrodes=4,
+  per_well=0, outputdir=tempdir(), min_electrodes=4,
   time_stamp="DATE_TIME") {
   # Plot distributions of selected bursting features and print csv
   # output for stats
@@ -356,6 +356,10 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
                                                   data = gmeans))
       bottom <- factorial(length(good_treatments)) / (2 *
                                 (factorial(length(good_treatments) - 2))) + 3
+      # limit place for ks-text to max of factorial of 6
+      if (bottom > 18){
+        bottom=18;
+      }
       par(mar = c(bottom, 3, 3, 2))
       plot(data[1:ceiling(xlimit * jump)]~pos[1:ceiling(xlimit * jump)],
            type = "l", col = colors[tr], ylim = c(0, ylimit),

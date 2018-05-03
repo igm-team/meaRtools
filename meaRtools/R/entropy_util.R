@@ -313,40 +313,47 @@ calculate_entropy_and_mi <- function(mea, treatments,
   return(kl_div)
 }
 
-.mutual_information <- function(a, b, normalize=F) {
-  # make sure a and b have same number of bins (equal bin sizes assumed)
-  stopifnot(length(a) == length(b))
-  # get sum of counts across bins for a, b, a+b
-  a_total <- sum(a)
-  b_total <- sum(b)
-  ab_total <- a_total + b_total
-  # calc p(i) for a and b seperately
-  # form matrix with a,b counts, calc p(i,j) across a+b prob. space
-  p_ab <- rbind(a, b) / ab_total
-  # calc p(i) for a across a+b
-  p_a_i_ab <- a / ab_total
-  # calc p(j) for b across a+b
-  p_b_j_ab <- b / ab_total
-  # get total prob of an observation falling in a, given a+b
-  p_a_ab <- sum(p_a_i_ab)
-  # get total prob of an observation falling in b, given a+b
-  p_b_ab <- sum(p_b_j_ab)
-  # get total p(i) in a+b
-  p_i_ab <- (p_a_i_ab + p_b_j_ab)
-  # form col of [p(a|ab),p(b|ab)]
-  p_x <- c(p_a_ab, p_b_ab)
-  # rename p(i) in a+b
-  p_y <- p_i_ab
-  # form matrix of expected probs based on [p(a|ab),p(b|ab)], p(i) in a+b
-  p_null <- p_x %o% p_y
-  # calc KL divergence between joint prob dist (a+b) and indep dists (a)(b)
-  mi <- .kl_divergence(p_ab, p_null)
-  if (normalize == T) {
-    ent_a <- .entropy(a)
-    ent_b <- .entropy(b)
-    mi <- mi / (sqrt(ent_a * ent_b))
+.mutual_information <- function(x, y,                                            
+                                normalize=F,                                     
+                                q="75%") {                   
+  
+  # define threshold that differentiates a time
+  # interval as being either a burst member or non-member.
+  # q must be in seq(5,100,by=5)
+  x.thresh <- quantile(x,probs=seq(0,1,by=0.05))[[q]]
+  y.thresh <- quantile(y,probs=seq(0,1,by=0.05))[[q]]
+  
+  # apply classification to each time interval for each vector
+  x.b <- ifelse(x > x.thresh, T, F)
+  y.b <- ifelse(y > y.thresh, T, F)
+  
+  # get counts of each possible combination of
+  # classification at each time interval
+  a <- sum((x.b==F) & (y.b==F))
+  b <- sum((x.b==T) & (y.b==F))
+  c <- sum((x.b==F) & (y.b==T))
+  d <- sum((x.b==T) & (y.b==T)) 
+  
+  # build dataframe of counts, apply artificial replacement
+  # of zeros with ones to prevent NaN being produced in computation
+  vals <- c(a,b,c,d)
+  vals <- ifelse(vals == 0, 1, vals)
+  df <- data.frame(x=c(vals[1],vals[2]),
+                   y=c(vals[3],vals[4]))
+  
+  # compute mutual information by iterating over every possible
+  # combination of time interval classifs, get counts of intervals
+  n <- sum(df)
+  z <- 0
+  for (i in 1:nrow(df)) {
+    for (j in 1:ncol(df)) {
+      p.i <- sum(df[i,]) / n
+      p.j <- sum(df[,j]) / n
+      p.ij <- df[i,j] / n
+      z <- z + (p.ij * log2(p.ij / (p.i * p.j)))
+    }
   }
-  return(mi)
+  return(z)
 }
 
 .get_bin_fullset <- function(bin_starts, bin_ends, t_0, t_end) {

@@ -44,8 +44,7 @@ A data frame with the following columns:
 data("S")  
 S$bs<-calc_burst_summary(S)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 \keyword{ burst }
 \keyword{ frequency }
 \keyword{ duration }

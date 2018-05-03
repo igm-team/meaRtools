@@ -47,9 +47,12 @@ Output file _bursts.csv holds all features generated for bursts per well and per
 
 \examples{
 data("S")  
-d<-dir.create(paste0(getwd(),"/Analysis") )
+output_dir = file.path(tempdir(),"Analysis")
+print(paste0("Creating output folders under ",output_dir))
+dir.create(output_dir)
+
 s<-list(); s[[1]]<-S
-write_plate_summary_for_bursts(s, paste0(getwd() ) )
+write_plate_summary_for_bursts(s, output_dir)
 }
 \keyword{ bursts }
 \keyword{ IBI }

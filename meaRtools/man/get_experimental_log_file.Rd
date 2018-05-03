@@ -32,14 +32,15 @@ list containing character vector of experimental log information.
 See http://www.axionbiosystems.com/products/software/ for details on spike-list csv file format
 }
 \examples{
-##master_chem_file<-paste0( system.file(package = "meaRtools"),
-#"/data",
-#"/exampleRecording_1012016_plate1_expLog.csv" )
+\donttest{
+temp_path=tempdir()
+master_chem_file<-paste0( temp_path,"/data",
+   "/exampleRecording_1012016_plate1_expLog.csv" )
       
-##spike.list.file<-paste0( system.file(package = "meaRtools"),
-#"/data",
-#"/exampleRecording_1012016_plate1_DIV1_spike_list.csv" )
+spike_list_file<-paste0( temp_path,"/data",
+"/exampleRecording_1012016_plate1_DIV1_spike_list.csv" )
 
-##plate.data<-getxperimental.log.file( file=spike.list.file, master_chem_file = master_chem_file )
+plate.data<-getxperimental.log.file( file=spike.list.file, master_chem_file = master_chem_file )
+}
 }
 \keyword{ experimental log }

@@ -57,9 +57,9 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
                   ncol = 4, ask = FALSE, sur = sur)
     if (is.null(m)) {
       ns$brief <- c(n = 0, peak_m = NA, peak_sd = NA, durn_m = NA, durn_sd = NA,
-        percent.of.spikes.in.ns = NA,
-        mean.spikes.in.ns = NA,
-        mean.insi = NA)
+        percent_of_spikes_in_ns = NA,
+        mean_spikes_in_ns = NA,
+        mean_insis = NA)
       ns$en_map <- NULL
       ns$brief_electrode <- NULL
     } else {
@@ -76,8 +76,8 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
       ns$brief <- c(n = nrow(ns$measures), peak_m = mean(peak_val),
         peak_sd = sd(peak_val), durn_m = mean(durn, na.rm = TRUE),
         durn_sd = sd(durn, na.rm = TRUE),
-        percent.of.spikes.in.ns = 100 * sum(en_map) / sum(e$nspikes[indexes]),
-        mean.spikes.in.ns = sum(en_map) / nrow(ns$measures),
+        percent_of_spikes_in_ns = 100 * sum(en_map) / sum(e$nspikes[indexes]),
+        mean_spikes_in_ns = sum(en_map) / nrow(ns$measures),
         mean_insis = mean_insis
       )
       if (dim(en_map)[2] != dim(ns$measures)[1]) {
@@ -86,20 +86,20 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
       ns$en_map <- en_map
 
       # now briefs at electrode level
-      features <- c("spikes", "ns", "spikes.in.ns", "percent.of.spikes.in.ns",
-        "mean.spikes.per.ns", "sd.spikes.per.ns", "mean_insis")
+      features <- c("spikes", "ns", "spikes_in_ns", "percent_of_spikes_in_ns",
+        "mean_spikes_per_ns", "sd_spikes_per_ns", "mean_insis")
       en_brief <- matrix(0, dim(en_map)[1], length(features))
       rownames(en_brief) <- rownames(en_map)
       colnames(en_brief) <- features
       en_brief[, "spikes"] <- e$nspikes[indexes]
       en_brief[, "ns"] <- rowSums(en_map > 0)
-      en_brief[, "spikes.in.ns"] <- rowSums(en_map)
-      en_brief[, "percent.of.spikes.in.ns"] <-
-        100 * en_brief[, "spikes.in.ns"] / en_brief[, "spikes"]
+      en_brief[, "spikes_in_ns"] <- rowSums(en_map)
+      en_brief[, "percent_of_spikes_in_ns"] <-
+        100 * en_brief[, "spikes_in_ns"] / en_brief[, "spikes"]
 
-      en_brief[, "mean.spikes.per.ns"] <-
-        en_brief[, "spikes.in.ns"] / en_brief[, "ns"]
-      en_brief[, "sd.spikes.per.ns"] <-
+      en_brief[, "mean_spikes_per_ns"] <-
+        en_brief[, "spikes_in_ns"] / en_brief[, "ns"]
+      en_brief[, "sd_spikes_per_ns"] <-
         unlist(lapply(rownames(en_brief), function(e) {
         temp <- sd(en_map[e, which(en_map[e, ] > 0)])
         temp[is.na(temp)] <- NaN
