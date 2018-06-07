@@ -27,7 +27,7 @@ calculate_network_spikes(e, sur = 100,ns_n, ns_t)
   \item{well_layout}{The plate/well layout identified by the function.}
 }
 \references{
-Need to find the paper describe this method.
+Eytan D, Marom S (2006) Dynamics and Effective Topology Underlying Synchronization in Networks of Cortical Neurons. Journal of Neuroscience 26:8465–8476.
 }
 
 \keyword{ network spikes }
