@@ -8,7 +8,7 @@ pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
 s = read_spikelist_text(times, pos)
 
 meaRtools:::.plot_spike_list(s)
-## following doesn't yet work
+## Sahar: following doesn't yet work
 ##meaRtools:::.plot_mealayout(s$layout, use_names = T, cex = 1)
 
 plot(s$layout$pos[,1], s$layout$pos[,2], pch=20, cex=.1, asp=1)
