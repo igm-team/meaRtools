@@ -2,7 +2,7 @@
 
 read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
 
-  channel_data = read.csv(channel_text_file)
+  channel_data = read.csv(channel_text_file, stringsAsFactors = FALSE)
   channels = channel_data$Channel
 
   ## The order of the channels in the channel_text_file determines the order
@@ -12,18 +12,19 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
   spikes = split(spike_data$Time, factor(spike_data$Channel, levels=channels))
   
 
-
   ## if no well information given, assume NA.
   if (!is.element("Well", names(channel_data))) {
-    wells = NA
-    print(wells)
+    wells = rep("w1", length(channel_data$x))
+  } else {
+    wells = as.character(channel_data$Well)
   }
 
   xlim = range(channel_data$x)
   ylim = range(channel_data$y)
-  pos = cbind(channel_data$x, channel_data$y)
+  ##pos = cbind(channel_data$x, channel_data$y)
+  pos = data.frame(x=channel_data$x, y=channel_data$y, Well=wells,
+                   stringsAsFactors=FALSE)
   rownames(pos) <- channels
-
   layout = list(xlim=xlim,
              ylim=ylim,
              spacing = 100,
@@ -37,9 +38,11 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
   treatment <- NULL
   dose <- NULL
   size <- NULL
-  well <- NULL
+  well <- unique(wells)                 #sje: to check - what is this normally?
   units <- NULL
 
+  rec_time = c(0, 500)                  #SJE: to check - is this included elsewhere?
+  
   s = list(spikes=spikes,
            scount=sapply(spikes, length),
            epos=epos,
@@ -51,7 +54,8 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
            size=size,
            well=well,
            units=units,
-           layout=layout
+           layout=layout,
+           rec_time=rec_time
            )
 
   s
