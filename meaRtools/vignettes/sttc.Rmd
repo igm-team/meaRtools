@@ -2,7 +2,10 @@
 title: "meaRtools: Basics of correlating spike trains"
 author: "Stephen J Eglen"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    toc: true
+    toc_float: true
 vignette: >
   %\VignetteIndexEntry{meaRtools: Basics of correlating spike trains}
   %\VignetteEngine{knitr::rmarkdown}
@@ -18,7 +21,7 @@ opts_chunk$set(cache=TRUE)
 
 # Correlating spike trains
 
-We use the method proposed by (Cutts and Eglen, J Neurosci 2014) to
+We use the method proposed by Cutts and Eglen (J Neurosci 2014) to
 compute the correlation between a pair of spike trains.  This measure
 is called the "Spike Time Tiling Coefficient" (sttc).  To illustrate
 these ideas, we first generate three related synthetic spike trains.
