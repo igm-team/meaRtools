@@ -9,7 +9,7 @@ compute_mean_sttc_by_well(s, dt = 0.05, beg = NULL, end = NULL)
 \arguments{
 \item{s}{structure storing the well information}
 
-\item{dt}{Time window for STTC (default = 0.05 secons)}
+\item{dt}{Time window for STTC (default = 0.05 seconds)}
 
 \item{beg}{Start time in seconds (defaults to start of recording)}
 
