@@ -15,10 +15,25 @@ plot(s$layout$pos[,1], s$layout$pos[,2], pch=20, cex=.1, asp=1)
 text(s$layout$pos[,1], s$layout$pos[,2], rownames(s$layout$pos))
 
 
-##  breaks = seq(from=0, to=1000, by=50)
-##  s$corr = corr.index(s, distance.breaks = breaks)
-##  plot.corr.index(s, log="y", las=1, ylim=c(0.1, 100),
-##                xlabel = ci.xlabel, pch=20, show.fit=FALSE)
-
 ######################################################################
 
+
+s$well
+
+## ideally for: ~/langs/R/meaRtools/meaRtools/R/sttc.R
+
+
+sttc_results = compute_sttc_by_well(s)
+head(sttc_results)
+
+
+require(lattice)
+xyplot(STTC ~ Distance | Well, data = sttc_results,
+       main = "STTC by well",
+       pch=20, xlab = "Distance (um)")
+
+sttc_file = tempfile(fileext=".csv")
+write.csv(sttc_results, file=sttc_file, row.names=FALSE)
+
+## to view the file:
+file.edit(sttc_file)
