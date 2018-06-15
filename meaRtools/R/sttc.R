@@ -85,7 +85,7 @@ plot.sttcp <- function(x, ...) {
 ##' 
 ##' @title Compute the mean STTC averaged across all pairwise electrodes in well
 ##' @param s structure storing the well information
-##' @param dt Time window for STTC (default = 0.05 secons)
+##' @param dt Time window for STTC (default = 0.05 seconds)
 ##' @param beg Start time in seconds (defaults to start of recording)
 ##' @param end End time in seconds (defaults to end of recording)
 ##' @return A vector giving the mean of all pairwise STTCs on each well.
@@ -106,7 +106,7 @@ compute_mean_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
   sttc_all <- lapply(wells, function(well) {
     indexes <- .names_to_indexes(names(s$spikes), well, allow_na = TRUE)
     allspikes = s$spikes[indexes]
-    if (length(allspikes) > 2) {        #need at least two spike trains in well
+    if (length(allspikes) >= 2) {        #need at least two spike trains in well
       sttcs_mat = sttc_allspikes1(allspikes, dt, beg, end)
       v = sttcs_mat[upper.tri(sttcs_mat)]   #excludes diagonal
       mean(v)
@@ -119,3 +119,65 @@ compute_mean_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
   return(sttc_all)
 }
   
+
+##' Compute the STTC across all pairwise electrodes in well
+##'
+##' For each pair of electrodes (excluding autocorrelations), we calculate the STTC. 
+##' If a well has one (or no) electrodes, no STTCs are calculated for that well.
+##'
+##' @title Compute the STTC across all pairwise electrodes in well
+##' @param s structure storing the well information
+##' @param dt Time window for STTC (default = 0.05 seconds)
+##' @param beg Start time in seconds (defaults to start of recording)
+##' @param end End time in seconds (defaults to end of recording)
+##' @return A data frame giving all pairwise STTCs (and distance separating electrodes) on each well.
+##' @author Stephen Eglen
+compute_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
+  if (is.null(beg))
+    beg <- s$rec_time[1]
+  if (is.null(end))
+    end <- s$rec_time[2]
+
+  ## First, group electrodes per well.
+  electrodes_per_well = lapply( s$well, function(w) which(s$layout$pos$Well == w))
+  names(electrodes_per_well) = s$well
+  nelectrodes_per_well = sapply(electrodes_per_well, length)
+
+  ## if nelectrodes_per_well for a well is 0 or 1, the following returns zero for that well.
+  nelectrode_pairs_per_well = choose(nelectrodes_per_well, 2)
+  total_pairs = sum(nelectrode_pairs_per_well)
+
+  empty_string = rep("", total_pairs)
+  res = data.frame(Channela=empty_string, Channelb=empty_string, Well=empty_string,
+                   Distance=rep(NA,total_pairs),
+                   STTC=rep(NA, total_pairs), stringsAsFactors=FALSE)
+
+  line = 0
+  ## Return a data frame with sttc for each electrode pair in each well.
+  for (well in s$well) {
+    ## get all electrodes for a Well
+    electrodes = electrodes_per_well[[well]]
+    allspikes = s$spikes[electrodes]
+    n = length(allspikes)
+    if (n >= 2) {        #need at least two spike trains in well
+      sttcs_mat = sttc_allspikes1(allspikes, dt, beg, end)
+      ## a iterates over rows of matrix, b over columns
+      for (a in 1:(n-1)) {
+        a_x = s$layout$pos$x[a]
+        a_y = s$layout$pos$y[a]
+        for (b in (a+1):n) {
+          line = line + 1
+          distance = sqrt( (s$layout$pos$x[b] - a_x)^2 +
+                           (s$layout$pos$y[b] - a_y)^2 )
+          res[line, 1] = s$names[a]
+          res[line, 2] = s$names[b]
+          res[line, 3] = well
+          res[line, 4] = distance
+          res[line, 5] = sttcs_mat[a, b]
+        }
+      }
+    }
+  }
+  stopifnot(line == total_pairs)        #check that we computed all pairs.
+  res
+}
