@@ -94,4 +94,49 @@ It clearly shows that a and c are ofset by about 0.8 seconds.  We also
 see that for small values of dt, the cross-correlation peak drops
 significantly below 1.0.
 
+# Computing STTCs per well
+
+First read in some data (these 6 recordings are simulated, first three
+from P9, and the last three from P11 mouse retina - Demas et
+al. 2003).
+
+
+```{r}
+times = system.file("extdata/textreader/demas.times", package="meaRtools")
+pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
+s = read_spikelist_text(times, pos)
+```
+
+Compute the pairwise STTC.  Results are then stored in a data frame:
+
+```{r}
+sttc_results = compute_sttc_by_well(s)
+head(sttc_results)
+```
+
+We can also make a lattice plot to show the pairwise correlations as a
+function of distance within each well.
+
+```{r,fig.width = 6, fig.height=6}
+require(lattice)
+xyplot(STTC ~ Distance | Well, data = sttc_results,
+       main = "STTC by well",
+       pch=20, xlab = "Distance (um)")
+```
+
+Finally, to save the pairwsie correlations, we can simply save this
+data frame:
+
+
+```{r}
+sttc_file = tempfile(fileext=".csv")
+write.csv(sttc_results, file=sttc_file, row.names=FALSE)
+```
+
+The top of the file looks like this:
+
+```{r}
+cat(readLines(sttc_file, 10), sep='\n')
+```
+
 <!--This file can be rendered using rmarkdown::render("sttc.Rmd")   -->
