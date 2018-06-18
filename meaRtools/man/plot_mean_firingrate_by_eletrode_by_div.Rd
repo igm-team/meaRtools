@@ -22,7 +22,7 @@ data("S")
 s<-list()
 s[[1]]<-S
 \donttest{
-  plot.mean.firingrate.by.eletrode.by.div(s)
+  plot_mean_firingrate_by_eletrode_by_div(s)
 }
 
 }
