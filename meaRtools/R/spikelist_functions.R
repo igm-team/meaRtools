@@ -164,7 +164,7 @@ calculate_burst_features <- function(s) {
   units <- chem_info$units
   wells <- .axion_guess_well_number(channels)
   array <- sprintf("Axion %d well", wells)
-  plateinfo <- .plateinfo(array)
+  plateinfo <- get_plateinfo(array)
   epos <- .axion_elec_name_to_xy(channels, plateinfo)
 
   s <- list()
