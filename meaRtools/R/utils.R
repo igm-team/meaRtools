@@ -17,7 +17,7 @@ get_project_plate_name <- function(file) {
 }
 
 .get_all_electrodes <- function(r) {
-  plate <- .plateinfo(r$layout$array)
+  plate <- get_plateinfo(r$layout$array)
   wells <- as.matrix(sort(plate$wells))
   result <- as.vector(apply(wells, c(1, 2), function(well) {
     .get_electrode_layout(r, well)$electrodes
@@ -26,7 +26,7 @@ get_project_plate_name <- function(file) {
 }
 
 .get_electrode_layout <- function(r, well) {
-  plateinfo <- .plateinfo(r$layout$array)
+  plateinfo <- get_plateinfo(r$layout$array)
   d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
   electrodes <- sort(paste(well, "_", d1[, "row"], d1[, "col"], sep = ""))
   layout <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
