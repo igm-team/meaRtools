@@ -96,7 +96,7 @@ compute_mean_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
   if (is.null(end))
     end <- s$rec_time[2]
 
-  plateinfo <- .plateinfo(s$layout$array)
+  plateinfo <- get_plateinfo(s$layout$array)
   wells <- plateinfo$wells
   names(wells) <- wells # keep the names valid.
   wells_layout <- plateinfo$layout
