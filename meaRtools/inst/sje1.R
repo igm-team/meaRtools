@@ -49,3 +49,25 @@ all.equal(r1,r2)
 
 # see issue about the inequality changing in the above function.
 
+
+## Check the plot function
+data(S)
+S1 = list(S=S)
+plot_plate_summary_for_spikes(S1, "/tmp")
+
+test_platelayout = list(n_well = 16,
+                        wells = paste0("w", "1:6"),
+                        n_well_r = 2,
+                        n_well_c = 3,
+                        layout = c(3, 2),
+                        n_elec_r = 8,
+                        n_elec_c = 8)
+
+add_plateinfo("test-6well", test_platelayout)
+times = system.file("extdata/textreader/demas.times", package="meaRtools")
+pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
+s = read_spikelist_text(times, pos, array="test-6well")
+.plot_mealayout(s$layout, use_names = FALSE)
+
+plateinfo("test-6well")
+plateinfo("test-6well")
