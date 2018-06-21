@@ -1,6 +1,7 @@
 ## Functions for reading in text in a generic format.
 
-read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
+read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
+                                array) {
 
   channel_data = read.csv(channel_text_file, stringsAsFactors = FALSE)
   channels = channel_data$Channel
@@ -28,7 +29,8 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info) {
   layout = list(xlim=xlim,
              ylim=ylim,
              spacing = 100,
-             pos = pos)
+             pos = pos,
+             array = array)
 
              
   ## what should these all be?
