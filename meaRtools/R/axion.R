@@ -1,37 +1,9 @@
 ## General functions useful for processing the Axion data.
 
-## This variable stores all the information related to the wells; typically this
-## is accessed through the plateinfo arrayname function.
+## This variable stores all the information related to the wells;
+## typically this is accessed through the get_plateinfo(arrayname)
+## function.
 
-.axion_plateinfo <- list("Axion 48 well" = list(
-  n_well = 48,
-  wells = paste(rep(LETTERS[6:1], each = 8), rep(1:8, 6), sep = ""),
-  n_well_r = 6,
-  n_well_c = 8,
-  layout = c(8, 6),
-  n_elec_r = 4,
-  n_elec_c = 4),
-"Axion 12 well" = list(
-  n_well = 12,
-  wells = paste(rep(LETTERS[3:1], each = 4), rep(1:4, 3), sep = ""),
-  n_well_r = 3,
-  n_well_c = 4,
-  layout = c(4, 3),
-  n_elec_r = 8,
-  n_elec_c = 8))
-
-
-.plateinfo <- function(arrayname) {
-  ## Return useful information related to arrayname
-  ##
-  ## plateinfo "Axion 12 well"
-  res <- .axion_plateinfo[[arrayname]]
-  if (is.null(res)) {
-    stop("arrayname not recognised:", arrayname)
-  } else {
-    res
-  }
-}
 
 .axion_elec_name_to_xy <- function(name, plateinfo) {
   ## Convert electrode name to  (x,y) position.
