@@ -125,7 +125,7 @@ summarize_network_spikes <- function(e, nspikes, ns_e, sur) {
 
 calculate_network_spikes <- function(e, sur=100, ns_n, ns_t) {
   # get well information
-  plateinfo <- .plateinfo(e$layout$array)
+  plateinfo <- get_plateinfo(e$layout$array)
   wells <- plateinfo$wells
   names(wells) <- wells # keep the names valid.
   wells_layout <- plateinfo$layout

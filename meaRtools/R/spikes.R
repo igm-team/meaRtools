@@ -107,7 +107,7 @@ calculate_isis <- function(s) {
 }
 
 .spike_summary_by_well <- function(s) {
-  plate <- .plateinfo(s$layout$array)
+  plate <- get_plateinfo(s$layout$array)
   wells <- sort(plate$wells)
   s$isis <- lapply(s$spikes, diff)
   start_pos <- 1
@@ -191,7 +191,7 @@ compute_mean_firingrate_by_well <- function(s) {
         }
         df <- do.call("rbind", df)
         colnames(df) <- c("isis", "electrode")
-        plateinfo <- .plateinfo(s$layout$array)
+        plateinfo <- get_plateinfo(s$layout$array)
         d1 <- expand.grid(col = 1:plateinfo$n_elec_c,
                           row = 1:plateinfo$n_elec_r)
         all_electrodes <- sort(paste(well, "_",
@@ -238,7 +238,7 @@ compute_mean_firingrate_by_well <- function(s) {
       df <- do.call("rbind", df)
       maxy <- max(df[, 2])
       colnames(df) <- c("time", "meanfiringrate", "electrode")
-      plateinfo <- .plateinfo(s$layout$array)
+      plateinfo <- get_plateinfo(s$layout$array)
       d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
       all_electrodes <- sort(paste(well, "_", d1[, "row"],
                                    d1[, "col"], sep = ""))
@@ -303,7 +303,7 @@ plot_mean_firingrate_by_well_by_div <- function(s) {
     d$well_stats
   })
   well_stats_all <- do.call("rbind", well_stats)
-  plateinfo <- .plateinfo(s[[1]]$layout$array)
+  plateinfo <- get_plateinfo(s[[1]]$layout$array)
   wells <- plateinfo$wells
   names(wells) <- wells # keep the names valid.
   wells_layout <- plateinfo$layout
@@ -478,9 +478,9 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
 }
 
 .plot_mealayout <- function(x, use_names=TRUE, ...) {
-
-  rows <- .plateinfo(x$array)$n_well_r
-  columns <- .plateinfo(x$array)$n_well_c
+  plateinfo = get_plateinfo(x$array)
+  rows <- plateinfo$n_well_r
+  columns <- plateinfo$n_well_c
   row_names <- chartr("123456789", "ABCDEFGHI", 1:rows)
   ## Plot the MEA layout.
   pos <- x$pos
