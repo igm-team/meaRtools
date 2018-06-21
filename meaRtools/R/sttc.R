@@ -161,11 +161,13 @@ compute_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
     n = length(allspikes)
     if (n >= 2) {        #need at least two spike trains in well
       sttcs_mat = sttc_allspikes1(allspikes, dt, beg, end)
-      ## a iterates over rows of matrix, b over columns
-      for (a in 1:(n-1)) {
+      ## i (a) iterates over rows (electrodes) of matrix, j (b) over columns
+      for (i in 1:(n-1)) {
+        a = electrodes[i]
         a_x = s$layout$pos$x[a]
         a_y = s$layout$pos$y[a]
-        for (b in (a+1):n) {
+        for (j in (i+1):n) {
+          b = electrodes[j]
           line = line + 1
           distance = sqrt( (s$layout$pos$x[b] - a_x)^2 +
                            (s$layout$pos$y[b] - a_y)^2 )
@@ -173,7 +175,7 @@ compute_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
           res[line, 2] = s$names[b]
           res[line, 3] = well
           res[line, 4] = distance
-          res[line, 5] = sttcs_mat[a, b]
+          res[line, 5] = sttcs_mat[i, j]
         }
       }
     }
