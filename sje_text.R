@@ -23,14 +23,8 @@ s$well
 ## ideally for: ~/langs/R/meaRtools/meaRtools/R/sttc.R
 
 
-sttc_results = compute_sttc_by_well(s)
-head(sttc_results)
 
 
-require(lattice)
-xyplot(STTC ~ Distance | Well, data = sttc_results,
-       main = "STTC by well",
-       pch=20, xlab = "Distance (um)")
 
 sttc_file = tempfile(fileext=".csv")
 write.csv(sttc_results, file=sttc_file, row.names=FALSE)
