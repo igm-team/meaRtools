@@ -7,6 +7,10 @@ get_data <- function(caption="") {
   return(spike_files)
 }
 
+## TODO: this looks odd.  It assumes that the first two characters of
+## the electrode determine the channel name.  The help page also
+## mentions that it filters for electrodes firing > 5 Hz, yet I don't
+## see how that is done here.  Axion-specific
 get_num_ae <- function(s2) {
   # add number of active electrodes
   s2$nae <- rep(0, length(s2$well))
