@@ -6,7 +6,8 @@ load_all()
 
 
 
-test_platelayout = list(n_well = 16,
+
+test_platelayout = list(n_well = 6,
                         wells = paste0("w", "1:6"),
                         n_well_r = 2,
                         n_well_c = 3,
@@ -24,6 +25,7 @@ times = system.file("extdata/textreader/demas.times", package="meaRtools")
 pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
 s = read_spikelist_text(times, pos, array="test-6well")
 .plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
+
 
 
 ## This takes the average across the whole plate
