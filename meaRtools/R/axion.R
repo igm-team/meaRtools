@@ -108,8 +108,9 @@
 }
 
 .get_array_info <- function(data) {
-# Array-specific information, maybe this could go in a file, rather
-# than be read-in separately.
+  ## TODO: this should be deleted, and instead the information should
+  ## come from the environment.R information.
+  ## Is this used now?
   pos <- data$epos;  rownames(pos) <- data$names
   array <- data$array
 
