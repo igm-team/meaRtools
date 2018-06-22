@@ -239,12 +239,25 @@ compute_mean_firingrate_by_well <- function(s) {
       maxy <- max(df[, 2])
       colnames(df) <- c("time", "meanfiringrate", "electrode")
       plateinfo <- get_plateinfo(s$layout$array)
-      d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
-      all_electrodes <- sort(paste(well, "_", d1[, "row"],
-                                   d1[, "col"], sep = ""))
-      layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
-      df <- data.frame(df)
+      if (any(grep("^Axion", s$layout$array))) {
+        ## TODO: Axion-specific layout of grid of electrodes
+        ## This assumes we know the format of the electrode name.
+        d1 <- expand.grid(col = 1:plateinfo$n_elec_c,
+                          row = 1:plateinfo$n_elec_r)
+        all_electrodes <- sort(paste(well, "_", d1[, "row"],
+                                     d1[, "col"], sep = ""))
+        layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
+      } else {
+        ## For other plates, simply show all active electrodes
+        ## without assuming any spatial position of the electrode
+        ## within a well.
+        all_electrodes <- as.factor(names(s$spikes)[active_electrodes])
+        ## The following layout tells lattice to generate the N plots
+        ## as best as it can.
+        layout_electrodes <- c(0, length(all_electrodes))
+      }
 
+      df <- data.frame(df)
       p1 <- xyplot(meanfiringrate ~ time | factor(electrode,
                       levels = all_electrodes),
         data = df,
@@ -484,7 +497,8 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
   row_names <- chartr("123456789", "ABCDEFGHI", 1:rows)
   ## Plot the MEA layout.
   pos <- x$pos
-  electrodes_only <- sapply(strsplit(rownames(pos),"_"), "[", 2) 
+  ## remove everything up to and including first underscore
+  electrodes_only <- sub('^[^_]+_', '', rownames(x$pos))
   p<-plot(NA, xaxs="i",#asp = 1,xaxs="i",
           #xlim = c(x$xlim[1]-100,x$xlim[2]+200), ylim = c(x$ylim[1],x$ylim[2]+200),
           xlim = x$xlim, ylim = x$ylim,
@@ -496,7 +510,15 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
     text(pos[, 1], pos[, 2], ...)
   axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-2,tick = F)
   axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),las=1,cex.axis=1.4,tick = F)
-  abline(h=seq( max(x$pos[,"y"])+200, x$ylim[1]-200,length.out = rows+1),v=seq( x$xlim[2]-100, x$xlim[1]-100,length.out = columns+1), col=c("grey"))
+  ## Following works only for Axion arrays.
+  ## TODO
+  ## will be difficult to generalise, so leave it for now.
+  ## could solve by adding it to the plateinfo list?
+  if (any(grep('^Axion', x$array))) {
+    abline(h=seq( max(x$pos[,"y"])+200, x$ylim[1]-200,length.out = rows+1),
+           v=seq( x$xlim[2]-100, x$xlim[1]-100,length.out = columns+1),
+           col=c("grey"))
+  }
 }
 
 .summary_spike_list <- function(object, ...) {
