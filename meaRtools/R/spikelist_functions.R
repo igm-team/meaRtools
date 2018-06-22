@@ -14,6 +14,9 @@ load_spikelist <- function(spk_data_file) {
   data <- get(temp)
   spikes <- data$spikes
 
+  ## TODO - update the next line, and then delete .get_array_info(data)
+  ## or fix the .get_array_info function.
+  ## currently Axion specific.
   arrayinfo <- .get_array_info(data)
   layout <- arrayinfo$layout
   if (missing(corr_breaks)) {
