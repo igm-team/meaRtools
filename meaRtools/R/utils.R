@@ -26,6 +26,7 @@ get_project_plate_name <- function(file) {
 }
 
 .get_electrode_layout <- function(r, well) {
+  ## TODO -- this looks Axion-specific
   plateinfo <- get_plateinfo(r$layout$array)
   d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
   electrodes <- sort(paste(well, "_", d1[, "row"], d1[, "col"], sep = ""))
