@@ -43,22 +43,40 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   well <- unique(wells)                 #sje: to check - what is this normally?
   units <- NULL
 
-  rec_time = c(0, 500)                  #SJE: to check - is this included elsewhere?
+  beg <- end <- NULL
+  ids <- NULL
+  time_interval <- 1.0
+  corr_breaks <- 0
+
+  ## adapted from .r_object_read_spikes()
+  s <- .construct_s(spikes,
+                    ids,
+                    time_interval, beg, end,
+                    corr_breaks,
+                    layout,
+                    filename = spike_text_file)
+
+  s$dose <- dose
+  s$treatment <- treatment
+  s$size <- size
+  s$units <- units
+  s$well <- well
   
-  s = list(spikes=spikes,
-           scount=sapply(spikes, length),
-           epos=epos,
-           file=spike_text_file,
-           names=channels,
-           array=array,
-           treatment=treatment,
-           dose=dose,
-           size=size,
-           well=well,
-           units=units,
-           layout=layout,
-           rec_time=rec_time
-           )
+
+  ## s = list(spikes=spikes,
+  ##          scount=sapply(spikes, length),
+  ##          epos=epos,
+  ##          file=spike_text_file,
+  ##          names=channels,
+  ##          array=array,
+  ##          treatment=treatment,
+  ##          dose=dose,
+  ##          size=size,
+  ##          well=well,
+  ##          units=units,
+  ##          layout=layout,
+  ##          rec_time=rec_time
+  ##          )
 
   s
 }
