@@ -2,12 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{publications}
 \alias{publications}
-\title{Show list of publications have used this package}
+\title{Show list of publications that have used this package}
 \usage{
 publications()
 }
 \description{
-Show list of publications have used this package
+Show list of publications that have used this package
 }
 \details{
 Simple wrapper function to show the publications.md file, documenting

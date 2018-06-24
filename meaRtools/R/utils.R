@@ -33,3 +33,18 @@ get_project_plate_name <- function(file) {
   layout <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
   return(list(electrodes = electrodes, layout = layout))
 }
+
+##' Show list of publications that have used this package
+##'
+##' Simple wrapper function to show the publications.md file, documenting
+##' papers that have used previous versions of this package.
+##' In RStudio, the file will appear in its own window; otherwise it will
+##' appear in a pager run within the R session
+##' @title Show list of publications that have used this package
+##' @return NULL
+##' @author Stephen Eglen
+publications <- function() {
+  f = system.file("publications.md", package="meaRtools")
+  cat(f)
+  file.show(f)
+}
