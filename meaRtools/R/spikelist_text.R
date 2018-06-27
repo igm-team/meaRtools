@@ -60,6 +60,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   ## Add a place-holder for the treatment information.\
   ## TODO: this could come from cheminfo?
   treatment <- rep("untreated", length(well))
+  treatment[1] <- "control"             #ensure treatment has 2 levels.
   names(treatment) <- well
                   
                    
