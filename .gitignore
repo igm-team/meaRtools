@@ -9,3 +9,9 @@
 *.so
 meaRtools/vignettes/cache/
 meaRtools/vignettes/figure/
+
+meaRtools/vignettes/data_input_cache/
+meaRtools/vignettes/data_input_files/
+meaRtools/vignettes/sttc_cache/
+meaRtools/vignettes/sttc_files/
+
