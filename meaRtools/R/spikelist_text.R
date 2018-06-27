@@ -1,5 +1,19 @@
 ## Functions for reading in text in a generic format.
+##
 
+##' Construct an MEA object by importing from text files.
+##'
+##' This function can be used to read in spike times from text files.
+##' 
+##' @title Construct an MEA object by importing from text files.
+##' @param spike_text_file CSV with Spike time information
+##' @param channel_text_file CSV with information regarding MEA layout
+##' @param chem_info Optional chemical information (currently unused)
+##' @param array Name of array
+##' @return 
+##' @author Stephen Eglen
+##' @examples
+##' 
 read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
                                 array) {
 
