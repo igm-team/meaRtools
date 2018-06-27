@@ -10,7 +10,7 @@
 ##' @param channel_text_file CSV with information regarding MEA layout
 ##' @param chem_info Optional chemical information (currently unused)
 ##' @param array Name of array
-##' @return 
+##' @return S the MEA object
 ##' @author Stephen Eglen
 ##' @examples
 ##' 
