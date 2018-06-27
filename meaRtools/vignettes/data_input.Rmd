@@ -110,7 +110,7 @@ mouse retina (Demas et al, 2013), synthesised to make a 6-well plate.
 
 ```{r}
 demas_platelayout = list(n_well = 6,
-                        wells = paste0("w", "1:6"),
+                        wells = paste0("w", 1:6),
                         n_well_r = 2,
                         n_well_c = 3,
                         layout = c(3, 2),
