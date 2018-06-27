@@ -275,6 +275,7 @@ compute_mean_firingrate_by_well <- function(s) {
 
 }
 
+## TODO: typo here -- why eletrode?
 plot_mean_firingrate_by_eletrode_by_div <- function(s) {
   electrode_stats <- lapply(s, function(d) {
     cbind(d$meanfiringrate, d$cw, .get_div(d))
@@ -618,3 +619,4 @@ isi <- function(train) {
   s$well_stats <- compute_mean_firingrate_by_well(s)
   s
 }
+
