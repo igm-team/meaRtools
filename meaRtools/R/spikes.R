@@ -501,6 +501,7 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
   ## remove everything up to and including first underscore
   electrodes_only <- sub('^[^_]+_', '', rownames(x$pos))
   p<-plot(NA, xaxs="i",#asp = 1,xaxs="i",
+          asp=1,
           #xlim = c(x$xlim[1]-100,x$xlim[2]+200), ylim = c(x$ylim[1],x$ylim[2]+200),
           xlim = x$xlim, ylim = x$ylim,
           bty = "n",
