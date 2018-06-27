@@ -7,8 +7,12 @@ load_all()
 
 
 
+## This material is moving into ../vignettes/data_input.Rmd
+## once complete, this file should be deleted...
+
+
 test_platelayout = list(n_well = 6,
-                        wells = paste0("w", "1:6"),
+                        wells = paste0("w", 1:6),
                         n_well_r = 2,
                         n_well_c = 3,
                         layout = c(3, 2),
