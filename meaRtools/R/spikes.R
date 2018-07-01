@@ -154,16 +154,22 @@ calculate_isis <- function(s) {
 
 .get_div <- function(s) {
   div <- NA
-  t1 <- strsplit(s$file, split = "_", fixed = TRUE)
-  for (i in t1[[1]]) {
-    i <- toupper(i)
-    if (nchar(i) > 2 && substr(i, 1, 3) == "DIV") {
-      if (nchar(i) > 5) {
-        i <- unlist(strsplit(i, split = ".", fixed = T))[1]
+  if(length(s$div>0)){
+    div<-s$div
+  } else {
+    t1 <- strsplit(s$file, split = "_", fixed = TRUE)
+    for (i in t1[[1]]) {
+      i <- toupper(i)
+      if (nchar(i) > 2 && substr(i, 1, 3) == "DIV") {
+        if (nchar(i) > 5) {
+          i <- unlist(strsplit(i, split = ".", fixed = T))[1]
+        }
+        div <- as.numeric(substr(i, 4, nchar(i)))
       }
-      div <- as.numeric(substr(i, 4, nchar(i)))
     }
   }
+  # set default div as 1
+  if (is.na(div)){ div <- 1}
   div
 }
 

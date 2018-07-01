@@ -15,7 +15,7 @@
 ##' @examples
 ##' 
 read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
-                                array) {
+                                array, div=NULL) {
 
   channel_data = read.csv(channel_text_file, stringsAsFactors = FALSE)
   channels = channel_data$Channel
@@ -56,7 +56,6 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   size<-rep("NA",length(wells))
   units<-rep("NA",length(wells))
   dose<-rep("NA",length(wells))
-  
 
   ## Add a place-holder for the treatment information.\
   ## TODO: this could come from cheminfo?
@@ -84,7 +83,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   s$size <- size
   s$units <- units
   s$well <- well
-  
+  s$div<-div
 
   ## s = list(spikes=spikes,
   ##          scount=sapply(spikes, length),

@@ -24,7 +24,7 @@ test_platelayout = list(n_well = 6,
                         corr_breaks = 0
                         )
 
-add_plateinfo("test-6well", test_platelayout)
+add_plateinfo("test-6well", test_platelayout,div=3)
 times = system.file("extdata/textreader/demas.times", package="meaRtools")
 pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
 s = read_spikelist_text(times, pos, array="test-6well")
