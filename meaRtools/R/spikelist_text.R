@@ -37,7 +37,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   xlim = range(channel_data$x)
   ylim = range(channel_data$y)
   ##pos = cbind(channel_data$x, channel_data$y)
-  pos = data.frame(x=channel_data$x, y=channel_data$y, Well=wells,
+  pos = data.frame(x=channel_data$x, y=channel_data$y, #Well=wells,
                    stringsAsFactors=FALSE)
   rownames(pos) <- channels
   layout = list(xlim=xlim,
@@ -57,6 +57,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   units<-rep("NA",length(wells))
   dose<-rep("NA",length(wells))
   
+
   ## Add a place-holder for the treatment information.\
   ## TODO: this could come from cheminfo?
   treatment <- rep("untreated", length(well))
