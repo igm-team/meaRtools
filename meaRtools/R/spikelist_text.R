@@ -51,12 +51,12 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   ##channels <- names(spikes)
   epos <- NULL
   array <- NULL
-  dose <- NULL
-  size <- NULL
+
   well <- unique(wells)                 #sje: to check - what is this normally?
-  units <- NULL
-
-
+  size<-rep("NA",length(wells))
+  units<-rep("NA",length(wells))
+  dose<-rep("NA",length(wells))
+  
   ## Add a place-holder for the treatment information.\
   ## TODO: this could come from cheminfo?
   treatment <- rep("untreated", length(well))
