@@ -33,7 +33,7 @@ plateinfo = .axion_plateinfo
 
 
 
-get_plateinfo = function(arrayname) {
+get_plateinfo <- function(arrayname) {
   ## Return useful information related to arrayname
   ##
   ## plateinfo "Axion 12 well"
@@ -47,7 +47,7 @@ get_plateinfo = function(arrayname) {
 }
 
 
-add_plateinfo = function(arrayname, info) {
+add_plateinfo <- function(arrayname, info) {
   ## If arrayname data are alreeady given, this new information
   ## overwrites it.
   plate_info = get("plateinfo", envir = .meaRtoolsEnv)
