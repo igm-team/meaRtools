@@ -85,6 +85,10 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   s$well <- well
   s$div<-div
 
+  ## add the "wc" field.
+  ##s <- get_num_ae(s)
+  s$wc = wells
+  
   ## s = list(spikes=spikes,
   ##          scount=sapply(spikes, length),
   ##          epos=epos,
