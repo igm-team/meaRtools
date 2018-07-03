@@ -96,8 +96,8 @@ hex_platelayout = list(n_well = 1, #number of wells
 
 add_plateinfo("hex-1well", hex_platelayout)
 s = read_spikelist_text(times, pos, array="hex-1well")
-.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
-.plot_meanfiringrate(s, main = "Mean Firing Rate by Plate (Hz)")
+meaRtools:::.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
+meaRtools:::.plot_meanfiringrate(s, main = "Mean Firing Rate by Plate (Hz)")
 ```
 
 
@@ -125,7 +125,7 @@ add_plateinfo("demas-6well", demas_platelayout)
 times = system.file("extdata/textreader/demas.times", package="meaRtools")
 pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
 s = read_spikelist_text(times, pos, array="demas-6well")
-.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
+meaRtools:::.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
 ```
 
 

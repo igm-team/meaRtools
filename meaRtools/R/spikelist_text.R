@@ -15,7 +15,7 @@
 ##' @examples
 ##' 
 read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
-                                array) {
+                                array, div=NULL) {
 
   channel_data = read.csv(channel_text_file, stringsAsFactors = FALSE)
   channels = channel_data$Channel
@@ -37,7 +37,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   xlim = range(channel_data$x)
   ylim = range(channel_data$y)
   ##pos = cbind(channel_data$x, channel_data$y)
-  pos = data.frame(x=channel_data$x, y=channel_data$y, Well=wells,
+  pos = data.frame(x=channel_data$x, y=channel_data$y, #Well=wells,
                    stringsAsFactors=FALSE)
   rownames(pos) <- channels
   layout = list(xlim=xlim,
@@ -51,11 +51,11 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   ##channels <- names(spikes)
   epos <- NULL
   array <- NULL
-  dose <- NULL
-  size <- NULL
-  well <- unique(wells)                 #sje: to check - what is this normally?
-  units <- NULL
 
+  well <- unique(wells)                 #sje: to check - what is this normally?
+  size<-rep("NA",length(wells))
+  units<-rep("NA",length(wells))
+  dose<-rep("NA",length(wells))
 
   ## Add a place-holder for the treatment information.\
   ## TODO: this could come from cheminfo?
@@ -83,7 +83,7 @@ read_spikelist_text <- function(spike_text_file, channel_text_file, chem_info,
   s$size <- size
   s$units <- units
   s$well <- well
-  
+  s$div<-div
 
   ## s = list(spikes=spikes,
   ##          scount=sapply(spikes, length),

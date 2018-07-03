@@ -119,6 +119,8 @@ calculate_burst_features <- function(s) {
     names(s$dose) <- s1$well
     s$well <- s1$well
     s <- get_num_ae(s)
+    s$div<-NULL
+    if (length(s1$div) > 0) {s$div <- s1$div}
   }
   s
 }
