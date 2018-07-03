@@ -139,7 +139,7 @@ compute_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
     end <- s$rec_time[2]
 
   ## First, group electrodes per well.
-  electrodes_per_well = lapply( s$well, function(w) which(s$layout$pos$Well == w))
+  electrodes_per_well = lapply( s$well, function(w) which(s$wc == w))
   names(electrodes_per_well) = s$well
   nelectrodes_per_well = sapply(electrodes_per_well, length)
 
@@ -171,8 +171,8 @@ compute_sttc_by_well <- function(s, dt=0.05, beg=NULL, end=NULL) {
           line = line + 1
           distance = sqrt( (s$layout$pos$x[b] - a_x)^2 +
                            (s$layout$pos$y[b] - a_y)^2 )
-          res[line, 1] = s$names[a]
-          res[line, 2] = s$names[b]
+          res[line, 1] = s$channels[a]
+          res[line, 2] = s$channels[b]
           res[line, 3] = well
           res[line, 4] = distance
           res[line, 5] = sttcs_mat[i, j]
