@@ -106,7 +106,7 @@ al. 2003).
 
 ```{r}
 demas_platelayout = list(n_well = 6,
-                        wells = paste0("w", "1:6"),
+                        wells = paste0("w", 1:6),
                         n_well_r = 2,
                         n_well_c = 3,
                         layout = c(3, 2),
@@ -140,7 +140,7 @@ xyplot(STTC ~ Distance | Well, data = sttc_results,
        pch=20, xlab = "Distance (um)")
 ```
 
-Finally, to save the pairwsie correlations, we can simply save this
+Finally, to save the pairwise correlations, we can simply save this
 data frame:
 
 
