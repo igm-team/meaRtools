@@ -4,7 +4,8 @@
 \alias{read_spikelist_text}
 \title{Construct an MEA object by importing from text files.}
 \usage{
-read_spikelist_text(spike_text_file, channel_text_file, chem_info, array, div = NULL)
+read_spikelist_text(spike_text_file, channel_text_file, chem_info, array,
+  div = NULL)
 }
 \arguments{
 \item{spike_text_file}{CSV with Spike time information}
@@ -15,7 +16,7 @@ read_spikelist_text(spike_text_file, channel_text_file, chem_info, array, div = 
 
 \item{array}{Name of array}
 
-\item{div}{Day in vitro as unique number of the recording}
+\item{div}{Day in vitro as unique number/age of the recording}
 }
 \value{
 S the MEA object

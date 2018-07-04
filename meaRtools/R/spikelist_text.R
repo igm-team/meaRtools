@@ -10,6 +10,7 @@
 ##' @param channel_text_file CSV with information regarding MEA layout
 ##' @param chem_info Optional chemical information (currently unused)
 ##' @param array Name of array
+##' @param div Age of the recording (days in vitro)
 ##' @return S the MEA object
 ##' @author Stephen Eglen
 ##' @examples
