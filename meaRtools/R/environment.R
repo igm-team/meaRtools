@@ -29,6 +29,9 @@
   corr_breaks = 0))
 
 ## Set the plateinformation that we have so far.
+#' MEA plate information
+#'
+#' @name plateinfo
 plateinfo = .axion_plateinfo
 
 
@@ -54,16 +57,6 @@ get_plateinfo <- function(arrayname) {
   }
 }
 
-
-##' Return information about an MEA plate format
-##'
-##' Given a plate name, return a list of information.
-##' If the plate name is not recognised, an error is generated.
-##' 
-##' @title Return information about an MEA plate format
-##' @param arrayname Plate name 
-##' @return A list storing information about that plate.
-##' @author Stephen Eglen
 
 ##' Provide information about a new MEA plate format
 ##'
