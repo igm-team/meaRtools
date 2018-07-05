@@ -2,36 +2,26 @@
 % Please edit documentation in R/environment.R
 \name{add_plateinfo}
 \alias{add_plateinfo}
-\title{Return information about an MEA plate format}
+\title{Provide information about a new MEA plate format.}
 \usage{
 add_plateinfo(arrayname, info)
 }
 \arguments{
-\item{arrayname}{Plate name}
+\item{arrayname}{Name of the plate}
 
 \item{info}{List of information to store about this plate}
-
-\item{arrayname}{Name of the plate}
 }
 \value{
-A list storing information about that plate.
-
 Nothing.
 }
 \description{
-Return information about an MEA plate format
+Provide information about a new MEA plate format
 }
 \details{
-Given a plate name, return a list of information.
-If the plate name is not recognised, an error is generated.
-}
-\author{
-Stephen Eglen
-Provide information about a new MEA plate format
-
 Store information about a new platename called arrayname.
 If arrayname already has been used, overwrite it with this
 new information.
-
+}
+\author{
 Stephen Eglen
 }
