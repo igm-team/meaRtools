@@ -67,6 +67,15 @@ sttcp <- function(a, b, dt = 0.05, tau_max = 5, tau_step = 0.1,
   object
 }
 
+
+##' Plot the STTCP
+##'
+##' Plot the STTCP.
+##' @title Plot the STTCP
+##' @param x A list containing the sttc
+##' @param ... Other arguments to pass to the plot function
+##' @return nothing.
+##' @author Stephen Eglen
 plot.sttcp <- function(x, ...) {
   plot(x$x, x$y, xlab="tau (s)", ylab='STTC', type='l', ...)
 }
