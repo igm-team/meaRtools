@@ -16,7 +16,7 @@ read_spikelist_text(spike_text_file, channel_text_file, chem_info, array,
 
 \item{array}{Name of array}
 
-\item{div}{Day in vitro as unique number/age of the recording}
+\item{div}{Age of the recording (days in vitro)}
 }
 \value{
 S the MEA object
