@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-meaRtools was constructed to provide core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments. This vignette directs the package user on how to perform an analysis of an exemplary experiment that is made of three sequential recordings of the same plate.
+meaRtools was constructed to provide core algorithms for MEA spike train analysis, feature extraction, statistical analysis and plotting of multiple MEA recordings with multiple genotypes and treatments. This vignette directs the package user on how to perform an analysis of an exemplary experiment that is made of two sequential recordings of the same plate.
 
 ## Installing the package
 
@@ -44,7 +44,7 @@ Before we can perform the analysis we need to locate the recording spikeList.csv
 ```{r readdata}
 
 # set path to "_spike_list.csv" files from the file path in 'filesPath'
-spk_list_files<-c(system.file("extdata","exampleRecording_1012016_plate1_DIV1_spike_list.csv.gz",package = "meaRtools"),
+spk_list_files<-c(
                 system.file("extdata","exampleRecording_1012016_plate1_DIV3_spike_list.csv.gz",package = "meaRtools"),
                 system.file("extdata","exampleRecording_1012016_plate1_DIV4_spike_list.csv.gz",package = "meaRtools"))
 
@@ -89,7 +89,7 @@ analysis<-list(spikeFiles = spk_list_files, output_dir = output_dir,
 Now let's load the recordings and create the 'spike.list' class R object
 
 ```{r spike-list}
-# A loop to go over all three recording files
+# A loop to go over all recording files
 for (i in 1:length(spk_list_files)){
   #save title for output file name
   title<-strsplit(basename(spk_list_files[i]), ".csv")[[1]][1]
@@ -160,7 +160,7 @@ s[[1]]$spikes$B3_41
 To view burst information for bursts calculated for electrode E7_42 of the 2nd recording, try the following:
 
 ```{r E7_42}
-s[[2]]$allb$E7_42
+s[[1]]$allb$E7_42
 ```
 beg and end stand for the sequential spike  that begins and ends the burst. IBI is the inter burst interval from the previous burst. len is the number of spikes in the burst. durn is the burst duration in seconds. mean_isis is the average inter spike intervals within this burst and SI is the surprise index, only relevant when running the poisson surprise algorithm.
 
@@ -379,7 +379,7 @@ suppressMessages(permute_features_and_plot(s, "treatX", parameters$perm_n, nb_fe
 
 ```
 
-At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of all three recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist_perm. The function requires a distribution file for each burst feature, which are automatically printed by calc_burst_distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist_perm also required the number of permutations to perform and the two treatments to be compared. dist_perm returns an objects with the following information: 
+At this point, we have extracted all features, combined the recordings, tested the differences between the treatments and printed all the results in graphs and tables. The last thing we want to perform is combining the distributions of two recordings, testing distribution differences between treatments and printing the results. This step is easily done using one function: dist_perm. The function requires a distribution file for each burst feature, which are automatically printed by calc_burst_distributions into the /Analysis/outputPerDIV/distributionFiles folder. Aside from the distribution file, dist_perm also required the number of permutations to perform and the two treatments to be compared. dist_perm returns an objects with the following information: 
 - two  distributions of the feature, one per each treatment, combined for all the recordings, the 
 - two comulative distributions, as as the above
 - p-values for the distribution differences (Earth Mover's Distance) and comulative distribution differences (Maximum Distance, please see meaRtools manuscript for full details)
@@ -387,9 +387,9 @@ At this point, we have extracted all features, combined the recordings, tested t
 - original maximum distance and EMD value
 The normalized distribution and it's corrsponding EMD p-value can be extracted from the dist_perm returned object and plotted as follows:
 ```{r dist_perm}
-result <- suppressWarnings(dist_perm(paste0(analysis$output_perDIV_dir,"/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
+result <- suppressWarnings(dist_perm(paste0(analysis$output_perDIV_dir,"/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_isi_distributions.csv"),1000,"treatX","treatY"))
 
-plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
+plot(result$data_wt_original,col="blue",main=basename,type="l",lwd=3,xlab="ISI")
 points(result$data_ko_original,col="green",type="l",lwd=3)
 par(mfrow=c(1,1))  
 mtext(side = 1, at = 0, line = 4,
@@ -399,16 +399,16 @@ mtext(side = 1, at = 0, line = 4,
 And the cumulative distribution with it's corrsponding MD p-value can be extracted as follows:
     
 ```{r dist_perm2}
-suppressWarnings(result <- dist_perm(paste0(analysis$output_perDIV_dir,"/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_ibi_distributions.csv"),1000,"treatX","treatY"))
+suppressWarnings(result <- dist_perm(paste0(analysis$output_perDIV_dir,"/distributionFiles/exampleRecording_1012016_plate1_DATE_TIME_isi_distributions.csv"),1000,"treatX","treatY"))
 
-plot(result$data_wt,col="blue",main=basename,type="l",lwd=3,xlab="IBI")
+plot(result$data_wt,col="blue",main=basename,type="l",lwd=3,xlab="ISI")
 points(result$data_ko,col="green",type="l",lwd=3)
 par(mfrow=c(1,1))  
 mtext(side = 1, at = 0, line = 4,
       text = paste("P.value Max distance after 1000 permutations: ",format((1-result$perm_p), digits = 3),sep=""),col = "black",cex= 0.9,adj=0)    
 ```    
 
-This document provides the steps to use meaRtools's functions as a pipeline for an MEA experiment analysis lasting 3 DIVs. In the /Analysis output folder are now the full results for extracting all the features and comparing them between the treatments that we decided to test. Even with only three recordings the output files are numerous require a deep dive for better understanding the full picture of the difference between treatments. We hope you will enjoy all the capabilities that meaRtools has to offer and use it to deeply and fully understand your MEA recordings. Please read the meaRtools manuscript for detailed information about the methods and do not hesitate to contact us for any explanation that might be lacking in this document.
+This document provides the steps to use meaRtools's functions as a pipeline for an MEA experiment analysis lasting two sequential DIVs. In the /Analysis output folder are now the full results for extracting all the features and comparing them between the treatments that we decided to test. Even with only two recordings the output files are numerous require a deep dive for better understanding the full picture of the difference between treatments. We hope you will enjoy all the capabilities that meaRtools has to offer and use it to deeply and fully understand your MEA recordings. Please read the meaRtools manuscript for detailed information about the methods and do not hesitate to contact us for any explanation that might be lacking in this document.
 
 Goodluck!
 
