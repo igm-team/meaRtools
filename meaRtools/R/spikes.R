@@ -107,7 +107,7 @@ calculate_isis <- function(s) {
 }
 
 .spike_summary_by_well <- function(s) {
-  plate <- .plateinfo(s$layout$array)
+  plate <- get_plateinfo(s$layout$array)
   wells <- sort(plate$wells)
   s$isis <- lapply(s$spikes, diff)
   start_pos <- 1
@@ -154,16 +154,22 @@ calculate_isis <- function(s) {
 
 .get_div <- function(s) {
   div <- NA
-  t1 <- strsplit(s$file, split = "_", fixed = TRUE)
-  for (i in t1[[1]]) {
-    i <- toupper(i)
-    if (nchar(i) > 2 && substr(i, 1, 3) == "DIV") {
-      if (nchar(i) > 5) {
-        i <- unlist(strsplit(i, split = ".", fixed = T))[1]
+  if(length(s$div>0)){
+    div<-s$div
+  } else {
+    t1 <- strsplit(s$file, split = "_", fixed = TRUE)
+    for (i in t1[[1]]) {
+      i <- toupper(i)
+      if (nchar(i) > 2 && substr(i, 1, 3) == "DIV") {
+        if (nchar(i) > 5) {
+          i <- unlist(strsplit(i, split = ".", fixed = T))[1]
+        }
+        div <- as.numeric(substr(i, 4, nchar(i)))
       }
-      div <- as.numeric(substr(i, 4, nchar(i)))
     }
   }
+  # set default div as 1
+  if (is.na(div)){ div <- 1}
   div
 }
 
@@ -191,7 +197,7 @@ compute_mean_firingrate_by_well <- function(s) {
         }
         df <- do.call("rbind", df)
         colnames(df) <- c("isis", "electrode")
-        plateinfo <- .plateinfo(s$layout$array)
+        plateinfo <- get_plateinfo(s$layout$array)
         d1 <- expand.grid(col = 1:plateinfo$n_elec_c,
                           row = 1:plateinfo$n_elec_r)
         all_electrodes <- sort(paste(well, "_",
@@ -238,13 +244,26 @@ compute_mean_firingrate_by_well <- function(s) {
       df <- do.call("rbind", df)
       maxy <- max(df[, 2])
       colnames(df) <- c("time", "meanfiringrate", "electrode")
-      plateinfo <- .plateinfo(s$layout$array)
-      d1 <- expand.grid(col = 1:plateinfo$n_elec_c, row = 1:plateinfo$n_elec_r)
-      all_electrodes <- sort(paste(well, "_", d1[, "row"],
-                                   d1[, "col"], sep = ""))
-      layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
-      df <- data.frame(df)
+      plateinfo <- get_plateinfo(s$layout$array)
+      if (any(grep("^Axion", s$layout$array))) {
+        ## TODO: Axion-specific layout of grid of electrodes
+        ## This assumes we know the format of the electrode name.
+        d1 <- expand.grid(col = 1:plateinfo$n_elec_c,
+                          row = 1:plateinfo$n_elec_r)
+        all_electrodes <- sort(paste(well, "_", d1[, "row"],
+                                     d1[, "col"], sep = ""))
+        layout_electrodes <- c(plateinfo$n_elec_r, plateinfo$n_elec_c)
+      } else {
+        ## For other plates, simply show all active electrodes
+        ## without assuming any spatial position of the electrode
+        ## within a well.
+        all_electrodes <- as.factor(names(s$spikes)[active_electrodes])
+        ## The following layout tells lattice to generate the N plots
+        ## as best as it can.
+        layout_electrodes <- c(0, length(all_electrodes))
+      }
 
+      df <- data.frame(df)
       p1 <- xyplot(meanfiringrate ~ time | factor(electrode,
                       levels = all_electrodes),
         data = df,
@@ -262,6 +281,7 @@ compute_mean_firingrate_by_well <- function(s) {
 
 }
 
+## TODO: typo here -- why eletrode?
 plot_mean_firingrate_by_eletrode_by_div <- function(s) {
   electrode_stats <- lapply(s, function(d) {
     cbind(d$meanfiringrate, d$cw, .get_div(d))
@@ -303,7 +323,7 @@ plot_mean_firingrate_by_well_by_div <- function(s) {
     d$well_stats
   })
   well_stats_all <- do.call("rbind", well_stats)
-  plateinfo <- .plateinfo(s[[1]]$layout$array)
+  plateinfo <- get_plateinfo(s[[1]]$layout$array)
   wells <- plateinfo$wells
   names(wells) <- wells # keep the names valid.
   wells_layout <- plateinfo$layout
@@ -478,14 +498,16 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
 }
 
 .plot_mealayout <- function(x, use_names=TRUE, ...) {
-
-  rows <- .plateinfo(x$array)$n_well_r
-  columns <- .plateinfo(x$array)$n_well_c
+  plateinfo = get_plateinfo(x$array)
+  rows <- plateinfo$n_well_r
+  columns <- plateinfo$n_well_c
   row_names <- chartr("123456789", "ABCDEFGHI", 1:rows)
   ## Plot the MEA layout.
   pos <- x$pos
-  electrodes_only <- sapply(strsplit(rownames(pos),"_"), "[", 2) 
+  ## remove everything up to and including first underscore
+  electrodes_only <- sub('^[^_]+_', '', rownames(x$pos))
   p<-plot(NA, xaxs="i",#asp = 1,xaxs="i",
+          asp=1,
           #xlim = c(x$xlim[1]-100,x$xlim[2]+200), ylim = c(x$ylim[1],x$ylim[2]+200),
           xlim = x$xlim, ylim = x$ylim,
           bty = "n",
@@ -496,7 +518,15 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
     text(pos[, 1], pos[, 2], ...)
   axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-2,tick = F)
   axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),las=1,cex.axis=1.4,tick = F)
-  abline(h=seq( max(x$pos[,"y"])+200, x$ylim[1]-200,length.out = rows+1),v=seq( x$xlim[2]-100, x$xlim[1]-100,length.out = columns+1), col=c("grey"))
+  ## Following works only for Axion arrays.
+  ## TODO
+  ## will be difficult to generalise, so leave it for now.
+  ## could solve by adding it to the plateinfo list?
+  if (any(grep('^Axion', x$array))) {
+    abline(h=seq( max(x$pos[,"y"])+200, x$ylim[1]-200,length.out = rows+1),
+           v=seq( x$xlim[2]-100, x$xlim[1]-100,length.out = columns+1),
+           col=c("grey"))
+  }
 }
 
 .summary_spike_list <- function(object, ...) {
@@ -596,3 +626,4 @@ isi <- function(train) {
   s$well_stats <- compute_mean_firingrate_by_well(s)
   s
 }
+

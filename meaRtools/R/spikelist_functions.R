@@ -14,6 +14,9 @@ load_spikelist <- function(spk_data_file) {
   data <- get(temp)
   spikes <- data$spikes
 
+  ## TODO - update the next line, and then delete .get_array_info(data)
+  ## or fix the .get_array_info function.
+  ## currently Axion specific.
   arrayinfo <- .get_array_info(data)
   layout <- arrayinfo$layout
   if (missing(corr_breaks)) {
@@ -116,6 +119,8 @@ calculate_burst_features <- function(s) {
     names(s$dose) <- s1$well
     s$well <- s1$well
     s <- get_num_ae(s)
+    s$div<-NULL
+    if (length(s1$div) > 0) {s$div <- s1$div}
   }
   s
 }
@@ -164,7 +169,7 @@ calculate_burst_features <- function(s) {
   units <- chem_info$units
   wells <- .axion_guess_well_number(channels)
   array <- sprintf("Axion %d well", wells)
-  plateinfo <- .plateinfo(array)
+  plateinfo <- get_plateinfo(array)
   epos <- .axion_elec_name_to_xy(channels, plateinfo)
 
   s <- list()

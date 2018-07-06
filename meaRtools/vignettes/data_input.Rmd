@@ -1,0 +1,146 @@
+---
+title: "meaRtools: Reading in MEA data"
+author: "Stephen J Eglen"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    self_contained: false
+    toc: true
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{meaRtools: Reading in MEA data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r rsetup-knitr,eval=TRUE,include=FALSE}
+require(knitr)
+options(width=60)
+opts_chunk$set(cache=TRUE)
+```
+
+
+
+
+
+# Introduction
+
+The package has been documented mostly with  Axion multi-well MEA
+data, but it can work with any data.  Here we show how data can be
+read in using a generic text reader, with a simple data format.  To
+read in the data, we need two data files, and we need to provide
+information about the layout of the plate.
+
+
+```{r}
+require(meaRtools)
+show_top_file <- function(file) {
+  cat(readLines(file, 10), sep='\n')
+}
+```
+
+# Data format
+
+The text reader requires two text files to be prepared: one with the
+spike times and one with the channel positions.
+
+## Spike times
+
+
+A CSV file is used to store at least two columns: *Channel* containing
+the channel name, and *Time* containing the time (in seconds) at which
+a spike was detected on that channel.  The rows of the CSV do not need
+to be ordered by channel, but the times for each channel should be
+ordered, earliest spike first.
+
+## Channel positions
+
+A second CSV contains the (x,y) spatial location each channel.  If the
+recording is from a multi-well array, then an extra *Well* column
+determines the name of the well.  (If no Well column is provided, the
+package assumes a plate with one well.)
+
+## Plate information
+
+The package by default has information about just two plates, the
+Axion 12 and 48 well systems.  As shown in the examples below, in
+addition we need to provide information regarding the plate.  If any
+information is missing, the system will revert to defaults.
+
+## Example 1: a single-well MEA recording
+
+Here there is just a single MEA recording, from a hexagonal MEA (Wong
+et al., 1993).  As there is only one well, the Well information is
+absent from the position file.  The data files are provided within the
+package, and the top of each file looks as follows:
+
+```{r,comment=NA}
+times = system.file("extdata/textreader/wong1993_p0.times", package="meaRtools")
+pos = system.file("extdata/textreader/wong1993_p0.pos", package="meaRtools")
+show_top_file(times)
+show_top_file(pos)
+```
+
+
+```{r}
+hex_platelayout = list(n_well = 1, #number of wells 
+                        wells = c("w1"), #names of those wells.
+                        n_well_r = 1, # number of wells / row
+                        n_well_c = 1, # number of wells / col
+                        layout = c(1, 1), # layout when plotting
+                        n_elec_r = 8,
+                        n_elec_c = 8,
+                        xlim = c(-400, 400), # xlimits for plotting
+                        ylim = c(-400, 400), # ylimits for plotting
+                        spacing = 50,  # distance (um) separating electrodes
+                        corr_breaks = 0 # vector of correlation distances
+                        )
+
+add_plateinfo("hex-1well", hex_platelayout)
+s = read_spikelist_text(times, pos, array="hex-1well")
+meaRtools:::.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
+meaRtools:::.plot_meanfiringrate(s, main = "Mean Firing Rate by Plate (Hz)")
+```
+
+
+
+
+## Example 2: a synthetic multi-well recording
+
+This second dataset is a composite of six recordings from P9 and P11
+mouse retina (Demas et al, 2013), synthesised to make a 6-well plate.
+
+```{r}
+demas_platelayout = list(n_well = 6,
+                        wells = paste0("w", 1:6),
+                        n_well_r = 2,
+                        n_well_c = 3,
+                        layout = c(3, 2),
+                        n_elec_r = 8,
+                        n_elec_c = 8,
+                        xlim = c(-100, 7200),
+                        ylim = c(0, 6000),
+                        spacing = 200,
+                        corr_breaks = 0
+                        )
+add_plateinfo("demas-6well", demas_platelayout)
+times = system.file("extdata/textreader/demas.times", package="meaRtools")
+pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
+s = read_spikelist_text(times, pos, array="demas-6well")
+meaRtools:::.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
+```
+
+
+
+
+
+
+# References
+
+The test data come from the following two references:
+
+Demas J, Eglen SJ, Wong ROL (2003) Developmental loss of synchronous spontaneous activity in the mouse retina is independent of visual experience. Journal of Neuroscience 23:2851–2860 Available at: <https://www.ncbi.nlm.nih.gov/pubmed/12684472>.
+
+Wong RO, Meister M, Shatz CJ (1993) Transient period of correlated bursting activity during development of the mammalian retina. Neuron 11:923–938 <http://dx.doi.org/10.1016/0896-6273(93)90122-8>.
+
+<!--This file can be rendered using rmarkdown::render("data_input.Rmd")   -->

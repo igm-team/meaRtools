@@ -29,7 +29,7 @@ data("S")
 s<-list()
 s[[1]]<-S
 \donttest{
-  plot.mean.firingrate.by.well.by.div(s)
+  plot_mean_firingrate_by_well_by_div(s)
 }
 
 }
