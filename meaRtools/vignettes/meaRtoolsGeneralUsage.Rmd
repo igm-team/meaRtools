@@ -2,7 +2,10 @@
 title: "meaRtools: Performing a Comprehensive Analysis of Multiple MEA Recordings"
 author: "Sahar Gelfman"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    self_contained: true
+    toc: true
 vignette: >
   %\VignetteIndexEntry{meaRtools: Performing a Comprehensive Analysis of Multiple MEA Recordings}
   %\VignetteEngine{knitr::rmarkdown}
