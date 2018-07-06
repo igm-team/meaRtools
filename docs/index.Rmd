@@ -1,0 +1,31 @@
+---
+title: "meaRtools: Documentation"
+author: "Sahar Gelfman and Stephen J Eglen"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    self_contained: true
+    toc: true
+---
+
+# Introduction
+
+This page describes some of the documentation and resources for the
+[meaRtools project](http://github.com/igm-team/meaRtools).  Here are
+some key links for the project.
+
+* [Project repository on github](http://github.com/igm-team/meaRtools)
+* [biorxiv manuscript](https://www.biorxiv.org/content/early/2018/02/23/242065)
+* [STTC vignette](./sttc.html)
+* [data_input vignette](./data_input.html)
+* [General usage vignette](./meaRtoolsGeneralUsage.html)
+* [CRAN page](https://cran.r-project.org/web/packages/meaRtools/index.html)
+    
+	
+Please note that although the vignettes are also available on CRAN,
+they do not contain the figures, whereas the above links have been
+precompiled to include the figures within the HTML.  (This is simply
+because including the figures on CRAN makes the repository too large.)
+  
+<!-- The vignettes are built using the "self-contained" branch of the repo. -->
+
