@@ -15,7 +15,7 @@ This page describes some of the documentation and resources for the
 some key links for the project.
 
 * [Project repository on github](http://github.com/igm-team/meaRtools)
-* [biorxiv manuscript](https://www.biorxiv.org/content/early/2018/02/23/242065)
+* [biorxiv manuscript](https://www.biorxiv.org/content/early/2018/07/12/242065)
 * [STTC vignette](./sttc.html)
 * [data_input vignette](./data_input.html)
 * [General usage vignette](./meaRtoolsGeneralUsage.html)
