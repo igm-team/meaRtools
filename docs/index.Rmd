@@ -1,6 +1,6 @@
 ---
-title: "meaRtools: Documentation"
-author: "Sahar Gelfman and Stephen J Eglen"
+title: "CODE CHECK: A web service for independent reproduction of computations underlying biomedical research"
+author: "Stephen J Eglen"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -10,9 +10,8 @@ output:
 
 # Introduction
 
-This page describes some of the documentation and resources for the
-[meaRtools project](http://github.com/igm-team/meaRtools).  Here are
-some key links for the project.
+This page provides a few examples of "certificates of reproducible
+computation" to demonstrate the flavour of the proposed system. 
 
 * [Project repository on github](http://github.com/igm-team/meaRtools)
 * [biorxiv manuscript](https://www.biorxiv.org/content/early/2018/07/12/242065)
@@ -22,10 +21,5 @@ some key links for the project.
 * [CRAN page](https://cran.r-project.org/web/packages/meaRtools/index.html)
     
 	
-Please note that although the vignettes are also available on CRAN,
-they do not contain the figures, whereas the above links have been
-precompiled to include the figures within the HTML.  (This is simply
-because including the figures on CRAN makes the repository too large.)
-  
 <!-- The vignettes are built using the "self-contained" branch of the repo. -->
 
