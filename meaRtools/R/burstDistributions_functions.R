@@ -33,10 +33,14 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
   # Writes a burst distribution csv to be used for permutation test and
   # plotting
 
-  outputdir <- paste0(outputdir, "/", "distributionFiles")
+  outputdirKS <- paste0(outputdir, "/", "KStests")
+  suppressWarnings(dir.create(outputdirKS))
+
+    outputdir <- paste0(outputdir, "/", "distributionFiles")
   suppressWarnings(dir.create(outputdir))
 
-  basename <- get_file_basename(s$file)
+
+    basename <- get_file_basename(s$file)
   log_file <- paste(outputdir, "/", get_project_plate_name(s$file),
     "_distributions_log.txt", sep = "")
 
@@ -354,20 +358,14 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
     if (first) {
       suppressMessages(gmeans_table <- data.frame(treat = as.character(t),
                                                   data = gmeans))
-      bottom <- factorial(length(good_treatments)) / (2 *
-                                (factorial(length(good_treatments) - 2))) + 3
-      # limit place for ks-text to max of factorial of 6
-      if (bottom > 18){
-        bottom=18;
-      }
-      par(mar = c(bottom, 3, 3, 2))
+      par(mar = c(5, 3, 3, 2))
       plot(data[1:ceiling(xlimit * jump)]~pos[1:ceiling(xlimit * jump)],
            type = "l", col = colors[tr], ylim = c(0, ylimit),
            xlim = c(0, xlimit),
         ylab = paste(feature, " normalized histogram over genotypes",
                     sep = ""), main = paste(feature, " by treatment",
                     sep = ""),
-        xlab = "", lwd = 3)
+        xlab = feature, lwd = 3)
       points(data[1:ceiling(xlimit * jump)]~pos[1:ceiling(xlimit * jump)],
              type = "l", col = colors[tr], lwd = 4)
       first <- 0
@@ -382,6 +380,8 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
          lwd = 5, col = colors, bg = "white", cex = 0.9, y.intersp = 0.7)
   # print values of all ks tests
   line <- 3
+  ks_lines <-data.frame(Treatments=character(),Feature=character(),x.limit=character(),p.value=character(),stringsAsFactors=FALSE)
+  ks_printline <- 1
   if (length(good_treatments) > 1) {
     for (t2 in 1:(length(good_treatments) - 1)) {
       if (is.na(sum(gmeans_table[gmeans_table$treat == good_treatments[t2],
@@ -408,21 +408,22 @@ calc_burst_distributions <- function(s, min_vals=1, xlimit=25, bins_in_sec=5,
                     format(w$p.value, digits = 2), ", for: ", feature, " max ",
                     xlimit, " seconds", sep = ""), file = log_file,
               append = TRUE)
-        mtext(side = 1, at = 0, line = line, text = paste("K-S test for ",
-                    good_treatments[t2], " vs. ", good_treatments[t3], " : ",
-                    format(w$p.value, digits = 2), ",  for: ", feature,
-                    sep = ""), col = "black", cex = 0.9, adj = 0)
+        ks_lines[ks_printline,] <- c(paste0(good_treatments[t2], " vs. ", good_treatments[t3]),
+                                  feature,as.character(xlimit),format(w$p.value, digits = 2))
+        ks_printline <- ks_printline + 1
         line <- line + 1
       }
     }
   }
   # write all distributions for a permutation test
-  table_path <- paste(outputdir, "/", basename, "_", feature,
-                      "_distributions.csv", sep = "")
   csvwell <- paste(outputdir, "/", get_project_plate_name(s$file), "_",
                    time_stamp, "_", feature, "_distributions.csv", sep = "")
   write.table(all_distributions, file = csvwell, sep = ",", append = T,
               col.names = F, row.names = F)
+  KS_test_file <- paste(outputdirKS, "/", basename,
+                   time_stamp, "_", feature, "_KS_tests.csv", sep = "")
+  write.table(ks_lines, file = KS_test_file, sep = ",", append = T,
+              col.names = T, row.names = F)
 }
 
 # Trim trailing spaces
