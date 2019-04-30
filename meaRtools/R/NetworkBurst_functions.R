@@ -1,4 +1,5 @@
 .graythresh <- function(I) {
+  ## Implement the Otsu (1979) thresholding algorithm.
   I <- as.vector(I)
   if (min(I) < 0 | max(I) > 1) {
     stop("Data needs to be between 0 and 1")
@@ -6,7 +7,12 @@
   I <- I * 256
 
   num_bins <- 256
-  counts <- hist(I, num_bins, plot = FALSE)$counts
+
+  ## We specify a vector for the break points from 0 to num_bins.
+  ## For num_bins=256, this produces the following bins:
+  ## [0, 1], (1, 2], (2, 3], .... (255,256]
+  ## note the [ on the first bin due to include.lowest = TRUE
+  counts <- hist(I, 0:num_bins, plot = FALSE)$counts
 
   # Variables names are chosen to be similar to the formulas in the Otsu paper.
   p <- counts / sum(counts)
