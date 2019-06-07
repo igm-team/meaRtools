@@ -8,5 +8,5 @@ Although versions of this package are available from CRAN, if you wish
 to use the current master from github then you can do:
 
 ```
-devtools::install_github(repo='meaRtools', username='igm-team', subdir="meaRtools")
+devtools::install_github(repo='igm-team/meaRtools/meaRtools')
 ```
