@@ -74,9 +74,8 @@ add_plateinfo <- function(arrayname, info) {
   ## overwrites it.
   plate_info = get("plateinfo", envir = .meaRtoolsEnv)
   plate_info[[arrayname]] = info
-  print(names(plate_info))
   assign("plateinfo", plate_info, envir = .meaRtoolsEnv)
 }
 
-assign("plateinfo", plateinfo, envir = .meaRtoolsEnv)
+invisible(assign("plateinfo", plateinfo, envir = .meaRtoolsEnv))
 
