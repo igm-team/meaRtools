@@ -516,8 +516,12 @@ write_plate_summary_for_spikes <- function(s, outputdir) {
     text(pos[, 1], pos[, 2], electrodes_only, ...)
   else
     text(pos[, 1], pos[, 2], ...)
-  axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-2,tick = F)
-  axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),las=1,cex.axis=1.4,tick = F)
+  if (columns > 1) {
+    axis(3,at=seq( x$xlim[1]+x$xlim[2]/(columns*4), x$xlim[2]-x$xlim[2]/(columns*1.5),length.out = columns),labels=c(1:columns),cex.axis=1.4,line=-2,tick = F)
+  }
+  if (rows > 1) {
+    axis(2,at=seq( x$ylim[2]-x$ylim[2]/(rows*1.5), x$ylim[1]+x$ylim[2]/(rows*3),length.out = rows),labels=chartr("123456789", "ABCDEFGHI", 1:rows),las=1,cex.axis=1.4,tick = F)
+  }
   ## Following works only for Axion arrays.
   ## TODO
   ## will be difficult to generalise, so leave it for now.
