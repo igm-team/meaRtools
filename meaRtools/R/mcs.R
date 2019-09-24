@@ -1,4 +1,4 @@
-### Code for working with MultiChannelSystems datafiles.
+### Code for working with MultiChannel Systems datafiles.
 ### 2019-09-24
 
 ##' Read in MCS 8x8 100um data spikes
@@ -14,8 +14,8 @@ read_spikelist_mcs100um = function(file, sample_rate=25000) {
   posfile = system.file("extdata/textreader/mcs-8x8-100um.pos", package="meaRtools")
   s = read_spikelist_text(f, posfile, array="mcs-8x8-100um")
   s$file = file
-  s
   unlink(f)
+  s
 }
 
 ##' Make the MCS 8x8 100um spacing .pos file
@@ -56,8 +56,12 @@ read_mcs_spikes = function(file, sample_rate=25000) {
   gap[last] =  gap[last] + 1
   predict_number_spikes = (gap -2)/75
 
+  ## inhibit warnings for these conversions.
+  oldwarn = options(warn=-1)
   time = as.numeric(dat[,1]) / 1e3 # convert to seconds.
   voltage = as.numeric(dat[,2])
+  options(oldwarn)
+  
   non_zero_spikes = names(which(predict_number_spikes> 0))
   allspikes = vector("list", length = length(non_zero_spikes))
   names(allspikes) = paste0("ch",non_zero_spikes)
@@ -65,10 +69,9 @@ read_mcs_spikes = function(file, sample_rate=25000) {
   n = 1
   for (j in non_zero_spikes) {
     chan = j
-    print(chan)
     start = g[chan]
     nspikes = predict_number_spikes[chan]
-    cat(sprintf("channel %s has %d spikes\n", chan, nspikes))
+    ##cat(sprintf("channel %s has %d spikes\n", chan, nspikes))
     mat = matrix(NA, nrow=nspikes, ncol=75)
     spiketime = rep(NA, nspikes)
     for (i in 1:nspikes) {
@@ -89,8 +92,12 @@ read_mcs_spikes = function(file, sample_rate=25000) {
 
 
 ######################################################################
-
 mcs_flatten_spikes = function(file1, sample_rate) {
+  ## Read in the spikes data from mcs and then
+  ## put into a two column format (c, t)
+  ## where c is the channel name and t is the time of the spike.
+  ## Returns the name of a new (temporary) file containing the data.
+  ## This is to be deleted after use.
   spikes = read_mcs_spikes(file1, sample_rate)
   num_spikes = sapply(spikes, length)
   flatten_spikes = unlist(spikes)
