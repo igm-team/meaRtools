@@ -20,6 +20,5 @@ LinkingTo: Rcpp
 License: GPL(>=3)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Maintainer: Sahar Gelfman <sahar.gelfman@columbia.edu>
-
