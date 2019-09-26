@@ -4,8 +4,8 @@
 \alias{tiling_correlogramcpp_index}
 \title{Compute STTPs for just two spike trains, A and B}
 \usage{
-tiling_correlogramcpp_index(spikes, n, nspikes, first_spike, start, end, dt,
-  tau_sep, tau_max, a, b)
+tiling_correlogramcpp_index(spikes, n, nspikes, first_spike, start, end,
+  dt, tau_sep, tau_max, a, b)
 }
 \arguments{
 \item{spikes}{Concatenated list of spike trains}
