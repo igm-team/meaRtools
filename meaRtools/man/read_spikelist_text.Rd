@@ -28,7 +28,8 @@ Construct an MEA object by importing from text files.
 This function can be used to read in spike times from text files.
 }
 \examples{
-\donttest{
+
+
 demas_platelayout = list(n_well = 6,
                         wells = paste0("w", 1:6),
                         n_well_r = 2,
@@ -46,7 +47,6 @@ times = system.file("extdata/textreader/demas.times", package="meaRtools")
 pos = system.file("extdata/textreader/demas.pos", package="meaRtools")
 s = read_spikelist_text(times, pos, array="demas-6well")
 meaRtools:::.plot_mealayout(s$layout, use_names = TRUE, cex=0.3)
-}
 }
 \author{
 Stephen Eglen
