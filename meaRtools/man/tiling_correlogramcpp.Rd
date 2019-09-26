@@ -4,8 +4,8 @@
 \alias{tiling_correlogramcpp}
 \title{Compute all STTPs for a set of spike trains}
 \usage{
-tiling_correlogramcpp(spikes, n, nspikes, first_spike, start, end, dt, tau_sep,
-  tau_max)
+tiling_correlogramcpp(spikes, n, nspikes, first_spike, start, end, dt,
+  tau_sep, tau_max)
 }
 \arguments{
 \item{spikes}{Concatenated list of spike trains}
