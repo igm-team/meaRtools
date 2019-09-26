@@ -38,13 +38,12 @@ make_mcs100um_pos <- function() {
   yp=(9-y)*100
 
   dat = data.frame(Channel=channel, x=xp, y=yp)
-  head(dat)
   write.csv(dat, opfile, row.names = FALSE)
   cat(sprintf("Position file created: %s\n", opfile))
 }
 
 
-read_mcs_spikes = function(file, sample_rate=25000) {
+.read_mcs_spikes = function(file, sample_rate=25000) {
   dt = 1.0 / sample_rate
   dat = read.table(file,skip=2,sep='\t',as.is=TRUE)
   g = grep('Spikes 1 ([0-9][0-9]) ', dat$V2, perl=TRUE)
@@ -98,7 +97,7 @@ mcs_flatten_spikes = function(file1, sample_rate) {
   ## where c is the channel name and t is the time of the spike.
   ## Returns the name of a new (temporary) file containing the data.
   ## This is to be deleted after use.
-  spikes = read_mcs_spikes(file1, sample_rate)
+  spikes = .read_mcs_spikes(file1, sample_rate)
   num_spikes = sapply(spikes, length)
   flatten_spikes = unlist(spikes)
   spike_ids = rep(names(spikes), num_spikes)
@@ -111,7 +110,7 @@ mcs_flatten_spikes = function(file1, sample_rate) {
   tempfile
 }
 
-mcs100um_8x8_platelayout = list(n_well = 1, #number of wells 
+.mcs100um_8x8_platelayout = list(n_well = 1, #number of wells 
                             wells = c("w1"), #names of those wells.
                             n_well_r = 1, # number of wells / row
                             n_well_c = 1, # number of wells / col
@@ -126,3 +125,4 @@ mcs100um_8x8_platelayout = list(n_well = 1, #number of wells
 
 
 ## The plateinformation is added to the system by the .onLoad() function.
+##   meaRtools:::.plot_mealayout(s$layout, use_names=TRUE, cex=1)
